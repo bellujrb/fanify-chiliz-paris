@@ -21,7 +21,7 @@ export default function HeroSection() {
             {/* Badge */}
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-600 text-sm font-medium">
               <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
-              LIVE
+              VERSION ALPHA
             </div>
 
             {/* Main Heading */}
@@ -66,16 +66,16 @@ export default function HeroSection() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8">
               <div>
-                <div className="text-3xl font-bold text-gray-900">150+</div>
-                <div className="text-sm text-gray-600">Sports Partners</div>
+                <div className="text-3xl font-bold text-gray-900">5B+</div>
+                <div className="text-sm text-gray-600">Sports Fans</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-gray-900">2M+</div>
-                <div className="text-sm text-gray-600">Active Users</div>
+                <div className="text-3xl font-bold text-gray-900">90%</div>
+                <div className="text-sm text-gray-600">Need Digital Presence</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-gray-900">$1B+</div>
-                <div className="text-sm text-gray-600">Market Cap</div>
+                <div className="text-3xl font-bold text-gray-900">40%</div>
+                <div className="text-sm text-gray-600">Revenue Growth</div>
               </div>
             </div>
           </div>
