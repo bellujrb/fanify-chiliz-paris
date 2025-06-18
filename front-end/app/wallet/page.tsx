@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Wallet, Instagram, Loader2, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import AthleteSelector from '@/components/wallet/AthleteSelector';
 import WalletHeader from '@/components/wallet/WalletHeader';
@@ -10,12 +10,10 @@ import WalletTabs from '@/components/wallet/WalletTabs';
 import OverviewTab from '@/components/wallet/OverviewTab';
 import NFTsTab from '@/components/wallet/NFTsTab';
 import RewardsTab from '@/components/wallet/RewardsTab';
-import InstagramConnectGate from '@/components/InstagramConnectGate';
 
 export default function FanWalletDashboard() {
   const [selectedAthlete, setSelectedAthlete] = useState('neymar');
   const [activeTab, setActiveTab] = useState<'overview' | 'nfts' | 'rewards'>('overview');
-  const [isInstagramConnected, setIsInstagramConnected] = useState(false);
 
   const athletes = [
     {
@@ -89,10 +87,6 @@ export default function FanWalletDashboard() {
     }
   };
 
-  if (!isInstagramConnected) {
-    return <InstagramConnectGate onConnected={() => setIsInstagramConnected(true)} />;
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-red-50">
       {/* Header */}
@@ -108,7 +102,7 @@ export default function FanWalletDashboard() {
               </Link>
               <div className="h-6 w-px bg-gray-300"></div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent">
-                My Fan Wallet
+                My Wallet
               </h1>
             </div>
             
@@ -118,32 +112,6 @@ export default function FanWalletDashboard() {
                 <span>0x5b79...9ee9</span>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Athlete Selection */}
-        <AthleteSelector 
-          athletes={athletes}
-          selectedAthlete={selectedAthlete}
-          onSelectAthlete={setSelectedAthlete}
-        />
-
-        {/* Selected Athlete Dashboard */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
-          {/* Athlete Header */}
-          <WalletHeader athlete={currentAthlete} />
-
-          {/* Navigation Tabs */}
-          <WalletTabs 
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-          />
-
-          {/* Tab Content */}
-          <div className="p-8">
-            {renderTabContent()}
           </div>
         </div>
       </div>

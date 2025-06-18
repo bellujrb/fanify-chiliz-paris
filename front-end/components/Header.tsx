@@ -20,7 +20,6 @@ import {
 import { Menu, X, Wallet, Settings, Users, Trophy, Copy, ExternalLink, RefreshCw, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import WalletConnectionModal from './WalletConnectionModal';
-import InstagramConnectionModal from './InstagramConnectionModal';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,19 +34,20 @@ export default function Header() {
 
   const navigationItems = [
     {
+
       title: "Ecosystem",
-      description: "Connecting athletes and fans through blockchain technology",
+      description: "Boosting club-fan relationships through social sentiment and blockchain",
       items: [
         {
-          title: "For Athletes",
-          href: "/athletes",
-          description: "Monetize your content and connect with fans",
+          title: "For Clubs",
+          href: "/clubs",
+          description: "Activate your fanbase, track sentiment and increase token engagement",
           icon: Trophy,
         },
         {
           title: "For Fans",
           href: "/fans",
-          description: "Support your favorite athletes and earn rewards",
+          description: "Turn your posts into rewards and trade hype-driven tokens",
           icon: Users,
         },
       ],
@@ -67,11 +67,6 @@ export default function Header() {
     setIsWalletConnected(false);
   };
 
-  const handleInstagramConnect = () => {
-    // Handle Instagram connection logic here
-    console.log('Instagram connected!');
-  };
-
   const copyAddress = () => {
     navigator.clipboard.writeText(walletData.address);
   };
@@ -80,8 +75,8 @@ export default function Header() {
     if (!isWalletConnected) {
       return (
         <WalletConnectionModal onConnect={handleWalletConnect}>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
           >
             <Wallet className="w-4 h-4" />
@@ -94,8 +89,8 @@ export default function Header() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center space-x-3 px-4 py-2 h-auto"
           >
             <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-red-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
@@ -117,13 +112,13 @@ export default function Header() {
                 <h3 className="font-semibold text-gray-900">Minha Carteira</h3>
               </div>
             </div>
-            
+
             <div className="space-y-3">
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm text-gray-600">Endereço</span>
                   <div className="flex items-center space-x-1">
-                    <button 
+                    <button
                       onClick={copyAddress}
                       className="p-1 hover:bg-gray-100 rounded"
                     >
@@ -138,7 +133,7 @@ export default function Header() {
                   {walletData.address}
                 </div>
               </div>
-              
+
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm text-gray-600">Saldo</span>
@@ -152,13 +147,13 @@ export default function Header() {
               </div>
             </div>
           </div>
-          
+
           <div className="p-2">
             <DropdownMenuItem className="text-gray-700 hover:bg-gray-50 cursor-pointer">
               <span>Minha Carteira</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem 
+            <DropdownMenuItem
               onClick={handleWalletDisconnect}
               className="text-red-600 hover:bg-red-50 cursor-pointer"
             >
@@ -249,12 +244,6 @@ export default function Header() {
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-3">
             <WalletButton />
-            <InstagramConnectionModal onConnect={handleInstagramConnect}>
-              <Button className="bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white flex items-center space-x-2">
-                <Settings className="w-4 h-4" />
-                <span>Admin Panel</span>
-              </Button>
-            </InstagramConnectionModal>
           </div>
 
           {/* Mobile menu button */}
@@ -305,18 +294,12 @@ export default function Header() {
                   )}
                 </div>
               ))}
-              
+
               {/* Mobile Buttons */}
               <div className="px-3 py-4 space-y-3 border-t border-gray-100">
                 <div className="w-full">
                   <WalletButton />
                 </div>
-                <InstagramConnectionModal onConnect={handleInstagramConnect}>
-                  <Button className="w-full bg-gradient-to-r from-purple-600 to-red-600 text-white flex items-center justify-center space-x-2">
-                    <Settings className="w-4 h-4" />
-                    <span>Admin Panel</span>
-                  </Button>
-                </InstagramConnectionModal>
               </div>
             </div>
           </div>

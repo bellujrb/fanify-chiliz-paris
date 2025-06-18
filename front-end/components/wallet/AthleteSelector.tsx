@@ -10,7 +10,7 @@ import {
   FloatingPanelBody,
   FloatingPanelButton
 } from '@/components/ui/floating-panel';
-import { ChevronDown, Plus, Check, Instagram } from 'lucide-react';
+import { ChevronDown, Plus, Check } from 'lucide-react';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 
 interface Athlete {

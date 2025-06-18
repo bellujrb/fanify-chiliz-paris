@@ -10,54 +10,64 @@ const FAQ = () => {
     {
       id: 1,
       question: "What is Fanify?",
-      answer: "Fanify is a revolutionary platform that connects athletes with their fans through Instagram and blockchain technology. We use Chiliz Chain to create a transparent, rewarding ecosystem where fan engagement translates into real rewards and exclusive experiences."
+      answer:
+        "Fanify is a gamified fan prediction market powered by social media sentiment. We analyze real-time posts on platforms like Twitter and Instagram to generate dynamic Fan Sentiment Tokens on the Chiliz blockchain, turning collective fan hype into tradable value.",
     },
     {
       id: 2,
-      question: "How does the Instagram integration work?",
-      answer: "Our platform monitors your Instagram engagement in real-time through secure APIs. We track comments, mentions, hashtags, and overall reach to calculate fan loyalty points. All data is processed securely and used only to enhance the fan-athlete relationship."
+      question: "How does the social media integration work?",
+      answer:
+        "We use secure APIs to track public posts, hashtags, and mentions related to upcoming matches. This data feeds into our sentiment engine, which builds real-time hype indexes that influence token behavior and drive engagement-based raffles and rewards.",
     },
     {
       id: 3,
-      question: "What are Fan Tokens and how do I earn them?",
-      answer: "Fan Tokens are digital assets on the Chiliz blockchain that represent your loyalty to an athlete. You earn tokens by engaging with your favorite athlete's content on Instagram - the more you interact, comment, and share, the more tokens you accumulate each month."
+      question: "What are Fan Sentiment Tokens?",
+      answer:
+        "They are synthetic tokens that reflect the collective expectation of fans for each team. As positive sentiment increases for a team, its token ($PSG, $REAL, etc.) grows in value. Fans can trade these tokens before the match and profit based on hype shifts.",
     },
     {
       id: 4,
-      question: "Do I need a crypto wallet to participate?",
-      answer: "Not necessarily! If you already have a wallet, you can connect it instantly. If you're new to crypto, Fanify creates a secure wallet for you automatically - no technical knowledge required. We make Web3 accessible to everyone."
+      question: "Do I need crypto knowledge to use Fanify?",
+      answer:
+        "Not at all. You can log in with your social account and we'll create a crypto wallet for you automatically. Fanify is designed for mainstream users — no prior blockchain experience needed.",
     },
     {
       id: 5,
-      question: "How are monthly rankings calculated?",
-      answer: "Rankings are based on your engagement score, which considers the quality and frequency of your interactions with an athlete's content. Points are awarded for comments, shares, and mentions. Rankings reset monthly to give everyone a fresh chance to compete."
+      question: "How are sentiment scores calculated?",
+      answer:
+        "We analyze volume, tone, and engagement across social media posts related to each team. Tweets and Instagram posts with team hashtags and mentions contribute to the sentiment index, which is then converted into dynamic token values.",
     },
     {
       id: 6,
-      question: "What kind of rewards can I win?",
-      answer: "Athletes configure their own reward systems! Common rewards include exclusive NFTs, signed merchandise, meet-and-greet opportunities, early access to content, personalized messages, and special Fan Tokens. Each athlete creates unique experiences for their top fans."
+      question: "What can I win by participating?",
+      answer:
+        "By tweeting or posting your match predictions, you enter raffles for prizes like fan tokens, NFTs, club merchandise, and exclusive experiences. The more you engage, the higher your chance to win.",
     },
     {
       id: 7,
-      question: "Is my data secure on Fanify?",
-      answer: "Absolutely. We use enterprise-grade security and only access public Instagram data that you choose to share. Your personal information is encrypted and stored securely. We never sell your data, and you maintain full control over your privacy settings."
+      question: "Is my data safe on Fanify?",
+      answer:
+        "Yes. We only access public content you've chosen to share and follow strict data privacy standards. Your personal data is encrypted and never sold or shared without consent.",
     },
     {
       id: 8,
-      question: "Can athletes customize their fan engagement programs?",
-      answer: "Yes! Athletes have complete control over their reward structure. They can set different prize tiers, customize point values for various interactions, create exclusive NFT collections, and design unique experiences for their most dedicated fans."
+      question: "How do prediction tokens fluctuate?",
+      answer:
+        "Tokens rise or fall in value based on the real-time sentiment of fans. For example, if a wave of positive posts about a team appears before the match, its token value increases — simulating a live market of fan expectations.",
     },
     {
       id: 9,
-      question: "How does Chiliz blockchain enhance the experience?",
-      answer: "Chiliz Chain provides transparency, security, and true ownership of digital assets. All transactions are recorded on the blockchain, ensuring fair distribution of rewards. Fan Tokens and NFTs are truly yours - you can trade, collect, or hold them as proof of your fandom."
+      question: "Why Chiliz Chain?",
+      answer:
+        "Chiliz is the leading blockchain for sports and fan tokens. It enables fast, low-cost transactions and gives users true digital ownership of their assets — ideal for a real-time fan engagement ecosystem.",
     },
     {
       id: 10,
-      question: "How do I get started with Fanify?",
-      answer: "Simply connect your wallet (or let us create one for you), link your Instagram account, and start engaging with your favorite athletes' content. The platform automatically tracks your engagement and awards points. It's that simple - no technical expertise required!"
-    }
-  ];
+      question: "How do I get started?",
+      answer:
+        "Post your match prediction on Twitter or Instagram with the right hashtags and tag @Chiliz. Your post will be tracked and counted toward your favorite team’s sentiment. You’ll automatically enter the raffle and start earning sentiment-based rewards.",
+    },
+  ];  
 
   const toggleItem = (id: number) => {
     setOpenItem(openItem === id ? null : id);
