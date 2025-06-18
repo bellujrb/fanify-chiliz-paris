@@ -17,8 +17,8 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-gray-600 mb-6 max-w-md">
-              The new generation of sports engagement with Web3 and Instagram. 
-              Connect with your fans through Chiliz blockchain technology.
+              Fanify turns real fan sentiment into prediction tokens using the 
+              power of Twitter and Chiliz — the global leader in fan tokens.
             </p>
             
             {/* Social Links */}
@@ -50,7 +50,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <a href="#" className="text-gray-600 hover:text-red-500 transition-colors duration-200">
-                  For Athletes
+                  For Clubs
                 </a>
               </li>
               <li>
