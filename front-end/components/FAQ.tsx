@@ -11,63 +11,76 @@ const FAQ = () => {
       id: 1,
       question: "What is Fanify?",
       answer:
-        "Fanify is a gamified fan prediction market powered by social media sentiment. We analyze real-time posts on platforms like Twitter and Instagram to generate dynamic Fan Sentiment Tokens on the Chiliz blockchain, turning collective fan hype into tradable value.",
+        "Fanify is a gamified sports hype market built on the Chiliz blockchain. It transforms real-time fan sentiment from social media into tradable digital tokens representing each team’s popularity before a match.",
     },
     {
       id: 2,
-      question: "How does the social media integration work?",
+      question: "How does social media integration work?",
       answer:
-        "We use secure APIs to track public posts, hashtags, and mentions related to upcoming matches. This data feeds into our sentiment engine, which builds real-time hype indexes that influence token behavior and drive engagement-based raffles and rewards.",
+        "We monitor official match hashtags on Twitter using public APIs. Our AI analyzes the content to calculate each team’s hype score, which directly influences the price of fan sentiment tokens.",
     },
     {
       id: 3,
-      question: "What are Fan Sentiment Tokens?",
+      question: "What are Hype Tokens?",
       answer:
-        "They are synthetic tokens that reflect the collective expectation of fans for each team. As positive sentiment increases for a team, its token ($PSG, $REAL, etc.) grows in value. Fans can trade these tokens before the match and profit based on hype shifts.",
+        "Hype Tokens are ERC20 synthetic tokens (e.g., $PSG_HYPE, $BOT_HYPE) that reflect how much fan support a team is receiving online. The more hype a team has, the more valuable its token becomes.",
     },
     {
       id: 4,
-      question: "Do I need crypto knowledge to use Fanify?",
+      question: "Do I need crypto experience to use Fanify?",
       answer:
-        "Not at all. You can log in with your social account and we'll create a crypto wallet for you automatically. Fanify is designed for mainstream users — no prior blockchain experience needed.",
+        "Not at all. When you sign in with your social account, we automatically create a wallet for you. Fanify is built for mainstream users — no blockchain knowledge required.",
     },
     {
       id: 5,
       question: "How are sentiment scores calculated?",
       answer:
-        "We analyze volume, tone, and engagement across social media posts related to each team. Tweets and Instagram posts with team hashtags and mentions contribute to the sentiment index, which is then converted into dynamic token values.",
+        "We analyze the tone, volume, and engagement of posts containing the match hashtag. Our system classifies each post as pro-team, neutral, or negative and gives it a weighted score based on engagement.",
     },
     {
       id: 6,
-      question: "What can I win by participating?",
+      question: "How do tokens change in value?",
       answer:
-        "By tweeting or posting your match predictions, you enter raffles for prizes like fan tokens, NFTs, club merchandise, and exclusive experiences. The more you engage, the higher your chance to win.",
+        "Token prices are influenced by fan hype and in-game events. Goals, wins, and losses trigger minting or burning of tokens, which adjusts supply and affects the market price dynamically.",
     },
     {
       id: 7,
-      question: "Is my data safe on Fanify?",
+      question: "What happens when the game starts?",
       answer:
-        "Yes. We only access public content you've chosen to share and follow strict data privacy standards. Your personal data is encrypted and never sold or shared without consent.",
+        "Trading is automatically paused. Final hype scores are recorded. After the official result, tokens of the losing team are burned and CHZ is distributed to holders of the winning team’s token as a reward.",
     },
     {
       id: 8,
-      question: "How do prediction tokens fluctuate?",
+      question: "What can I win by participating?",
       answer:
-        "Tokens rise or fall in value based on the real-time sentiment of fans. For example, if a wave of positive posts about a team appears before the match, its token value increases — simulating a live market of fan expectations.",
+        "By posting with the official match hashtag, you enter raffles for prizes like fan tokens, collectible NFTs, club merchandise, and exclusive experiences. The more you engage, the higher your chances.",
     },
     {
       id: 9,
-      question: "Why Chiliz Chain?",
+      question: "Can I sell my tokens before the match?",
       answer:
-        "Chiliz is the leading blockchain for sports and fan tokens. It enables fast, low-cost transactions and gives users true digital ownership of their assets — ideal for a real-time fan engagement ecosystem.",
+        "Yes. Until the match starts, tokens can be traded or locked on-chain. Their price will reflect real-time shifts in fan sentiment and market dynamics.",
     },
     {
       id: 10,
+      question: "Is my data safe?",
+      answer:
+        "Yes. We only use public content shared through hashtags. All collected data is fully anonymized and never linked to personal identities. We follow strict security and privacy standards, and we never sell or share your data without permission.",
+    },
+    {
+      id: 11,
+      question: "Why use the Chiliz Chain?",
+      answer:
+        "Chiliz is the leading blockchain for sports and fan tokens. It offers fast, low-cost transactions and seamless fan engagement tools — perfect for powering real-time, on-chain experiences like Fanify.",
+    },
+    {
+      id: 12,
       question: "How do I get started?",
       answer:
-        "Post your match prediction on Twitter or Instagram with the right hashtags and tag @Chiliz. Your post will be tracked and counted toward your favorite team’s sentiment. You’ll automatically enter the raffle and start earning sentiment-based rewards.",
+        "Just post your match prediction using the official hashtag (e.g., #Fanify_PSGxBOT_20250620) on Twitter or Instagram. Your post will be picked up automatically and counted toward your team’s hype score.",
     },
-  ];  
+  ];
+  
 
   const toggleItem = (id: number) => {
     setOpenItem(openItem === id ? null : id);
