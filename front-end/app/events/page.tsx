@@ -12,7 +12,7 @@ export default function EventsPage() {
 
   const liveEvents: Event[] = [
   {
-    id: 'real-vs-bar-20250621',
+    id: 'real-vs-bar-20250701',
     homeTeam: {
       name: 'Real Madrid',
       shortName: 'REAL',
