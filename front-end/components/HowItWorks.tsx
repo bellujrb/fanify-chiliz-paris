@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
-import { Wallet, Instagram, Zap, Trophy, Gift, Users, ArrowRight, ArrowLeft, Smartphone, Globe, Award } from 'lucide-react';
+import { Twitter, Brain, Zap, Trophy, Coins, TrendingUp, ArrowRight, ArrowLeft, BarChart3, Target, Award, Timer, Users, Star } from 'lucide-react';
 
 const HowItWorks = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -9,91 +9,127 @@ const HowItWorks = () => {
   const steps = [
     {
       id: 1,
-      title: "Connect your Wallet",
-      subtitle: "First step to enter the ecosystem",
-      icon: Wallet,
+      title: "Official Activation",
+      subtitle: "Game announcement triggers market creation",
+      icon: Twitter,
       content: {
         features: [
           {
-            icon: Wallet,
-            title: "Already have a wallet?",
-            description: "Connect your existing wallet in seconds"
+            icon: Twitter,
+            title: "Official Tweet",
+            description: "Market launches with official hashtag and synthetic tokens"
           },
           {
-            icon: Smartphone,
-            title: "First time?",
-            description: "We create your Fanify Wallet instantly, no hassle"
+            icon: Coins,
+            title: "Token Creation",
+            description: "PSG_HYPE and BOT_HYPE tokens are minted automatically"
           }
         ],
-        visual: "wallet"
+        visual: "activation"
       }
     },
     {
       id: 2,
-      title: "Smart Engagement",
-      subtitle: "We collect Instagram data in real-time",
-      icon: Instagram,
+      title: "Social Sentiment Analysis",
+      subtitle: "AI analyzes Twitter sentiment in real-time",
+      icon: Brain,
       content: {
         features: [
           {
-            icon: Instagram,
-            title: "Instagram API",
-            description: "We collect engagement data in real-time"
+            icon: Twitter,
+            title: "Tweet Collection",
+            description: "Continuous monitoring of official hashtag tweets"
           },
           {
-            icon: Globe,
-            title: "Blockchain Oracle",
-            description: "We transfer data to blockchain securely"
+            icon: Brain,
+            title: "NLP Classification",
+            description: "AI classifies sentiment: pro-PSG, pro-BOT, neutral, negative"
+          },
+          {
+            icon: BarChart3,
+            title: "Weighted Scoring",
+            description: "Engagement metrics determine tweet influence weight"
           }
         ],
-        visual: "engagement"
+        visual: "sentiment"
       }
     },
     {
       id: 3,
-      title: "Smart Contracts",
-      subtitle: "Intelligent automation of points and ranking",
-      icon: Zap,
+      title: "Hype Score Calculation",
+      subtitle: "Real-time hype percentage drives token dynamics",
+      icon: TrendingUp,
       content: {
         features: [
           {
+            icon: TrendingUp,
+            title: "Live Hype Tracking",
+            description: "Weighted sentiment converted to team hype percentages"
+          },
+          {
             icon: Zap,
-            title: "Points Distribution",
-            description: "Automatic points based on engagement"
+            title: "Oracle Updates",
+            description: "On-chain oracle receives real-time hype data"
           },
           {
-            icon: Trophy,
-            title: "Level System",
-            description: "Fans evolve according to engagement"
-          },
-          {
-            icon: Award,
-            title: "Monthly Ranking",
-            description: "Healthy competition between fans"
+            icon: Target,
+            title: "Dynamic Pricing",
+            description: "Token prices reflect social sentiment + game events"
           }
         ],
-        visual: "contracts"
+        visual: "hype"
       }
     },
     {
       id: 4,
-      title: "Monthly Rewards",
-      subtitle: "Configure and distribute prizes to your fans",
-      icon: Gift,
+      title: "Dynamic Token Economics",
+      subtitle: "Game events trigger automatic burn/mint mechanisms",
+      icon: Coins,
       content: {
         features: [
           {
-            icon: Gift,
-            title: "Monthly Reset",
-            description: "Every month the ranking resets and competition restarts"
+            icon: Trophy,
+            title: "Goal Events",
+            description: "Goals scored burn 10 tokens, goals conceded mint 10 tokens"
+          },
+          {
+            icon: Timer,
+            title: "Final Result",
+            description: "Winner burns 100 tokens, loser mints 100 tokens"
+          },
+          {
+            icon: Coins,
+            title: "CHZ Rewards",
+            description: "Burned tokens convert to CHZ rewards for winners"
+          }
+        ],
+        visual: "economics"
+      }
+    },
+    {
+      id: 5,
+      title: "Engagement Ranking & Rewards",
+      subtitle: "Twitter users with connected wallets earn CHZ and NFTs",
+      icon: Award,
+      content: {
+        features: [
+          {
+            icon: Users,
+            title: "Wallet Connection",
+            description: "Link your Twitter account to your wallet to participate"
+          },
+          {
+            icon: Star,
+            title: "Engagement Tracking",
+            description: "Quality tweets, retweets, and interactions are scored"
           },
           {
             icon: Trophy,
-            title: "Ranking Distribution",
-            description: "Athlete defines rewards for each position"
+            title: "Monthly Rankings",
+            description: "Top contributors receive CHZ tokens and exclusive NFTs"
           }
         ],
-        visual: "rewards"
+        visual: "ranking"
       }
     }
   ];
@@ -112,204 +148,367 @@ const HowItWorks = () => {
 
   const renderVisual = (visual: string) => {
     switch (visual) {
-      case "wallet":
+      case "activation":
         return (
           <div className="bg-gradient-to-br from-purple-600 to-red-600 rounded-3xl p-8 text-white shadow-2xl">
             <div className="flex items-center justify-between mb-8">
-              <h4 className="text-2xl font-bold">Fanify Wallet</h4>
-              <Wallet className="w-8 h-8" />
+              <h4 className="text-2xl font-bold">Market Launch</h4>
+              <Twitter className="w-8 h-8" />
             </div>
             
             <div className="space-y-6">
               <div className="bg-white/10 rounded-2xl p-4">
                 <div className="flex items-center space-x-3 mb-3">
-                  <Instagram className="w-6 h-6" />
-                  <span className="font-medium">Instagram Connected</span>
+                  <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">@</span>
+                  </div>
+                  <span className="font-medium">Official Tweet</span>
                 </div>
-                <div className="text-sm opacity-90">@yourathlete • 15.2K followers</div>
+                <div className="text-sm opacity-90 bg-white/5 rounded-lg p-3 mt-3">
+                  The game's hype market is live! 🔥 Use now #Fanify_PSGxBOT_20250620
+                </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/10 rounded-xl p-4 text-center">
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="text-sm opacity-90">Fan Tokens</div>
+                  <div className="text-lg font-bold mb-1">PSG_HYPE</div>
+                  <div className="text-sm opacity-90">Token Created</div>
+                  <div className="text-xs mt-2 bg-green-500/20 rounded-full px-2 py-1">Active</div>
                 </div>
                 <div className="bg-white/10 rounded-xl p-4 text-center">
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="text-sm opacity-90">NFTs</div>
+                  <div className="text-lg font-bold mb-1">BOT_HYPE</div>
+                  <div className="text-sm opacity-90">Token Created</div>
+                  <div className="text-xs mt-2 bg-green-500/20 rounded-full px-2 py-1">Active</div>
                 </div>
+              </div>
+
+              <div className="bg-white/10 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">Market ID</span>
+                  <span className="text-xs bg-red-500/30 rounded-full px-2 py-1">Live</span>
+                </div>
+                <div className="font-mono text-sm">PSGxBOT_20250620</div>
               </div>
             </div>
           </div>
         );
 
-      case "engagement":
+      case "sentiment":
         return (
           <div className="bg-white rounded-3xl p-8 shadow-2xl border border-purple-500/20">
             <div className="flex items-center justify-between mb-6">
-              <h4 className="text-xl font-bold text-gray-900">Real-time Data</h4>
+              <h4 className="text-xl font-bold text-gray-900">AI Sentiment Analysis</h4>
               <div className="flex space-x-2">
-                <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
-                <div className="w-3 h-3 bg-pink-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+                <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                <div className="w-3 h-3 bg-pink-500 rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
               </div>
             </div>
             
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl border-l-4 border-red-500">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                    <Instagram className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <Twitter className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <div className="font-medium text-gray-900">A fan posted about you… </div>
-                    <div className="text-sm text-gray-600">and it WENT VIRAL!</div>
+                    <div className="font-medium text-gray-900">PSG will dominate today!🔥</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-purple-600">+127</div>
-                  <div className="text-xs text-gray-500">likes</div>
+                  <div className="font-bold text-red-600">PRO-PSG</div>
+                  <div className="text-xs text-gray-500">conf: 0.87</div>
                 </div>
               </div>
               
-              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-pink-50 to-red-50 rounded-xl">
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border-l-4 border-purple-500">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-red-500 rounded-lg flex items-center justify-center">
-                    <Users className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Brain className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <div className="font-medium text-gray-900">Engagement</div>
-                    <div className="text-sm text-gray-600">last 24h</div>
+                    <div className="font-medium text-gray-900">Botafogo will surprise!</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-red-500">+89%</div>
-                  <div className="text-xs text-gray-500">growth</div>
+                  <div className="font-bold text-purple-600">PRO-BOT</div>
+                  <div className="text-xs text-gray-500">conf: 0.92</div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 bg-gradient-to-r from-purple-600 to-red-600 p-4 rounded-2xl text-white">
-              <h5 className="font-bold mb-3">Monitored Metrics</h5>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div>• Comments</div>
-                <div>• Mentions</div>
-                <div>• Hashtags/tags</div>
-                <div>• returneach and engagement</div>
+            <div className="mt-6 bg-gradient-to-r from-gray-900 to-gray-800 p-4 rounded-2xl text-white">
+              <h5 className="font-bold mb-3 flex items-center">
+                <Brain className="w-5 h-5 mr-2" />
+                NLP Classification
+              </h5>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="space-y-1">
+                  <div className="flex justify-between">
+                    <span>Pro-PSG:</span>
+                    <span className="text-red-400">345 votes</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Pro-BOT:</span>
+                    <span className="text-purple-400">512 votes</span>
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex justify-between">
+                    <span>Neutral:</span>
+                    <span className="text-gray-400">89 votes</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Negative:</span>
+                    <span className="text-red-400">23 votes</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         );
 
-      case "contracts":
+      case "hype":
         return (
           <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 shadow-xl border border-purple-500/20">
+              <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                <TrendingUp className="w-6 h-6 mr-2 text-purple-600" />
+                Live Hype Score
+              </h4>
+              
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">P</span>
+                    </div>
+                    <span className="font-medium">PSG</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-red-600">40.3%</div>
+                    <div className="text-sm text-gray-500">345 weighted votes</div>
+                  </div>
+                </div>
+
+                <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="bg-gradient-to-r from-red-500 to-red-600 h-3 rounded-full" style={{width: '40.3%'}}></div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">B</span>
+                    </div>
+                    <span className="font-medium">BOT</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-purple-600">59.7%</div>
+                    <div className="text-sm text-gray-500">512 weighted votes</div>
+                  </div>
+                </div>
+
+                <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="bg-gradient-to-r from-purple-500 to-purple-600 h-3 rounded-full" style={{width: '59.7%'}}></div>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl text-white font-mono text-sm">
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                 <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="ml-2 text-gray-400">Smart Contract</span>
+                <span className="ml-2 text-gray-400">Oracle Payload</span>
               </div>
-              <div className="space-y-2">
-                <div><span className="text-purple-400">function</span> <span className="text-blue-400">distributePoints</span>() {`{`}</div>
-                <div className="ml-4"><span className="text-green-400">// Engagement → Points</span></div>
-                <div className="ml-4"><span className="text-pink-400">updateRanking</span>();</div>
-                <div>{`}`}</div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 shadow-xl border border-purple-500/20">
-              <h4 className="text-lg font-bold text-gray-900 mb-4">Current Ranking</h4>
-              
-              <div className="space-y-3">
-                {[
-                  { pos: 1, name: "Ana Silva", points: 2847, level: "Dedicated Fan", color: "from-yellow-400 to-yellow-600" },
-                  { pos: 2, name: "Carlos Lima", points: 2156, level: "Active Fan", color: "from-gray-300 to-gray-500" },
-                  { pos: 3, name: "Maria Santos", points: 1923, level: "Active Fan", color: "from-orange-400 to-orange-600" }
-                ].map((fan, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
-                    <div className={`w-6 h-6 bg-gradient-to-r ${fan.color} rounded-full flex items-center justify-center text-white font-bold text-xs`}>
-                      {fan.pos}
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900 text-sm">{fan.name}</div>
-                      <div className="text-xs text-gray-600">{fan.level}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-bold bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent text-sm">{fan.points.toLocaleString()}</div>
-                      <div className="text-xs text-gray-500">pts</div>
-                    </div>
-                  </div>
-                ))}
+              <div className="space-y-1 text-xs">
+                <div><span className="text-red-400">"market"</span>: <span className="text-green-400">"PSGxBOT_20250620"</span>,</div>
+                <div><span className="text-red-400">"scores"</span>: {`{`}</div>
+                <div className="ml-4"><span className="text-red-400">"PSG"</span>: <span className="text-yellow-400">403</span>,</div>
+                <div className="ml-4"><span className="text-purple-400">"BOT"</span>: <span className="text-yellow-400">597</span></div>
+                <div>{`}`},</div>
+                <div><span className="text-red-400">"gameEvents"</span>: {`{`}</div>
+                <div className="ml-4"><span className="text-red-400">"PSG"</span>: {`{}`},</div>
+                <div className="ml-4"><span className="text-purple-400">"BOT"</span>: {`{}`},</div>
+                <div className="ml-4"><span className="text-red-400">"gameStart"</span>: <span className="text-blue-400">false</span>,</div>
+                <div>{`}`},</div>
+                <div><span className="text-red-400">"timestamp"</span>: <span className="text-green-400">"2025-06-17T12:00:00Z"</span></div>
               </div>
             </div>
           </div>
         );
 
-      case "rewards":
+      case "economics":
         return (
           <div className="bg-white rounded-3xl p-8 shadow-2xl border border-purple-500/20">
             <div className="flex items-center justify-between mb-6">
-              <h4 className="text-xl font-bold text-gray-900">Configure Rewards</h4>
-              <div className="text-sm text-gray-600">Month: January</div>
+              <h4 className="text-xl font-bold text-gray-900">Dynamic Token Economics</h4>
+              <div className="text-sm text-gray-600 bg-green-100 px-3 py-1 rounded-full">Live Game</div>
             </div>
             
-            <div className="space-y-4">
-              <div className="p-4 border-2 border-purple-500/20 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">1</span>
-                    </div>
-                    <span className="font-medium text-gray-900">TOP 1%</span>
+            <div className="space-y-6">
+              {/* Game Events */}
+              <div className="bg-gradient-to-r from-green-50 to-pink-50 p-4 rounded-xl border border-green-200">
+                <h5 className="font-bold text-gray-900 mb-3 flex items-center">
+                  <Trophy className="w-5 h-5 mr-2 text-green-600" />
+                  Game Events Impact
+                </h5>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">PSG 2</div>
+                    <div className="text-sm text-gray-600">Goals Scored</div>
+                    <div className="text-xs mt-1 bg-red-100 text-red-600 px-2 py-1 rounded">-20 PSG_HYPE</div>
                   </div>
-                  <button className="text-purple-600 text-sm font-medium">Edit</button>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-purple-600">BOT 1</div>
+                    <div className="text-sm text-gray-600">Goals Scored</div>
+                    <div className="text-xs mt-1 bg-red-100 text-red-600 px-2 py-1 rounded">-10 BOT_HYPE</div>
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-white p-3 rounded-lg text-center">
-                    <div className="text-2xl mb-1">🎨</div>
-                    <div className="text-sm font-medium">1 Exclusive NFT</div>
+              </div>
+
+              {/* Token Supply Changes */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-red-50 p-4 rounded-xl text-center border border-red-200">
+                  <div className="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <Coins className="w-6 h-6 text-white" />
                   </div>
-                  <div className="bg-white p-3 rounded-lg text-center">
-                    <div className="text-2xl mb-1">🪙</div>
-                    <div className="text-sm font-medium">5 Fan Tokens</div>
+                  <div className="font-bold text-red-600">PSG_HYPE</div>
+                  <div className="text-2xl font-bold text-gray-900 my-2">880</div>
+                  <div className="text-sm text-gray-600">Current Supply</div>
+                  <div className="text-xs mt-2 bg-green-100 text-green-600 px-2 py-1 rounded">Winner: -100 burn</div>
+                </div>
+                
+                <div className="bg-purple-50 p-4 rounded-xl text-center border border-purple-200">
+                  <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <Coins className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="font-bold text-purple-600">BOT_HYPE</div>
+                  <div className="text-2xl font-bold text-gray-900 my-2">1,090</div>
+                  <div className="text-sm text-gray-600">Current Supply</div>
+                  <div className="text-xs mt-2 bg-red-100 text-red-600 px-2 py-1 rounded">Loser: +100 mint</div>
+                </div>
+              </div>
+
+              {/* CHZ Rewards */}
+              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-4 rounded-2xl text-white">
+                <h5 className="font-bold mb-3 flex items-center">
+                  <Award className="w-5 h-5 mr-2" />
+                  CHZ Reward Distribution
+                </h5>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <div className="font-medium">Burned BOT_HYPE:</div>
+                    <div className="text-lg font-bold">1,100 tokens</div>
+                  </div>
+                  <div>
+                    <div className="font-medium">CHZ Pool:</div>
+                    <div className="text-lg font-bold">550 CHZ</div>
+                  </div>
+                </div>
+                <div className="mt-3 text-center bg-white/20 rounded-lg p-2">
+                  <div className="text-xs">Distributed to PSG_HYPE holders</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "ranking":
+        return (
+          <div className="bg-white rounded-3xl p-8 shadow-2xl border border-purple-500/20">
+            <div className="flex items-center justify-between mb-6">
+              <h4 className="text-xl font-bold text-gray-900">Engagement Leaderboard</h4>
+              <div className="text-sm text-gray-600 bg-blue-100 px-3 py-1 rounded-full">Monthly Reset</div>
+            </div>
+            
+            <div className="space-y-4 mb-6">
+              {[
+                { 
+                  rank: 1, 
+                  user: "@cryptofan_psg", 
+                  wallet: "0x1a2b...3c4d", 
+                  score: 2847, 
+                  tweets: 23, 
+                  engagement: "High",
+                  color: "from-yellow-400 to-yellow-600",
+                  reward: "50 CHZ + PSG shirt"
+                },
+                { 
+                  rank: 2, 
+                  user: "@botafogo_lover", 
+                  wallet: "0x5e6f...7g8h", 
+                  score: 2156, 
+                  tweets: 18, 
+                  engagement: "High",
+                  color: "from-gray-300 to-gray-500",
+                  reward: "30 CHZ"
+                },
+                { 
+                  rank: 3, 
+                  user: "@sports_analyst", 
+                  wallet: "0x9i0j...1k2l", 
+                  score: 1923, 
+                  tweets: 15, 
+                  engagement: "Medium",
+                  color: "from-orange-400 to-orange-600",
+                  reward: "20 CHZ"
+                }
+              ].map((user, index) => (
+                <div key={index} className="flex items-center space-x-4 p-4 bg-gradient-to-r from-gray-50 to-purple-50 rounded-xl border border-purple-100">
+                  <div className={`w-10 h-10 bg-gradient-to-r ${user.color} rounded-full flex items-center justify-center text-white font-bold`}>
+                    {user.rank}
+                  </div>
+                  
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <span className="font-bold text-gray-900">{user.user}</span>
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <div className="text-xs text-gray-600 font-mono">{user.wallet}</div>
+                    <div className="flex items-center space-x-4 mt-2 text-xs">
+                      <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded">{user.tweets} tweets</span>
+                      <span className="bg-green-100 text-green-600 px-2 py-1 rounded">{user.engagement}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="text-right">
+                    <div className="text-lg font-bold bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent">
+                      {user.score.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-gray-500 mb-2">engagement pts</div>
+                    <div className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded">
+                      {user.reward}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Engagement Metrics */}
+            <div className="bg-gradient-to-r from-purple-600 to-red-600 p-4 rounded-2xl text-white">
+              <h5 className="font-bold mb-3 flex items-center">
+                <Star className="w-5 h-5 mr-2" />
+                Scoring System
+              </h5>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Quality Tweet:</span>
+                    <span className="font-bold">+50 pts</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                <div className="flex justify-between">
+                    <span>Viral Tweet (1K+ likes):</span>
+                    <span className="font-bold">+200 pts</span>
                   </div>
                 </div>
               </div>
               
-              <div className="p-4 border border-gray-200 rounded-xl">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 bg-gradient-to-r from-gray-300 to-gray-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">5</span>
-                    </div>
-                    <span className="font-medium text-gray-900">TOP 5%</span>
-                  </div>
-                  <button className="text-purple-600 text-sm font-medium">Edit</button>
-                </div>
-                <div className="bg-gray-50 p-3 rounded-lg text-center">
-                  <div className="text-2xl mb-1">🪙</div>
-                  <div className="text-sm font-medium">3 Fan Tokens</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 bg-gradient-to-r from-purple-600 to-red-600 p-4 rounded-2xl text-white">
-              <h5 className="font-bold mb-3">Configuration Example</h5>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center justify-between">
-                  <span>🥇 TOP 1%</span>
-                  <span className="font-medium">1 NFT + 5 Fan Tokens</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>🥈 TOP 5%</span>
-                  <span className="font-medium">3 Fan Tokens</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>🥉 TOP 10%</span>
-                  <span className="font-medium">1 Fan Token</span>
-                </div>
+              <div className="mt-4 bg-white/20 rounded-lg p-3 text-center">
+                <div className="text-sm font-medium">Monthly Rewards Pool</div>
+                <div className="text-2xl font-bold">200 CHZ + football items</div>
               </div>
             </div>
           </div>
@@ -333,16 +532,16 @@ const HowItWorks = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-red-600 text-white rounded-full text-sm font-medium shadow-lg mb-8">
-            <Zap className="w-4 h-4 mr-2" />
-            How It Works
+            <TrendingUp className="w-4 h-4 mr-2" />
+            Hype Token Market
           </div>
           <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-8">
-            From connection to{' '}
-            <span className="bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent">reward</span>
+            From social sentiment to{' '}
+            <span className="bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent">real rewards</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Discover how Fanify transforms Instagram engagement into real rewards 
-            through Chiliz blockchain technology
+            Discover how Fanify transforms sports hype into tradeable tokens through 
+            AI sentiment analysis and dynamic blockchain economics
           </p>
         </div>
 
@@ -358,7 +557,7 @@ const HowItWorks = () => {
                   className={`flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 ${
                     currentStep === index
                       ? 'bg-gradient-to-r from-purple-600 to-red-600 text-white shadow-lg'
-                      : 'text-gray-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-600'
+                      : 'text-gray-600 hover:bg-gradient-to-r hover:from-pink-50 hover:to-red-50 hover:text-purple-600'
                   }`}
                 >
                   <StepIcon className="w-5 h-5" />
@@ -374,14 +573,14 @@ const HowItWorks = () => {
           {/* Navigation Arrows */}
           <button
             onClick={prevStep}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 bg-white rounded-full shadow-lg border border-purple-500/20 flex items-center justify-center text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-200 hover:scale-110"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 bg-white rounded-full shadow-lg border border-purple-500/20 flex items-center justify-center text-purple-600 hover:bg-gradient-to-r hover:from-pink-50 hover:to-red-50 transition-all duration-200 hover:scale-110"
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
 
           <button
             onClick={nextStep}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-20 w-12 h-12 bg-white rounded-full shadow-lg border border-purple-500/20 flex items-center justify-center text-purple-600 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-200 hover:scale-110"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-20 w-12 h-12 bg-white rounded-full shadow-lg border border-purple-500/20 flex items-center justify-center text-purple-600 hover:bg-gradient-to-r hover:from-pink-50 hover:to-red-50 transition-all duration-200 hover:scale-110"
           >
             <ArrowRight className="w-6 h-6" />
           </button>
@@ -418,8 +617,8 @@ const HowItWorks = () => {
                       const FeatureIcon = feature.icon;
                       return (
                         <div key={index} className="flex items-start space-x-4">
-                          <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl flex items-center justify-center mt-1 flex-shrink-0">
-                            <FeatureIcon className="w-5 h-5 text-purple-600" />
+                          <div className="w-10 h-10 bg-gradient-to-r from-red-100 to-pink-100 rounded-xl flex items-center justify-center mt-1 flex-shrink-0">
+                            <FeatureIcon className="w-5 h-5 text-red-600" />
                           </div>
                           <div>
                             <h4 className="font-semibold text-gray-900 mb-2">{feature.title}</h4>
@@ -433,7 +632,7 @@ const HowItWorks = () => {
               </div>
 
               {/* Right Side - Visual */}
-              <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-red-50 p-8 lg:p-12 flex items-center justify-center">
+              <div className="bg-gradient-to-br from-red-50 via-pink-50 to-purple-50 p-8 lg:p-12 flex items-center justify-center">
                 <div className="w-full max-w-md">
                   {renderVisual(steps[currentStep].content.visual)}
                 </div>
@@ -449,7 +648,7 @@ const HowItWorks = () => {
               <div
                 key={index}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentStep === index ? 'bg-gradient-to-r from-purple-600 to-red-600 w-8' : 'bg-purple-200'
+                  currentStep === index ? 'bg-gradient-to-r from-purple-600 to-red-600 w-8' : 'bg-red-200'
                 }`}
               />
             ))}
