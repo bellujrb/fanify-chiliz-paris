@@ -14,7 +14,7 @@ Fanify is a platform that connects fans and sports events through digital tokens
 
 ---
 
-### Chiliz Chain
+### 🔴 Chiliz Chain
 
 Our platform is built on Chiliz Chain, a blockchain tailored for sports and entertainment, offering fast transactions and high scalability. By choosing Chiliz, we align our mission with a network already embraced by top clubs and millions of fans—making it the perfect home for Fanify.
 
