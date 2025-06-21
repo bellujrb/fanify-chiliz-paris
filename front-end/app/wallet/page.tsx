@@ -1,18 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Wallet, Calendar, TrendingUp, Users, Zap } from 'lucide-react';
+import { ArrowLeft, Wallet, Calendar, TrendingUp, Users, Zap, AlertCircle, Trophy } from 'lucide-react';
 import Link from 'next/link';
+import { useWallet } from '@/contexts/WalletContext';
+import { useWalletBalance } from '@/hooks/useWalletBalance';
 
 export default function FanWalletDashboard() {
   const [activeTab, setActiveTab] = useState<'portfolio' | 'history' | 'rewards'>('portfolio');
+  const { isConnected, address, walletClient } = useWallet();
+  const { balance, isLoading: balanceLoading } = useWalletBalance();
 
-  // Mock user portfolio data
+  // Mock user portfolio data (in a real app, this would come from API)
   const userPortfolio = {
     totalValue: 2847.50,
     totalTokens: 156,
-    chzBalance: 1250.50,
+    chzBalance: parseFloat(balance) || 0,
     dailyChange: '+12.5%',
     weeklyChange: '+34.2%'
   };
@@ -65,11 +69,62 @@ export default function FanWalletDashboard() {
     },
   ];
 
+  // Redirect if not connected
+  if (!isConnected) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-red-50">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-md mx-auto text-center">
+            <div className="bg-white rounded-2xl p-8 shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <AlertCircle className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Wallet Not Connected
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Please connect your wallet to access your fan dashboard.
+              </p>
+              <Link href="/">
+                <Button className="w-full bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-3 rounded-xl">
+                  Connect Wallet
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'portfolio':
         return (
           <div className="space-y-6">
+            {/* Wallet Info */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Connected Wallet</h3>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span className="text-sm text-green-600 font-medium">Connected</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">Address</p>
+                  <p className="font-mono text-sm text-gray-900 break-all">
+                    {address}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">Network</p>
+                  <p className="text-sm text-gray-900">Chiliz Chain</p>
+                </div>
+              </div>
+            </div>
+
             {/* Portfolio Overview */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-200/50">
@@ -95,7 +150,9 @@ export default function FanWalletDashboard() {
                   <Zap className="w-6 h-6 text-red-600" />
                   <h3 className="font-semibold text-gray-900">CHZ Balance</h3>
                 </div>
-                <div className="text-3xl font-bold text-red-600">{userPortfolio.chzBalance.toFixed(2)}</div>
+                <div className="text-3xl font-bold text-red-600">
+                  {balanceLoading ? 'Loading...' : `${parseFloat(balance).toFixed(4)}`}
+                </div>
                 <div className="text-sm text-gray-600">Available to trade</div>
               </div>
 
@@ -198,7 +255,7 @@ export default function FanWalletDashboard() {
                       <div className="text-gray-700">{tx.amount}</div>
                       <div className="text-gray-700">${tx.price.toFixed(3)}</div>
                       <div className="font-semibold text-gray-900">${tx.total.toFixed(2)}</div>
-                      <div className="text-sm text-gray-600">{tx.time}</div>
+                      <div className="text-gray-600 text-sm">{tx.time}</div>
                     </div>
                   </div>
                 ))}
@@ -206,51 +263,57 @@ export default function FanWalletDashboard() {
             </div>
           </div>
         );
-      
+
       case 'rewards':
         return (
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-gray-900">Trading Rewards</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gradient-to-r from-purple-600 to-red-600 p-6 rounded-2xl text-white">
-                <h4 className="text-xl font-bold mb-4">🏆 Weekly Trader Bonus</h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Volume Traded</span>
-                    <span className="font-bold">$2,847</span>
+            <h3 className="text-xl font-bold text-gray-900">Rewards & Achievements</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-200/50">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
+                    <Trophy className="w-6 h-6 text-white" />
                   </div>
-                  <div className="flex justify-between">
-                    <span>Accuracy Rate</span>
-                    <span className="font-bold">74%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Bonus Earned</span>
-                    <span className="font-bold">+50 CHZ</span>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Top Trader</h4>
+                    <p className="text-sm text-gray-600">This week</p>
                   </div>
                 </div>
+                <p className="text-gray-700 mb-4">You've made the most profitable trades this week!</p>
+                <div className="text-2xl font-bold text-purple-600">+500 CHZ</div>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                <h4 className="text-lg font-bold text-gray-900 mb-4">🎁 Available Rewards</h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">Trading Fee Discount</span>
-                    <Button size="sm" variant="outline">Claim</Button>
+              <div className="bg-gradient-to-r from-pink-50 to-red-50 p-6 rounded-2xl border border-pink-200/50">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-pink-600 to-red-600 rounded-xl flex items-center justify-center">
+                    <Users className="w-6 h-6 text-white" />
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">Exclusive NFT Badge</span>
-                    <Button size="sm" variant="outline">Claim</Button>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-700">VIP Event Access</span>
-                    <Button size="sm" variant="outline">Claim</Button>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Social Butterfly</h4>
+                    <p className="text-sm text-gray-600">This month</p>
                   </div>
                 </div>
+                <p className="text-gray-700 mb-4">Most active in community discussions</p>
+                <div className="text-2xl font-bold text-pink-600">+250 CHZ</div>
+              </div>
+
+              <div className="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-2xl border border-red-200/50">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Hype Master</h4>
+                    <p className="text-sm text-gray-600">All time</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 mb-4">Generated the most hype for events</p>
+                <div className="text-2xl font-bold text-red-600">+1000 CHZ</div>
               </div>
             </div>
           </div>
         );
-      
+
       default:
         return null;
     }
