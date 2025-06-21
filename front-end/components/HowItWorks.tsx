@@ -27,6 +27,27 @@ const HowItWorks = () => {
   const steps = [
     {
       id: 1,
+      title: "Official Activation",
+      subtitle: "Game announcement triggers market creation and token staking",
+      icon: Twitter,
+      content: {
+        features: [
+          {
+            icon: Twitter,
+            title: "Official Tweet & Market Launch",
+            description: "Market launches with official hashtag and synthetic tokens"
+          },
+          {
+            icon: Coins,
+            title: "Token Creation & Staking",
+            description: "Users stake Chiliz or team tokens and receive Hype tokens to start participation"
+          }
+        ],
+        visual: "activation"
+      }
+    },
+    {
+      id: 2,
       title: "Social Sentiment Analysis",
       subtitle: "AI analyzes Twitter sentiment in real-time",
       icon: Brain,
@@ -49,27 +70,6 @@ const HowItWorks = () => {
           }
         ],
         visual: "sentiment"
-      }
-    },
-    {
-      id: 2,
-      title: "Official Activation",
-      subtitle: "Game announcement triggers market creation and token staking",
-      icon: Twitter,
-      content: {
-        features: [
-          {
-            icon: Twitter,
-            title: "Official Tweet & Market Launch",
-            description: "Market launches with official hashtag and synthetic tokens"
-          },
-          {
-            icon: Coins,
-            title: "Token Creation & Staking",
-            description: "Users stake Chiliz or team tokens and receive Hype tokens to start participation"
-          }
-        ],
-        visual: "activation"
       }
     },
     {
