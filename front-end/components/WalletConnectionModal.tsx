@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -14,9 +14,11 @@ import {
   Wallet, 
   Shield, 
   CheckCircle,
-  Loader2
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useWallet } from '@/contexts/WalletContext';
 
 interface WalletConnectionModalProps {
   children: React.ReactNode;
@@ -24,28 +26,38 @@ interface WalletConnectionModalProps {
 }
 
 const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({ children, onConnect }) => {
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [connectionStep, setConnectionStep] = useState<'select' | 'connecting' | 'success'>('select');
+  const [connectionStep, setConnectionStep] = useState<'select' | 'connecting' | 'success' | 'error'>('select');
   const router = useRouter();
+  const { 
+    connect, 
+    isConnected, 
+    isConnecting, 
+    address, 
+    error 
+  } = useWallet();
 
-  const handleConnectMetaMask = async () => {
-    setIsConnecting(true);
-    setConnectionStep('connecting');
-
-    // Simulate connection process
-    setTimeout(() => {
+  // Handle connection state changes
+  useEffect(() => {
+    if (isConnecting) {
+      setConnectionStep('connecting');
+    } else if (isConnected && address) {
       setConnectionStep('success');
-      setIsConnecting(false);
-      // Call the onConnect callback to update parent component
+      // Auto redirect after success
       setTimeout(() => {
         if (onConnect) {
           onConnect();
         }
-        // Redirect to fan wallet dashboard
         router.push('/wallet');
         resetModal();
       }, 1500);
-    }, 2000);
+    } else if (error) {
+      setConnectionStep('error');
+    }
+  }, [isConnecting, isConnected, address, error, onConnect, router]);
+
+  const handleConnectMetaMask = async () => {
+    setConnectionStep('connecting');
+    await connect();
   };
 
   const handleInstallMetaMask = () => {
@@ -54,7 +66,6 @@ const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({ children,
 
   const resetModal = () => {
     setConnectionStep('select');
-    setIsConnecting(false);
   };
 
   const renderSelectWallet = () => (
@@ -75,10 +86,11 @@ const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({ children,
       <div className="space-y-4">
         <Button
           onClick={handleConnectMetaMask}
+          disabled={isConnecting}
           className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-4 rounded-xl flex items-center justify-center space-x-3"
         >
           <span className="text-2xl">🦊</span>
-          <span>Connect MetaMask</span>
+          <span>{isConnecting ? 'Connecting...' : 'Connect MetaMask'}</span>
         </Button>
 
         {/* Divider */}
@@ -171,7 +183,9 @@ const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({ children,
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Address:</span>
-            <span className="text-sm font-mono text-gray-900">0x5b79...9ee9</span>
+            <span className="text-sm font-mono text-gray-900">
+              {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'N/A'}
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Network:</span>
@@ -196,12 +210,59 @@ const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({ children,
     </div>
   );
 
+  const renderError = () => (
+    <div className="space-y-6 text-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg">
+          <AlertCircle className="w-8 h-8 text-white" />
+        </div>
+        <DialogHeader className="text-center">
+          <DialogTitle className="text-2xl font-bold text-gray-900">
+            Connection Failed
+          </DialogTitle>
+          <DialogDescription className="text-gray-600">
+            {error || 'An error occurred while connecting your wallet'}
+          </DialogDescription>
+        </DialogHeader>
+      </div>
+
+      <div className="bg-gradient-to-r from-red-50 to-pink-50 p-6 rounded-xl border border-red-200/50">
+        <div className="space-y-3">
+          <p className="text-sm text-gray-700">
+            Please make sure MetaMask is installed and you have an account set up.
+          </p>
+          <p className="text-sm text-gray-700">
+            If the problem persists, try refreshing the page and connecting again.
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <Button
+          onClick={handleConnectMetaMask}
+          className="w-full bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-semibold py-3 rounded-xl"
+        >
+          Try Again
+        </Button>
+        <Button
+          onClick={resetModal}
+          variant="outline"
+          className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 rounded-xl"
+        >
+          Cancel
+        </Button>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (connectionStep) {
       case 'connecting':
         return renderConnecting();
       case 'success':
         return renderSuccess();
+      case 'error':
+        return renderError();
       default:
         return renderSelectWallet();
     }
