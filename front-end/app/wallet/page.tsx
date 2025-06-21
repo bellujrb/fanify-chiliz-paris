@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Wallet, Calendar, TrendingUp, Users, Zap, AlertCircle, Trophy } from 'lucide-react';
 import Link from 'next/link';
@@ -9,7 +9,7 @@ import { useWalletBalance } from '@/hooks/useWalletBalance';
 
 export default function FanWalletDashboard() {
   const [activeTab, setActiveTab] = useState<'portfolio' | 'history' | 'rewards'>('portfolio');
-  const { isConnected, address, walletClient } = useWallet();
+  const { isConnected, address } = useWallet();
   const { balance, isLoading: balanceLoading } = useWalletBalance();
 
   // Create truncated address for display
