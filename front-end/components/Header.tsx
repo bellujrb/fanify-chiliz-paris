@@ -20,21 +20,23 @@ import {
 import { Menu, X, Wallet, Settings, Users, Trophy, Copy, ExternalLink, RefreshCw, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import WalletConnectionModal from './WalletConnectionModal';
+import { useWallet } from '@/contexts/WalletContext';
+import { useWalletBalance } from '@/hooks/useWalletBalance';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const { isConnected, address, disconnect } = useWallet();
+  const { balance, isLoading: balanceLoading } = useWalletBalance();
 
-  // Mock wallet data - in real app this would come from wallet context/state
+  // Get wallet data from context
   const walletData = {
-    address: '0x5b79b9311634e9b3cdafb07e1e3b7d69',
-    balance: '0.0000 CHZ',
-    shortAddress: '0x5b79...9ee9'
+    address: address || '',
+    balance: balanceLoading ? 'Loading...' : `${parseFloat(balance).toFixed(4)} CHZ`,
+    shortAddress: address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''
   };
 
   const navigationItems = [
     {
-
       title: "Ecosystem",
       description: "Boosting club-fan relationships through social sentiment and blockchain",
       items: [
@@ -59,22 +61,20 @@ export default function Header() {
     },
   ];
 
-  const handleWalletConnect = () => {
-    setIsWalletConnected(true);
-  };
-
   const handleWalletDisconnect = () => {
-    setIsWalletConnected(false);
+    disconnect();
   };
 
   const copyAddress = () => {
-    navigator.clipboard.writeText(walletData.address);
+    if (address) {
+      navigator.clipboard.writeText(address);
+    }
   };
 
   const WalletButton = () => {
-    if (!isWalletConnected) {
+    if (!isConnected) {
       return (
-        <WalletConnectionModal onConnect={handleWalletConnect}>
+        <WalletConnectionModal>
           <Button
             variant="outline"
             className="border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
@@ -94,7 +94,7 @@ export default function Header() {
             className="border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center space-x-3 px-4 py-2 h-auto"
           >
             <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-red-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-              5B
+              {walletData.shortAddress.slice(2, 4).toUpperCase()}
             </div>
             <div className="flex flex-col items-start">
               <span className="text-sm font-semibold text-gray-900">{walletData.shortAddress}</span>
@@ -102,65 +102,39 @@ export default function Header() {
             </div>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-80 p-0" align="end">
-          <div className="p-4 border-b border-gray-100">
-            <div className="flex items-center space-x-3 mb-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-red-600 rounded-full flex items-center justify-center text-white font-bold">
-                5B
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Minha Carteira</h3>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm text-gray-600">Endereço</span>
-                  <div className="flex items-center space-x-1">
-                    <button
-                      onClick={copyAddress}
-                      className="p-1 hover:bg-gray-100 rounded"
-                    >
-                      <Copy className="w-3 h-3 text-gray-500" />
-                    </button>
-                    <button className="p-1 hover:bg-gray-100 rounded">
-                      <ExternalLink className="w-3 h-3 text-gray-500" />
-                    </button>
-                  </div>
-                </div>
-                <div className="text-xs font-mono text-gray-900 bg-gray-50 p-2 rounded">
-                  {walletData.address}
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm text-gray-600">Saldo</span>
-                  <button className="p-1 hover:bg-gray-100 rounded">
-                    <RefreshCw className="w-3 h-3 text-gray-500" />
-                  </button>
-                </div>
-                <div className="text-lg font-bold text-gray-900">
-                  {walletData.balance}
-                </div>
-              </div>
-            </div>
+        <DropdownMenuContent align="end" className="w-56">
+          <div className="p-3 border-b border-gray-100">
+            <p className="text-sm font-medium text-gray-900">Connected Wallet</p>
+            <p className="text-xs text-gray-500 mt-1">{walletData.address}</p>
           </div>
-
-          <div className="p-2">
-            <DropdownMenuItem className="text-gray-700 hover:bg-gray-50 cursor-pointer">
-              <span>Minha Carteira</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={handleWalletDisconnect}
-              className="text-red-600 hover:bg-red-50 cursor-pointer"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              <span>Desconectar</span>
-            </DropdownMenuItem>
-          </div>
+          
+          <DropdownMenuItem onClick={copyAddress} className="cursor-pointer">
+            <Copy className="w-4 h-4 mr-2" />
+            Copy Address
+          </DropdownMenuItem>
+          
+          <DropdownMenuItem asChild>
+            <Link href="/wallet" className="cursor-pointer">
+              <Wallet className="w-4 h-4 mr-2" />
+              My Wallet
+            </Link>
+          </DropdownMenuItem>
+          
+          <DropdownMenuSeparator />
+          
+          <DropdownMenuItem asChild>
+            <Link href="/settings" className="cursor-pointer">
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
+            </Link>
+          </DropdownMenuItem>
+          
+          <DropdownMenuSeparator />
+          
+          <DropdownMenuItem onClick={handleWalletDisconnect} className="cursor-pointer text-red-600">
+            <LogOut className="w-4 h-4 mr-2" />
+            Disconnect
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
