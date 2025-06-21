@@ -1,7 +1,25 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
-import { Twitter, Brain, Zap, Trophy, Coins, TrendingUp, ArrowRight, ArrowLeft, BarChart3, Target, Award, Timer, Users, Star } from 'lucide-react';
+import { 
+  Twitter, 
+  Brain, 
+  Zap, 
+  Trophy, 
+  Coins, 
+  TrendingUp, 
+  ArrowRight, 
+  ArrowLeft, 
+  BarChart3, 
+  Target, 
+  Award, 
+  Timer, 
+  Users, 
+  Star,
+  Wallet,
+  ArrowUpDown,
+  DollarSign
+} from 'lucide-react';
 
 const HowItWorks = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -9,27 +27,6 @@ const HowItWorks = () => {
   const steps = [
     {
       id: 1,
-      title: "Official Activation",
-      subtitle: "Game announcement triggers market creation",
-      icon: Twitter,
-      content: {
-        features: [
-          {
-            icon: Twitter,
-            title: "Official Tweet",
-            description: "Market launches with official hashtag and synthetic tokens"
-          },
-          {
-            icon: Coins,
-            title: "Token Creation",
-            description: "PSG_HYPE and BOT_HYPE tokens are minted automatically"
-          }
-        ],
-        visual: "activation"
-      }
-    },
-    {
-      id: 2,
       title: "Social Sentiment Analysis",
       subtitle: "AI analyzes Twitter sentiment in real-time",
       icon: Brain,
@@ -43,7 +40,7 @@ const HowItWorks = () => {
           {
             icon: Brain,
             title: "NLP Classification",
-            description: "AI classifies sentiment: pro-PSG, pro-BOT, neutral, negative"
+            description: "AI classifies sentiment: pro-Team A, pro-Team B, neutral, negative"
           },
           {
             icon: BarChart3,
@@ -52,6 +49,27 @@ const HowItWorks = () => {
           }
         ],
         visual: "sentiment"
+      }
+    },
+    {
+      id: 2,
+      title: "Official Activation",
+      subtitle: "Game announcement triggers market creation and token staking",
+      icon: Twitter,
+      content: {
+        features: [
+          {
+            icon: Twitter,
+            title: "Official Tweet & Market Launch",
+            description: "Market launches with official hashtag and synthetic tokens"
+          },
+          {
+            icon: Coins,
+            title: "Token Creation & Staking",
+            description: "Users stake Chiliz or team tokens and receive Hype tokens to start participation"
+          }
+        ],
+        visual: "activation"
       }
     },
     {
@@ -69,12 +87,12 @@ const HowItWorks = () => {
           {
             icon: Zap,
             title: "Oracle Updates",
-            description: "On-chain oracle receives real-time hype data"
+            description: "On-chain oracle receives real-time hype and game data"
           },
           {
             icon: Target,
             title: "Dynamic Pricing",
-            description: "Token prices reflect social sentiment + game events"
+            description: "Token prices and position values update dynamically during the match"
           }
         ],
         visual: "hype"
@@ -82,32 +100,63 @@ const HowItWorks = () => {
     },
     {
       id: 4,
+      title: "Stake & Position Management",
+      subtitle: "Users connect wallets, stake tokens, and manage positions before and during the match",
+      icon: Wallet,
+      content: {
+        features: [
+          {
+            icon: Wallet,
+            title: "Wallet Connection & Token Staking",
+            description: "Users connect wallets and stake Chiliz or team tokens to receive Hype tokens before the match"
+          },
+          {
+            icon: Timer,
+            title: "Position Control Before and During Match",
+            description: "Users can open positions before the match starts and can open, adjust or close positions multiple times during the match"
+          },
+          {
+            icon: ArrowUpDown,
+            title: "Dynamic Position Adjustment",
+            description: "Positions can be adjusted or closed at any time during the match to realize profits or minimize losses"
+          },
+          {
+            icon: DollarSign,
+            title: "Manual Settlement",
+            description: "After the match, users must manually claim tokens and unlock staked assets"
+          }
+        ],
+        visual: "management"
+      }
+    },    
+    {
+      id: 5,
       title: "Dynamic Token Economics",
-      subtitle: "Game events trigger automatic burn/mint mechanisms",
+      subtitle: "Game events trigger automatic burn/mint and settlement",
       icon: Coins,
       content: {
         features: [
           {
             icon: Trophy,
             title: "Goal Events",
-            description: "Goals scored burn 10 tokens, goals conceded mint 10 tokens"
+            description: "Goals scored trigger token burn; goals conceded trigger minting"
           },
           {
             icon: Timer,
-            title: "Final Result",
-            description: "Winner burns 100 tokens, loser mints 100 tokens"
+            title: "Final Result Settlement",
+            description: "Winners receive token rewards; losers mint tokens as penalty"
           },
           {
             icon: Coins,
-            title: "CHZ Rewards",
-            description: "Burned tokens convert to CHZ rewards for winners"
+            title: "Position Settlement",
+            description: "Positions are settled based on the final game outcome"
           }
         ],
         visual: "economics"
       }
     },
     {
-      id: 5,
+      id: 6,
       title: "Engagement Ranking & Rewards",
       subtitle: "Twitter users with connected wallets earn CHZ and NFTs",
       icon: Award,
@@ -165,7 +214,7 @@ const HowItWorks = () => {
                   <span className="font-medium">Official Tweet</span>
                 </div>
                 <div className="text-sm opacity-90 bg-white/5 rounded-lg p-3 mt-3">
-                  The game's hype market is live! 🔥 Use now #Fanify_PSGxBOT_20250620
+                  The game's hype market is live! 🔥 Use #Chiliz_PSGxBOT_20250620
                 </div>
               </div>
               
@@ -188,6 +237,96 @@ const HowItWorks = () => {
                   <span className="text-xs bg-red-500/30 rounded-full px-2 py-1">Live</span>
                 </div>
                 <div className="font-mono text-sm">PSGxBOT_20250620</div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "management":
+        return (
+          <div className="bg-white rounded-3xl p-8 shadow-2xl border border-purple-500/20">
+            <div className="flex items-center justify-between mb-6">
+              <h4 className="text-xl font-bold text-gray-900">Stake & Trade Interface</h4>
+              <div className="flex space-x-2">
+                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-gray-600">Connected</span>
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Wallet Connection */}
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-200/50">
+                <div className="flex items-center space-x-3 mb-3">
+                  <Wallet className="w-6 h-6 text-purple-600" />
+                  <span className="font-medium text-gray-900">Wallet Connected</span>
+                </div>
+                <div className="text-sm text-gray-600 font-mono">0x5b79...9ee9</div>
+                <div className="text-sm text-gray-600 mt-1">Balance: 1,250 CHZ</div>
+              </div>
+
+              {/* Staking Interface */}
+              <div className="border border-gray-200 rounded-xl p-4">
+                <h5 className="font-semibold text-gray-900 mb-4">Stake CHZ → Get HYPE Tokens</h5>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <span className="text-sm text-gray-600">Stake Amount</span>
+                    <div className="flex items-center space-x-2">
+                      <input 
+                        type="text" 
+                        placeholder="100" 
+                        className="w-16 text-right bg-transparent border-none outline-none font-semibold"
+                      />
+                      <span className="text-sm text-gray-600">CHZ</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <ArrowUpDown className="w-4 h-4 text-gray-400" />
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <span className="text-sm text-gray-600">Receive</span>
+                    <div className="flex items-center space-x-2">
+                      <span className="font-semibold">100</span>
+                      <span className="text-sm text-gray-600">HYPE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Position Management */}
+              <div className="border border-gray-200 rounded-xl p-4">
+                <h5 className="font-semibold text-gray-900 mb-4">Current Positions</h5>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <div>
+                      <div className="font-medium text-gray-900">PSG Win</div>
+                      <div className="text-sm text-gray-600">50 HYPE @ 1.4x</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold text-green-600">+15 HYPE</div>
+                      <div className="text-xs text-gray-500">Current P&L</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-2">
+                    <button className="flex-1 bg-green-500 text-white py-2 px-4 rounded-lg text-sm font-medium">
+                      Cash Out Early
+                    </button>
+                    <button className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm font-medium">
+                      Hold Position
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Time Restrictions */}
+              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Timer className="w-5 h-5 text-yellow-600" />
+                  <span className="font-medium text-yellow-800">Time Restrictions</span>
+                </div>
+                <div className="text-sm text-yellow-700">
+                  New positions close when match starts. Existing positions can be managed during the game.
+                </div>
               </div>
             </div>
           </div>
@@ -274,7 +413,7 @@ const HowItWorks = () => {
             <div className="bg-white rounded-2xl p-6 shadow-xl border border-purple-500/20">
               <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
                 <TrendingUp className="w-6 h-6 mr-2 text-purple-600" />
-                Live Hype Score
+                Live Hype Score & Dynamic
               </h4>
               
               <div className="space-y-4">
@@ -287,7 +426,7 @@ const HowItWorks = () => {
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-bold text-red-600">40.3%</div>
-                    <div className="text-sm text-gray-500">345 weighted votes</div>
+                    <div className="text-sm text-gray-500">1.8x</div>
                   </div>
                 </div>
 
@@ -304,7 +443,7 @@ const HowItWorks = () => {
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-bold text-purple-600">59.7%</div>
-                    <div className="text-sm text-gray-500">512 weighted votes</div>
+                    <div className="text-sm text-gray-500">1.4x</div>
                   </div>
                 </div>
 
@@ -319,20 +458,19 @@ const HowItWorks = () => {
                 <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                 <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="ml-2 text-gray-400">Oracle Payload</span>
+                <span className="ml-2 text-gray-400">Oracle Real-time Data</span>
               </div>
               <div className="space-y-1 text-xs">
                 <div><span className="text-red-400">"market"</span>: <span className="text-green-400">"PSGxBOT_20250620"</span>,</div>
-                <div><span className="text-red-400">"scores"</span>: {`{`}</div>
+                <div><span className="text-red-400">"hypeScores"</span>: {`{`}</div>
                 <div className="ml-4"><span className="text-red-400">"PSG"</span>: <span className="text-yellow-400">403</span>,</div>
                 <div className="ml-4"><span className="text-purple-400">"BOT"</span>: <span className="text-yellow-400">597</span></div>
                 <div>{`}`},</div>
-                <div><span className="text-red-400">"gameEvents"</span>: {`{`}</div>
-                <div className="ml-4"><span className="text-red-400">"PSG"</span>: {`{}`},</div>
-                <div className="ml-4"><span className="text-purple-400">"BOT"</span>: {`{}`},</div>
-                <div className="ml-4"><span className="text-red-400">"gameStart"</span>: <span className="text-blue-400">false</span>,</div>
-                <div>{`}`},</div>
-                <div><span className="text-red-400">"timestamp"</span>: <span className="text-green-400">"2025-06-17T12:00:00Z"</span></div>
+                <div><span className="text-red-400">"gameData"</span>: {`{`}</div>
+                <div className="ml-4"><span className="text-red-400">"score"</span>: <span className="text-green-400">"0-0"</span>,</div>
+                <div className="ml-4"><span className="text-red-400">"minute"</span>: <span className="text-yellow-400">0</span>,</div>
+                <div className="ml-4"><span className="text-red-400">"status"</span>: <span className="text-blue-400">"pre-match"</span></div>
+                <div>{`}`}</div>
               </div>
             </div>
           </div>
@@ -357,57 +495,50 @@ const HowItWorks = () => {
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-600">PSG 2</div>
                     <div className="text-sm text-gray-600">Goals Scored</div>
-                    <div className="text-xs mt-1 bg-red-100 text-red-600 px-2 py-1 rounded">-20 PSG_HYPE</div>
+                    <div className="text-xs mt-1 bg-red-100 text-red-600 px-2 py-1 rounded">Burn PSG_HYPE</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-purple-600">BOT 1</div>
                     <div className="text-sm text-gray-600">Goals Scored</div>
-                    <div className="text-xs mt-1 bg-red-100 text-red-600 px-2 py-1 rounded">-10 BOT_HYPE</div>
+                    <div className="text-xs mt-1 bg-red-100 text-red-600 px-2 py-1 rounded">Burn BOT_HYPE</div>
                   </div>
                 </div>
               </div>
 
-              {/* Token Supply Changes */}
+              {/* Position Settlement */}
               <div className="grid grid-cols-2 gap-4">
+                <div className="bg-green-50 p-4 rounded-xl text-center border border-green-200">
+                  <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <Trophy className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="font-bold text-green-600">PSG Wins</div>
+                  <div className="text-sm text-gray-600 my-2">Position Settlement</div>
+                  <div className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">Winners get rewards</div>
+                </div>
+                
                 <div className="bg-red-50 p-4 rounded-xl text-center border border-red-200">
                   <div className="w-12 h-12 bg-red-500 rounded-xl flex items-center justify-center mx-auto mb-3">
                     <Coins className="w-6 h-6 text-white" />
                   </div>
-                  <div className="font-bold text-red-600">PSG_HYPE</div>
-                  <div className="text-2xl font-bold text-gray-900 my-2">880</div>
-                  <div className="text-sm text-gray-600">Current Supply</div>
-                  <div className="text-xs mt-2 bg-green-100 text-green-600 px-2 py-1 rounded">Winner: -100 burn</div>
-                </div>
-                
-                <div className="bg-purple-50 p-4 rounded-xl text-center border border-purple-200">
-                  <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <Coins className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="font-bold text-purple-600">BOT_HYPE</div>
-                  <div className="text-2xl font-bold text-gray-900 my-2">1,090</div>
-                  <div className="text-sm text-gray-600">Current Supply</div>
-                  <div className="text-xs mt-2 bg-red-100 text-red-600 px-2 py-1 rounded">Loser: +100 mint</div>
+                  <div className="font-bold text-red-600">BOT Loses</div>
+                  <div className="text-sm text-gray-600 my-2">Token Penalty</div>
+                  <div className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">Mint penalty tokens</div>
                 </div>
               </div>
 
-              {/* CHZ Rewards */}
+              {/* Manual Settlement */}
               <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-4 rounded-2xl text-white">
                 <h5 className="font-bold mb-3 flex items-center">
-                  <Award className="w-5 h-5 mr-2" />
-                  CHZ Reward Distribution
+                  <DollarSign className="w-5 h-5 mr-2" />
+                  Manual Settlement Required
                 </h5>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <div className="font-medium">Burned BOT_HYPE:</div>
-                    <div className="text-lg font-bold">1,100 tokens</div>
-                  </div>
-                  <div>
-                    <div className="font-medium">CHZ Pool:</div>
-                    <div className="text-lg font-bold">550 CHZ</div>
-                  </div>
+                <div className="text-sm mb-3">
+                  After match ends, users must manually claim their rewards and unlock staked tokens.
                 </div>
-                <div className="mt-3 text-center bg-white/20 rounded-lg p-2">
-                  <div className="text-xs">Distributed to PSG_HYPE holders</div>
+                <div className="bg-white/20 rounded-lg p-3 text-center">
+                  <button className="bg-white text-orange-600 px-4 py-2 rounded-lg font-semibold text-sm">
+                    Claim Rewards & Unlock Stake
+                  </button>
                 </div>
               </div>
             </div>
@@ -432,7 +563,7 @@ const HowItWorks = () => {
                   tweets: 23, 
                   engagement: "High",
                   color: "from-yellow-400 to-yellow-600",
-                  reward: "50 CHZ + PSG shirt"
+                  reward: "50 CHZ + PSG NFT"
                 },
                 { 
                   rank: 2, 
@@ -497,18 +628,26 @@ const HowItWorks = () => {
                     <span>Quality Tweet:</span>
                     <span className="font-bold">+50 pts</span>
                   </div>
+                  <div className="flex justify-between">
+                    <span>Retweet:</span>
+                    <span className="font-bold">+25 pts</span>
+                  </div>
                 </div>
                 <div className="space-y-2">
-                <div className="flex justify-between">
+                  <div className="flex justify-between">
                     <span>Viral Tweet (1K+ likes):</span>
                     <span className="font-bold">+200 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Wallet Connected:</span>
+                    <span className="font-bold">+100 pts</span>
                   </div>
                 </div>
               </div>
               
               <div className="mt-4 bg-white/20 rounded-lg p-3 text-center">
                 <div className="text-sm font-medium">Monthly Rewards Pool</div>
-                <div className="text-2xl font-bold">200 CHZ + football items</div>
+                <div className="text-2xl font-bold">200 CHZ + Exclusive NFTs</div>
               </div>
             </div>
           </div>
@@ -541,20 +680,20 @@ const HowItWorks = () => {
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Discover how Fanify transforms sports hype into tradeable tokens through 
-            AI sentiment analysis and dynamic blockchain economics
+            AI sentiment analysis, dynamic staking, and blockchain economics
           </p>
         </div>
 
         {/* Step Navigation */}
         <div className="flex justify-center mb-12">
-          <div className="flex items-center space-x-4 bg-white rounded-2xl p-2 shadow-lg border border-purple-500/20">
+          <div className="flex items-center space-x-4 bg-white rounded-2xl p-2 shadow-lg border border-purple-500/20 overflow-x-auto">
             {steps.map((step, index) => {
               const StepIcon = step.icon;
               return (
                 <button
                   key={step.id}
                   onClick={() => goToStep(index)}
-                  className={`flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 ${
+                  className={`flex items-center space-x-2 px-4 py-3 rounded-xl transition-all duration-300 whitespace-nowrap ${
                     currentStep === index
                       ? 'bg-gradient-to-r from-purple-600 to-red-600 text-white shadow-lg'
                       : 'text-gray-600 hover:bg-gradient-to-r hover:from-pink-50 hover:to-red-50 hover:text-purple-600'
