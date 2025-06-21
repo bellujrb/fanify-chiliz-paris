@@ -39,9 +39,9 @@ const HowItWorks = () => {
           },
           {
             icon: Coins,
-            title: "Token Creation & Staking",
-            description: "Users stake Chiliz or team tokens and receive Hype tokens to start participation"
-          }
+            title: "Token Creation",
+            description: "System creates synthetic Hype tokens ready for distribution at market launch"
+          }          
         ],
         visual: "activation"
       }
