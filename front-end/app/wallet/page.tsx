@@ -332,7 +332,7 @@ export default function FanWalletDashboard() {
               <Link href="/">
                 <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Logout
+                  Back
                 </Button>
               </Link>
               <div className="h-6 w-px bg-gray-300"></div>
