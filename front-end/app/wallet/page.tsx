@@ -12,6 +12,9 @@ export default function FanWalletDashboard() {
   const { isConnected, address, walletClient } = useWallet();
   const { balance, isLoading: balanceLoading } = useWalletBalance();
 
+  // Create truncated address for display
+  const truncatedAddress = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
+
   // Mock user portfolio data (in a real app, this would come from API)
   const userPortfolio = {
     totalValue: 2847.50,
@@ -115,7 +118,7 @@ export default function FanWalletDashboard() {
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Address</p>
                   <p className="font-mono text-sm text-gray-900 break-all">
-                    {address}
+                    {truncatedAddress}
                   </p>
                 </div>
                 <div>

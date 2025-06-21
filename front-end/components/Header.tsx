@@ -105,7 +105,7 @@ export default function Header() {
         <DropdownMenuContent align="end" className="w-56">
           <div className="p-3 border-b border-gray-100">
             <p className="text-sm font-medium text-gray-900">Connected Wallet</p>
-            <p className="text-xs text-gray-500 mt-1">{walletData.address}</p>
+            <p className="text-xs text-gray-500 mt-1">{walletData.shortAddress}</p>
           </div>
           
           <DropdownMenuItem onClick={copyAddress} className="cursor-pointer">
