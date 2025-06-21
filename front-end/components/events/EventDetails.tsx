@@ -14,7 +14,6 @@ import {
 import HypeChart from './HypeChart';
 import TradingInterface from './TradingInterface';
 import SocialEngagement from './SocialEngagement';
-import FanRanking from './FanRanking';
 
 export interface Team {
   name: string;
@@ -49,7 +48,7 @@ interface EventDetailsProps {
 }
 
 const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack }) => {
-  const [activeTab, setActiveTab] = useState<'trade' | 'social' | 'ranking'>('trade');
+  const [activeTab, setActiveTab] = useState<'trade' | 'social'>('trade');
   const [userBalance, setUserBalance] = useState<Record<string, number>>({
     [event.homeTeam.hypeToken]: 25,
     [event.awayTeam.hypeToken]: 15,
@@ -90,7 +89,6 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack }) => {
   const tabs = [
     { id: 'trade', label: 'Trade Tokens', icon: TrendingUp },
     { id: 'social', label: 'Social Engagement', icon: Share2 },
-    { id: 'ranking', label: 'Fan Ranking', icon: Trophy }
   ];
 
   return (
@@ -250,10 +248,6 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack }) => {
           
           {activeTab === 'social' && (
             <SocialEngagement event={event} />
-          )}
-          
-          {activeTab === 'ranking' && (
-            <FanRanking event={event} />
           )}
         </div>
       </div>
