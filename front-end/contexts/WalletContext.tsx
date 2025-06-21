@@ -11,6 +11,7 @@ interface WalletContextType {
   isConnecting: boolean;
   connect: () => Promise<void>;
   disconnect: () => void;
+  clearError: () => void;
   error: string | null;
 }
 
@@ -107,22 +108,29 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
   }, [disconnect]);
 
   const connect = async () => {
-    if (typeof window.ethereum === 'undefined') {
-      setError('MetaMask não está instalada. Por favor, instale a MetaMask primeiro.');
-      return;
-    }
-
     setIsConnecting(true);
     setError(null);
 
+    if (typeof window.ethereum === 'undefined') {
+      setError('MetaMask is not installed. Please install MetaMask first.');
+      setIsConnecting(false);
+      return;
+    }
+
     try {
-      // Request account access
-      const accounts = await window.ethereum.request({ 
-        method: 'eth_requestAccounts' 
+      // Explicitly request permissions, which always triggers the wallet popup
+      await window.ethereum.request({
+        method: 'wallet_requestPermissions',
+        params: [{ eth_accounts: {} }],
       });
 
-      if (accounts.length === 0) {
-        throw new Error('Nenhuma conta encontrada');
+      // Now get the accounts
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_accounts' 
+      });
+
+      if (!accounts || accounts.length === 0) {
+        throw new Error('No accounts found after requesting permissions.');
       }
 
       // Get chain ID
@@ -191,6 +199,7 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
     isConnecting,
     connect,
     disconnect,
+    clearError: () => setError(null),
     error,
   };
 
