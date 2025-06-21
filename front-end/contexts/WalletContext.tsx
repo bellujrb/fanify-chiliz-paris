@@ -1,0 +1,210 @@
+'use client';
+
+import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
+import { createWalletClient, custom, type WalletClient, type Address } from 'viem';
+import { chiliz } from 'viem/chains';
+
+interface WalletContextType {
+  walletClient: WalletClient | null;
+  address: Address | null;
+  isConnected: boolean;
+  isConnecting: boolean;
+  connect: () => Promise<void>;
+  disconnect: () => void;
+  error: string | null;
+}
+
+const WalletContext = createContext<WalletContextType | undefined>(undefined);
+
+interface WalletProviderProps {
+  children: ReactNode;
+}
+
+export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
+  const [walletClient, setWalletClient] = useState<WalletClient | null>(null);
+  const [address, setAddress] = useState<Address | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const disconnect = useCallback(() => {
+    setWalletClient(null);
+    setAddress(null);
+    setIsConnected(false);
+    setError(null);
+    
+    // Clear cache
+    localStorage.removeItem('fanify_wallet_address');
+    localStorage.removeItem('fanify_wallet_chain_id');
+  }, []);
+
+  // Check for cached connection on mount
+  useEffect(() => {
+    const checkCachedConnection = async () => {
+      const cachedAddress = localStorage.getItem('fanify_wallet_address');
+      const cachedChainId = localStorage.getItem('fanify_wallet_chain_id');
+      
+      if (cachedAddress && cachedChainId && typeof window.ethereum !== 'undefined') {
+        try {
+          // Verify the connection is still valid
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+          
+          if (accounts.length > 0 && chainId === cachedChainId) {
+            const walletClient = createWalletClient({
+              chain: chiliz,
+              transport: custom(window.ethereum),
+            });
+            
+            setWalletClient(walletClient);
+            setAddress(accounts[0] as Address);
+            setIsConnected(true);
+          } else {
+            // Clear invalid cache
+            localStorage.removeItem('fanify_wallet_address');
+            localStorage.removeItem('fanify_wallet_chain_id');
+          }
+        } catch (error) {
+          console.error('Error checking cached connection:', error);
+          localStorage.removeItem('fanify_wallet_address');
+          localStorage.removeItem('fanify_wallet_chain_id');
+        }
+      }
+    };
+
+    checkCachedConnection();
+  }, []);
+
+  // Listen for account changes
+  useEffect(() => {
+    if (typeof window.ethereum !== 'undefined') {
+      const handleAccountsChanged = (accounts: string[]) => {
+        if (accounts.length === 0) {
+          // User disconnected
+          disconnect();
+        } else {
+          // Account changed
+          setAddress(accounts[0] as Address);
+          localStorage.setItem('fanify_wallet_address', accounts[0]);
+        }
+      };
+
+      const handleChainChanged = () => {
+        // Reload the page when chain changes
+        window.location.reload();
+      };
+
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+      window.ethereum.on('chainChanged', handleChainChanged);
+
+      return () => {
+        if (window.ethereum) {
+          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+          window.ethereum.removeListener('chainChanged', handleChainChanged);
+        }
+      };
+    }
+  }, [disconnect]);
+
+  const connect = async () => {
+    if (typeof window.ethereum === 'undefined') {
+      setError('MetaMask não está instalada. Por favor, instale a MetaMask primeiro.');
+      return;
+    }
+
+    setIsConnecting(true);
+    setError(null);
+
+    try {
+      // Request account access
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
+
+      if (accounts.length === 0) {
+        throw new Error('Nenhuma conta encontrada');
+      }
+
+      // Get chain ID
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      
+      // Check if we're on the correct network (Chiliz)
+      if (chainId !== '0x15b38') { // Chiliz Chain ID in hex (88888 decimal)
+        try {
+          // Try to switch to Chiliz network
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x15b38' }],
+          });
+        } catch (switchError: any) {
+          if (switchError.code === 4902) {
+            // Network not added, try to add it with correct configuration
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x15b38',
+                chainName: 'Chiliz Chain',
+                nativeCurrency: {
+                  name: 'Chiliz',
+                  symbol: 'CHZ',
+                  decimals: 18,
+                },
+                rpcUrls: ['https://rpc.chiliz.com'],
+                blockExplorerUrls: ['https://explorer.chiliz.com'],
+                iconUrls: ['https://s2.coinmarketcap.com/static/img/coins/64x64/4066.png']
+              }],
+            });
+          } else {
+            throw new Error('Erro ao trocar para a rede Chiliz');
+          }
+        }
+      }
+
+      // Create wallet client
+      const client = createWalletClient({
+        chain: chiliz,
+        transport: custom(window.ethereum),
+      });
+
+      // Cache the connection
+      localStorage.setItem('fanify_wallet_address', accounts[0]);
+      localStorage.setItem('fanify_wallet_chain_id', chainId);
+
+      setWalletClient(client);
+      setAddress(accounts[0] as Address);
+      setIsConnected(true);
+      setError(null);
+
+    } catch (error: any) {
+      console.error('Error connecting wallet:', error);
+      setError(error.message || 'Erro ao conectar wallet');
+      setIsConnected(false);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const value: WalletContextType = {
+    walletClient,
+    address,
+    isConnected,
+    isConnecting,
+    connect,
+    disconnect,
+    error,
+  };
+
+  return (
+    <WalletContext.Provider value={value}>
+      {children}
+    </WalletContext.Provider>
+  );
+};
+
+export const useWallet = () => {
+  const context = useContext(WalletContext);
+  if (context === undefined) {
+    throw new Error('useWallet must be used within a WalletProvider');
+  }
+  return context;
+}; 
