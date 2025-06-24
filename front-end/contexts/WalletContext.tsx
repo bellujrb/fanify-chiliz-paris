@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { createWalletClient, custom, type WalletClient, type Address } from 'viem';
-import { chiliz } from 'viem/chains';
+import { spicy } from 'viem/chains';
 
 interface WalletContextType {
   walletClient: WalletClient | null;
@@ -53,7 +53,7 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
           
           if (accounts.length > 0 && chainId === cachedChainId) {
             const walletClient = createWalletClient({
-              chain: chiliz,
+              chain: spicy,
               transport: custom(window.ethereum),
             });
             
@@ -136,13 +136,13 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
       // Get chain ID
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       
-      // Check if we're on the correct network (Chiliz)
-      if (chainId !== '0x15b38') { // Chiliz Chain ID in hex (88888 decimal)
+      // Check if we're on the correct network (Spicy)
+      if (chainId !== '0x15b32') { // Spicy Chain ID in hex (88889 decimal)
         try {
-          // Try to switch to Chiliz network
+          // Try to switch to Spicy network
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x15b38' }],
+            params: [{ chainId: '0x15b32' }],
           });
         } catch (switchError: any) {
           if (switchError.code === 4902) {
@@ -150,27 +150,27 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
             await window.ethereum.request({
               method: 'wallet_addEthereumChain',
               params: [{
-                chainId: '0x15b38',
-                chainName: 'Chiliz Chain',
+                chainId: '0x15b32',
+                chainName: 'Spicy Chain',
                 nativeCurrency: {
                   name: 'Chiliz',
                   symbol: 'CHZ',
                   decimals: 18,
                 },
-                rpcUrls: ['https://rpc.chiliz.com'],
-                blockExplorerUrls: ['https://explorer.chiliz.com'],
+                rpcUrls: ['https://spicy-rpc.chiliz.com'],
+                blockExplorerUrls: ['https://testnet.chiliscan.com/'],
                 iconUrls: ['https://s2.coinmarketcap.com/static/img/coins/64x64/4066.png']
               }],
             });
           } else {
-            throw new Error('Erro ao trocar para a rede Chiliz');
+            throw new Error('Erro ao trocar para a rede Spicy');
           }
         }
       }
 
       // Create wallet client
       const client = createWalletClient({
-        chain: chiliz,
+        chain: spicy,
         transport: custom(window.ethereum),
       });
 
