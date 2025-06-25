@@ -26,4 +26,37 @@ abstract contract FunifyCrud is FunifySec {
         poolA = prizePoolA[hypeId];
         poolB = prizePoolB[hypeId];
     }
+
+    // Nova função para obter informações completas do match
+    function getMatchInfo(bytes4 hypeId) external view returns (
+        uint256 HypeA,
+        uint256 HypeB,
+        uint8 goalsA,
+        uint8 goalsB,
+        uint256 start,
+        uint256 end,
+        uint256 scheduledTime,
+        Status status
+    ) {
+        return oracle.getMatch(hypeId);
+    }
+
+    // Nova função para verificar se um match existe
+    function matchExists(bytes4 hypeId) external view returns (bool) {
+        return oracle.matchExists(hypeId);
+    }
+
+    // Nova função para obter dados do match usando matchHypes
+    function getMatchData(bytes4 hypeId) external view returns (
+        uint256 HypeA,
+        uint256 HypeB,
+        uint8 goalsA,
+        uint8 goalsB,
+        uint256 start,
+        uint256 end,
+        uint256 scheduledTime,
+        Status status
+    ) {
+        return oracle.matchHypes(hypeId);
+    }
 }

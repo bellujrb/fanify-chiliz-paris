@@ -15,13 +15,13 @@ abstract contract FunifyClaim is FunifyCrud {
     {
         // Get bet and match details
         Bet storage bet = bets[hypeId][msg.sender];
-        
+
         // Calculate and transfer prize
         uint256 userPrize = _calculatePrize(hypeId, bet);
-        
+
         // Update house profit
         _updateHouseProfit(hypeId);
-        
+
         // Clear user's bet to prevent re-claiming
         bet.amount = 0;
 
@@ -36,7 +36,7 @@ abstract contract FunifyClaim is FunifyCrud {
 
     function _calculatePrize(bytes4 hypeId, Bet storage bet) internal view returns (uint256) {
         (uint256 hypeA, uint256 hypeB,) = oracle.getHype(hypeId);
-        (,, uint256 goalsA, uint256 goalsB,,,) = oracle.matchHypes(hypeId);
+        (,, uint256 goalsA, uint256 goalsB,,,,) = oracle.matchHypes(hypeId);
         bool teamAWon = goalsA > goalsB;
 
         uint256 odds = _getOdds(hypeA, hypeB, bet.teamA);

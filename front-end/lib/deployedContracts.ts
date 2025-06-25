@@ -1,7 +1,7 @@
 
 const deployedContracts = {
     "HypeToken": {
-        "address": "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+        "address": "0xc3e53f4d16ae77db1c982e75a937b9f60fe63690",
         "abi": [
             {
                 "type": "constructor",
@@ -103,6 +103,13 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "emergencyWithdraw",
+                "inputs": [],
+                "outputs": [],
+                "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
                 "name": "mint",
                 "inputs": [
                     {
@@ -153,6 +160,19 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "owner",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address",
+                        "internalType": "address"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
                 "name": "permit",
                 "inputs": [
                     {
@@ -196,29 +216,17 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "renounceOwnership",
+                "inputs": [],
+                "outputs": [],
+                "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
                 "name": "stake",
                 "inputs": [],
                 "outputs": [],
                 "stateMutability": "payable"
-            },
-            {
-                "type": "function",
-                "name": "stakes",
-                "inputs": [
-                    {
-                        "name": "staker",
-                        "type": "address",
-                        "internalType": "address"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "name": "stake",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ],
-                "stateMutability": "view"
             },
             {
                 "type": "function",
@@ -301,8 +309,27 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "transferOwnership",
+                "inputs": [
+                    {
+                        "name": "newOwner",
+                        "type": "address",
+                        "internalType": "address"
+                    }
+                ],
+                "outputs": [],
+                "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
                 "name": "unstake",
-                "inputs": [],
+                "inputs": [
+                    {
+                        "name": "_amount",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ],
                 "outputs": [],
                 "stateMutability": "nonpayable"
             },
@@ -324,6 +351,100 @@ const deployedContracts = {
                     },
                     {
                         "name": "amount",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "OwnershipTransferred",
+                "inputs": [
+                    {
+                        "name": "previousOwner",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "newOwner",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "TokensMinted",
+                "inputs": [
+                    {
+                        "name": "to",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "by",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "TokensStaked",
+                "inputs": [
+                    {
+                        "name": "user",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "ethAmount",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "tokensMinted",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "TokensUnstaked",
+                "inputs": [
+                    {
+                        "name": "user",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "tokensBurned",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "ethReturned",
                         "type": "uint256",
                         "indexed": false,
                         "internalType": "uint256"
@@ -399,8 +520,34 @@ const deployedContracts = {
         ]
     },
     "Oracle": {
-        "address": "0x3aa5ebb10dc797cac828524e59a333d0a371443c",
+        "address": "0x84ea74d481ee0a5332c457a4d796187f6ba67feb",
         "abi": [
+            {
+                "type": "function",
+                "name": "closeBets",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [],
+                "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
+                "name": "finishMatch",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [],
+                "stateMutability": "nonpayable"
+            },
             {
                 "type": "function",
                 "name": "getHype",
@@ -426,6 +573,79 @@ const deployedContracts = {
                         "name": "",
                         "type": "uint8",
                         "internalType": "enum Status"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getMatch",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "HypeA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "HypeB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "goalsA",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "goalsB",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "start",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "end",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "scheduledTime",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "status",
+                        "type": "uint8",
+                        "internalType": "enum Status"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "matchExists",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool",
+                        "internalType": "bool"
                     }
                 ],
                 "stateMutability": "view"
@@ -472,6 +692,11 @@ const deployedContracts = {
                         "internalType": "uint256"
                     },
                     {
+                        "name": "scheduledTime",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
                         "name": "status",
                         "type": "uint8",
                         "internalType": "enum Status"
@@ -481,7 +706,20 @@ const deployedContracts = {
             },
             {
                 "type": "function",
-                "name": "openMatch",
+                "name": "openToBets",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [],
+                "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
+                "name": "scheduleMatch",
                 "inputs": [
                     {
                         "name": "hypeId",
@@ -489,12 +727,7 @@ const deployedContracts = {
                         "internalType": "bytes4"
                     },
                     {
-                        "name": "hypeA",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "hypeB",
+                        "name": "scheduledTime",
                         "type": "uint256",
                         "internalType": "uint256"
                     }
@@ -504,7 +737,30 @@ const deployedContracts = {
             },
             {
                 "type": "function",
-                "name": "updateMatch",
+                "name": "updateHype",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "HypeA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "HypeB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ],
+                "outputs": [],
+                "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
+                "name": "updateScore",
                 "inputs": [
                     {
                         "name": "hypeId",
@@ -520,11 +776,6 @@ const deployedContracts = {
                         "name": "goalsB",
                         "type": "uint8",
                         "internalType": "uint8"
-                    },
-                    {
-                        "name": "status",
-                        "type": "uint8",
-                        "internalType": "enum Status"
                     }
                 ],
                 "outputs": [],
@@ -532,7 +783,7 @@ const deployedContracts = {
             },
             {
                 "type": "event",
-                "name": "MatchStarted",
+                "name": "HypeUpdated",
                 "inputs": [
                     {
                         "name": "hypeId",
@@ -554,11 +805,118 @@ const deployedContracts = {
                     }
                 ],
                 "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "MatchClosed",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "MatchFinished",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "goalsA",
+                        "type": "uint8",
+                        "indexed": false,
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "goalsB",
+                        "type": "uint8",
+                        "indexed": false,
+                        "internalType": "uint8"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "MatchOpened",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "HypeA",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "HypeB",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "MatchScheduled",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "scheduledTime",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "ScoreUpdated",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "goalsA",
+                        "type": "uint8",
+                        "indexed": false,
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "goalsB",
+                        "type": "uint8",
+                        "indexed": false,
+                        "internalType": "uint8"
+                    }
+                ],
+                "anonymous": false
             }
         ]
     },
     "Funify": {
-        "address": "0xc6e7df5e7b4f2a278906862b61205850344d4e7d",
+        "address": "0x9e545e3c0baab3e08cdfd552c960a1050f373042",
         "abi": [
             {
                 "type": "constructor",
@@ -591,6 +949,19 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "InsufficientPrizePool",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
                 "name": "InvalidBetAmount",
                 "inputs": [],
                 "outputs": [
@@ -605,6 +976,32 @@ const deployedContracts = {
             {
                 "type": "function",
                 "name": "InvalidHypeValues",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidMatchStatus",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidUserAddress",
                 "inputs": [],
                 "outputs": [
                     {
@@ -644,6 +1041,19 @@ const deployedContracts = {
             {
                 "type": "function",
                 "name": "MatchNotFinished",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "MatchNotFound",
                 "inputs": [],
                 "outputs": [
                     {
@@ -709,6 +1119,32 @@ const deployedContracts = {
             {
                 "type": "function",
                 "name": "OnlyOwner",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "OracleCallFailed",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "PrizeAlreadyClaimed",
                 "inputs": [],
                 "outputs": [
                     {
@@ -789,6 +1225,35 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "canClaimPrize",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "user",
+                        "type": "address",
+                        "internalType": "address"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "canClaim",
+                        "type": "bool",
+                        "internalType": "bool"
+                    },
+                    {
+                        "name": "reason",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
                 "name": "claimPrize",
                 "inputs": [
                     {
@@ -799,6 +1264,260 @@ const deployedContracts = {
                 ],
                 "outputs": [],
                 "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
+                "name": "getCompleteMatchInfo",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "oracleHypeA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "oracleHypeB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "oracleGoalsA",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "oracleGoalsB",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "oracleStart",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "oracleEnd",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "oracleScheduledTime",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "oracleStatus",
+                        "type": "uint8",
+                        "internalType": "enum Status"
+                    },
+                    {
+                        "name": "funifyPoolA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "funifyPoolB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "funifyHouseProfit",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "funifyHouseCut",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getContractStats",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "totalMatches",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "totalBets",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "totalHouseProfit",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "tokenAddress",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "oracleAddress",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "contractOwner",
+                        "type": "address",
+                        "internalType": "address"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getMatchData",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "HypeA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "HypeB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "goalsA",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "goalsB",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "start",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "end",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "scheduledTime",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "status",
+                        "type": "uint8",
+                        "internalType": "enum Status"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getMatchInfo",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "HypeA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "HypeB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "goalsA",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "goalsB",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "start",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "end",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "scheduledTime",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "status",
+                        "type": "uint8",
+                        "internalType": "enum Status"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getMatchStats",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "totalBetsA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "totalBetsB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "totalPool",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "houseCut",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ],
+                "stateMutability": "view"
             },
             {
                 "type": "function",
@@ -855,6 +1574,35 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "getUserBet",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "user",
+                        "type": "address",
+                        "internalType": "address"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "amount",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "teamA",
+                        "type": "bool",
+                        "internalType": "bool"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
                 "name": "houseProfit",
                 "inputs": [
                     {
@@ -868,6 +1616,25 @@ const deployedContracts = {
                         "name": "",
                         "type": "uint256",
                         "internalType": "uint256"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "matchExists",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool",
+                        "internalType": "bool"
                     }
                 ],
                 "stateMutability": "view"
@@ -1037,6 +1804,87 @@ const deployedContracts = {
             },
             {
                 "type": "event",
+                "name": "MatchInfoRequested",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "requester",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "MatchStatsCalculated",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "totalBetsA",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "totalBetsB",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "totalPool",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "PrizeClaimabilityChecked",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "user",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "canClaim",
+                        "type": "bool",
+                        "indexed": false,
+                        "internalType": "bool"
+                    },
+                    {
+                        "name": "reason",
+                        "type": "string",
+                        "indexed": false,
+                        "internalType": "string"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
                 "name": "PrizesDistributed",
                 "inputs": [
                     {
@@ -1056,6 +1904,37 @@ const deployedContracts = {
                         "type": "uint256",
                         "indexed": false,
                         "internalType": "uint256"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "UserBetQueried",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "user",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "uint256",
+                        "indexed": false,
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "teamA",
+                        "type": "bool",
+                        "indexed": false,
+                        "internalType": "bool"
                     }
                 ],
                 "anonymous": false

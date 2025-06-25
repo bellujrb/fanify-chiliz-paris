@@ -30,7 +30,7 @@ abstract contract FunifySec is FunifyStorage {
     }
 
     modifier onlyNoDraw(bytes4 hypeId) {
-        (,, uint256 goalsA, uint256 goalsB,,,) = oracle.matchHypes(hypeId);
+        (,, uint256 goalsA, uint256 goalsB,,,,) = oracle.matchHypes(hypeId);
         if (goalsA == goalsB) {
             revert(MatchEndedInDraw);
         }
@@ -39,7 +39,7 @@ abstract contract FunifySec is FunifyStorage {
 
     modifier onlyUserWon(bytes4 hypeId) {
         Bet storage bet = bets[hypeId][msg.sender];
-        (,, uint256 goalsA, uint256 goalsB,,,) = oracle.matchHypes(hypeId);
+        (,, uint256 goalsA, uint256 goalsB,,,,) = oracle.matchHypes(hypeId);
         bool teamAWon = goalsA > goalsB;
         bool userBetOnTeamA = bet.teamA;
 

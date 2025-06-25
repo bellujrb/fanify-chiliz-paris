@@ -51,4 +51,4 @@ contract DeployScript is Script {
         console.log("Funify oracle address:", address(funify.oracle()));
         console.log("==================================\n");
     }
-} 
+}
