@@ -24,164 +24,164 @@ import {
 const HowItWorks = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const steps = [
-    {
-      id: 1,
-      title: "Official Activation",
-      subtitle: "Game announcement triggers market creation and token staking",
-      icon: Twitter,
-      content: {
-        features: [
-          {
-            icon: Twitter,
-            title: "Official Tweet & Market Launch",
-            description: "Market launches with official hashtag and synthetic tokens"
-          },
-          {
-            icon: Coins,
-            title: "Token Creation",
-            description: "System creates synthetic Hype tokens ready for distribution at market launch"
-          }          
-        ],
-        visual: "activation"
+    const steps = [
+      {
+        id: 1,
+        title: "Official Activation",
+        subtitle: "Game announcement triggers market creation and token staking",
+        icon: Twitter,
+        content: {
+          features: [
+            {
+              icon: Twitter,
+              title: "Official Tweet & Market Launch",
+              description: "Market launches with official hashtag and synthetic tokens"
+            },
+            {
+              icon: Coins,
+              title: "Token Creation",
+              description: "System creates synthetic Hype tokens ready for distribution at market launch"
+            }          
+          ],
+          visual: "activation"
+        }
+      },
+      {
+        id: 2,
+        title: "Social Sentiment Analysis",
+        subtitle: "AI analyzes Twitter sentiment in real-time",
+        icon: Brain,
+        content: {
+          features: [
+            {
+              icon: Twitter,
+              title: "Tweet Collection",
+              description: "Continuous monitoring of official hashtag tweets"
+            },
+            {
+              icon: Brain,
+              title: "NLP Classification",
+              description: "AI classifies sentiment: pro-Team A, pro-Team B, neutral, negative"
+            },
+            {
+              icon: BarChart3,
+              title: "Weighted Scoring",
+              description: "Engagement metrics determine tweet influence weight"
+            }
+          ],
+          visual: "sentiment"
+        }
+      },
+      {
+        id: 3,
+        title: "Hype Score Calculation",
+        subtitle: "Real-time hype percentage drives token dynamics",
+        icon: TrendingUp,
+        content: {
+          features: [
+            {
+              icon: TrendingUp,
+              title: "Live Hype Tracking",
+              description: "Weighted sentiment converted to team hype percentages"
+            },
+            {
+              icon: Zap,
+              title: "Oracle Updates",
+              description: "On-chain oracle receives real-time hype and game data"
+            },
+            {
+              icon: Target,
+              title: "Dynamic Pricing",
+              description: "Token prices and position values update dynamically during the match"
+            }
+          ],
+          visual: "hype"
+        }
+      },
+      {
+        id: 4,
+        title: "Stake & Position Management",
+        subtitle: "Users connect wallets, stake tokens, and manage positions before and during the match",
+        icon: Wallet,
+        content: {
+          features: [
+            {
+              icon: Wallet,
+              title: "Wallet Connection & Token Staking",
+              description: "Users connect wallets and stake Chiliz or team tokens to receive Hype tokens before the match"
+            },
+            {
+              icon: Timer,
+              title: "Position Control Before and During Match",
+              description: "Users can open positions before the match starts and can open, adjust or close positions multiple times during the match"
+            },
+            {
+              icon: ArrowUpDown,
+              title: "Dynamic Position Adjustment",
+              description: "Positions can be adjusted or closed at any time during the match to realize profits or minimize losses"
+            },
+            {
+              icon: DollarSign,
+              title: "Manual Settlement",
+              description: "After the match, users must manually claim tokens and unlock staked assets"
+            }
+          ],
+          visual: "management"
+        }
+      },    
+      {
+        id: 5,
+        title: "Dynamic Token Economics",
+        subtitle: "Game events trigger automatic burn/mint and settlement",
+        icon: Coins,
+        content: {
+          features: [
+            {
+              icon: Trophy,
+              title: "Goal Events",
+              description: "Goals scored trigger token burn; goals conceded trigger minting"
+            },
+            {
+              icon: Timer,
+              title: "Final Result Settlement",
+              description: "Winners receive token rewards; losers mint tokens as penalty"
+            },
+            {
+              icon: Coins,
+              title: "Position Settlement",
+              description: "Positions are settled based on the final game outcome"
+            }
+          ],
+          visual: "economics"
+        }
+      },
+      {
+        id: 6,
+        title: "Engagement Ranking & Rewards",
+        subtitle: "Twitter users with connected wallets earn CHZ and NFTs",
+        icon: Award,
+        content: {
+          features: [
+            {
+              icon: Users,
+              title: "Wallet Connection",
+              description: "Link your Twitter account to your wallet to participate"
+            },
+            {
+              icon: Star,
+              title: "Engagement Tracking",
+              description: "Quality tweets, retweets, and interactions are scored"
+            },
+            {
+              icon: Trophy,
+              title: "Monthly Rankings",
+              description: "Top contributors receive CHZ tokens and exclusive NFTs"
+            }
+          ],
+          visual: "ranking"
+        }
       }
-    },
-    {
-      id: 2,
-      title: "Social Sentiment Analysis",
-      subtitle: "AI analyzes Twitter sentiment in real-time",
-      icon: Brain,
-      content: {
-        features: [
-          {
-            icon: Twitter,
-            title: "Tweet Collection",
-            description: "Continuous monitoring of official hashtag tweets"
-          },
-          {
-            icon: Brain,
-            title: "NLP Classification",
-            description: "AI classifies sentiment: pro-Team A, pro-Team B, neutral, negative"
-          },
-          {
-            icon: BarChart3,
-            title: "Weighted Scoring",
-            description: "Engagement metrics determine tweet influence weight"
-          }
-        ],
-        visual: "sentiment"
-      }
-    },
-    {
-      id: 3,
-      title: "Hype Score Calculation",
-      subtitle: "Real-time hype percentage drives token dynamics",
-      icon: TrendingUp,
-      content: {
-        features: [
-          {
-            icon: TrendingUp,
-            title: "Live Hype Tracking",
-            description: "Weighted sentiment converted to team hype percentages"
-          },
-          {
-            icon: Zap,
-            title: "Oracle Updates",
-            description: "On-chain oracle receives real-time hype and game data"
-          },
-          {
-            icon: Target,
-            title: "Dynamic Pricing",
-            description: "Token prices and position values update dynamically during the match"
-          }
-        ],
-        visual: "hype"
-      }
-    },
-    {
-      id: 4,
-      title: "Stake & Position Management",
-      subtitle: "Users connect wallets, stake tokens, and manage positions before and during the match",
-      icon: Wallet,
-      content: {
-        features: [
-          {
-            icon: Wallet,
-            title: "Wallet Connection & Token Staking",
-            description: "Users connect wallets and stake Chiliz or team tokens to receive Hype tokens before the match"
-          },
-          {
-            icon: Timer,
-            title: "Position Control Before and During Match",
-            description: "Users can open positions before the match starts and can open, adjust or close positions multiple times during the match"
-          },
-          {
-            icon: ArrowUpDown,
-            title: "Dynamic Position Adjustment",
-            description: "Positions can be adjusted or closed at any time during the match to realize profits or minimize losses"
-          },
-          {
-            icon: DollarSign,
-            title: "Manual Settlement",
-            description: "After the match, users must manually claim tokens and unlock staked assets"
-          }
-        ],
-        visual: "management"
-      }
-    },    
-    {
-      id: 5,
-      title: "Dynamic Token Economics",
-      subtitle: "Game events trigger automatic burn/mint and settlement",
-      icon: Coins,
-      content: {
-        features: [
-          {
-            icon: Trophy,
-            title: "Goal Events",
-            description: "Goals scored trigger token burn; goals conceded trigger minting"
-          },
-          {
-            icon: Timer,
-            title: "Final Result Settlement",
-            description: "Winners receive token rewards; losers mint tokens as penalty"
-          },
-          {
-            icon: Coins,
-            title: "Position Settlement",
-            description: "Positions are settled based on the final game outcome"
-          }
-        ],
-        visual: "economics"
-      }
-    },
-    {
-      id: 6,
-      title: "Engagement Ranking & Rewards",
-      subtitle: "Twitter users with connected wallets earn CHZ and NFTs",
-      icon: Award,
-      content: {
-        features: [
-          {
-            icon: Users,
-            title: "Wallet Connection",
-            description: "Link your Twitter account to your wallet to participate"
-          },
-          {
-            icon: Star,
-            title: "Engagement Tracking",
-            description: "Quality tweets, retweets, and interactions are scored"
-          },
-          {
-            icon: Trophy,
-            title: "Monthly Rankings",
-            description: "Top contributors receive CHZ tokens and exclusive NFTs"
-          }
-        ],
-        visual: "ranking"
-      }
-    }
-  ];
+    ];
 
   const nextStep = () => {
     setCurrentStep((prev) => (prev + 1) % steps.length);
