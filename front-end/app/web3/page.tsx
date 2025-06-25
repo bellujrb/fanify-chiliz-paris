@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
 import {
   createPublicClient,
   http,
@@ -30,6 +29,39 @@ const walletClient = createWalletClient({
   transport: custom(window.ethereum as any),
 });
 
+// Adicionar mapeamento de erros Funify
+const FUNIFY_ERROR_MESSAGES: Record<string, string> = {
+  E000: 'A partida já foi finalizada.',
+  E001: 'Falha na transferência de tokens.',
+  E002: 'Nenhum lucro para sacar.',
+  E003: 'Valores de hype inválidos.',
+  E004: 'Valor de aposta inválido.',
+  E005: 'A partida não foi finalizada.',
+  E006: 'A partida terminou empatada.',
+  E007: 'Usuário já apostou.',
+  E008: 'Usuário não venceu.',
+  E009: 'A partida não está aberta.',
+  E010: 'Nenhuma aposta nesta partida.',
+  E011: 'Apenas o owner pode executar esta ação.',
+  E012: 'Você não é o owner.',
+  E013: 'Partida não encontrada.',
+  E014: 'Status da partida inválido.',
+  E015: 'Prize pool insuficiente.',
+  E016: 'Prêmio já foi reclamado.',
+  E017: 'Endereço de usuário inválido.',
+  E018: 'Falha ao consultar o Oracle.'
+};
+
+function getFriendlyErrorMessage(error: any): string | null {
+  if (!error) return null;
+  const msg = typeof error === 'string' ? error : (error.message || '');
+  const match = msg.match(/E0\d{2}/);
+  if (match && FUNIFY_ERROR_MESSAGES[match[0]]) {
+    return FUNIFY_ERROR_MESSAGES[match[0]];
+  }
+  return null;
+}
+
 export default function ContractInteractionPage() {
   const [account, setAccount] = useState<string>("");
   const [balance, setBalance] = useState<string>("0");
@@ -56,7 +88,6 @@ export default function ContractInteractionPage() {
   const [matchStats, setMatchStats] = useState<any>(null);
   const [claimStatus, setClaimStatus] = useState<any>(null);
   const [contractStats, setContractStats] = useState<any>(null);
-  const { toast } = useToast();
 
   // Conectar carteira
   const connectWallet = async () => {
@@ -81,11 +112,7 @@ export default function ContractInteractionPage() {
         console.log("DEBUG: Saldos atualizados");
       } else {
         console.log("DEBUG: MetaMask não encontrado");
-        toast({
-          title: "Erro",
-          description: "MetaMask não encontrado!",
-          variant: "destructive",
-        });
+        console.error("[Erro] MetaMask não encontrado!");
       }
     } catch (error) {
       console.error("DEBUG: Erro ao conectar carteira:", error);
@@ -94,11 +121,6 @@ export default function ContractInteractionPage() {
         "DEBUG: Mensagem do erro:",
         error instanceof Error ? error.message : error
       );
-      toast({
-        title: "Erro",
-        description: "Falha ao conectar carteira",
-        variant: "destructive",
-      });
     }
   };
 
@@ -155,11 +177,6 @@ export default function ContractInteractionPage() {
 
     if (!account) {
       console.log("DEBUG: Nenhuma conta conectada");
-      toast({
-        title: "Erro",
-        description: "Conecte sua carteira primeiro",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -191,13 +208,7 @@ export default function ContractInteractionPage() {
       );
 
       console.log("DEBUG: Mint realizado com sucesso. Hash:", hash);
-      toast({
-        title: "🎉 Tokens Mintados!",
-        description: `1000 HYPE tokens foram mintados para ${account.slice(
-          0,
-          6
-        )}...${account.slice(-4)}`,
-      });
+      console.log("[Sucesso] 1000 HYPE tokens foram mintados para ...");
 
       console.log("DEBUG: Atualizando saldos");
       await updateBalances(account);
@@ -209,12 +220,6 @@ export default function ContractInteractionPage() {
         "DEBUG: Mensagem do erro:",
         error instanceof Error ? error.message : error
       );
-      toast({
-        title: "❌ Erro ao Mintar",
-        description:
-          "Falha ao mintar tokens. Verifique se você é o owner do contrato.",
-        variant: "destructive",
-      });
     } finally {
       console.log("DEBUG: Definindo loading como false");
       setLoading(false);
@@ -223,11 +228,6 @@ export default function ContractInteractionPage() {
 
   const stakeTokens = async () => {
     if (!account || !stakeAmount) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Conecte sua carteira e insira um valor para stake",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -246,22 +246,11 @@ export default function ContractInteractionPage() {
 
       console.log(hash);
 
-      toast({
-        title: "💰 Stake Realizado!",
-        description: `${stakeAmount} CHZ foram stakados. Hash: ${hash.slice(
-          0,
-          10
-        )}...`,
-      });
+      console.log("[Sucesso] 1000 HYPE tokens foram stakados. Hash: ...");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao stakar tokens:", error);
-      toast({
-        title: "❌ Erro no Stake",
-        description: "Falha ao stakar tokens. Verifique seu saldo de CHZ.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -269,11 +258,6 @@ export default function ContractInteractionPage() {
 
   const unstakeTokens = async () => {
     if (!account || !unstakeAmount) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Conecte sua carteira e insira um valor para unstake",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -292,23 +276,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "🔄 Unstake Realizado!",
-        description: `${unstakeAmount} HYPE foram unstakados. Hash: ${hash.slice(
-          0,
-          10
-        )}...`,
-      });
+      console.log("[Sucesso] 1000 HYPE tokens foram unstakados. Hash: ...");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao unstakar tokens:", error);
-      toast({
-        title: "❌ Erro no Unstake",
-        description:
-          "Falha ao unstakar tokens. Verifique seu saldo de HYPE stakado.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -316,11 +288,6 @@ export default function ContractInteractionPage() {
 
   const transferTokens = async () => {
     if (!account || !transferTo || !transferAmount) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Preencha todos os campos para transferir",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -339,23 +306,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "📤 Transferência Realizada!",
-        description: `${transferAmount} HYPE transferidos para ${transferTo.slice(
-          0,
-          6
-        )}...${transferTo.slice(-4)}`,
-      });
+      console.log("[Sucesso] 1000 HYPE tokens foram transferidos para ...");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao transferir tokens:", error);
-      toast({
-        title: "❌ Erro na Transferência",
-        description:
-          "Falha ao transferir tokens. Verifique seu saldo e o endereço de destino.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -372,17 +327,9 @@ export default function ContractInteractionPage() {
       const owner = await hypeTokenContract.read.owner();
       setHypeTokenOwner(owner as string);
 
-      toast({
-        title: "Sucesso",
-        description: `Owner: ${owner}`,
-      });
+      console.log("[Sucesso] Owner:", owner);
     } catch (error) {
       console.error("Erro ao buscar owner:", error);
-      toast({
-        title: "Erro",
-        description: "Falha ao buscar owner",
-        variant: "destructive",
-      });
     }
   };
 
@@ -408,30 +355,15 @@ export default function ContractInteractionPage() {
         decimals: decimals as number,
       });
 
-      toast({
-        title: "Sucesso",
-        description: `Token: ${name} (${symbol}) - Total Supply: ${formatEther(
-          totalSupply as bigint
-        )}`,
-      });
+      console.log("[Sucesso] Token:", name, "(" + symbol + ")", "- Total Supply:", formatEther(totalSupply as bigint));
     } catch (error) {
       console.error("Erro ao buscar informações do token:", error);
-      toast({
-        title: "Erro",
-        description: "Falha ao buscar informações do token",
-        variant: "destructive",
-      });
     }
   };
 
   // Funções do Oracle Refatorado
   const getMatchData = async () => {
     if (!hypeId) {
-      toast({
-        title: "❌ Hype ID Obrigatório",
-        description: "Insira um Hype ID para buscar dados do match",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -483,27 +415,14 @@ export default function ContractInteractionPage() {
         status: status.toString(),
       });
 
-      toast({
-        title: "📊 Dados do Match Carregados",
-        description: `Match ${hypeId} - Hype A: ${hypeA}, Hype B: ${hypeB}, Status: ${getStatusText(status.toString())}`,
-      });
+      console.log("[Sucesso] Dados do Match Carregados");
     } catch (error) {
       console.error("Erro ao buscar dados do match:", error);
-      toast({
-        title: "❌ Erro ao Buscar Match",
-        description: "Falha ao buscar dados do match. Verifique o Hype ID.",
-        variant: "destructive",
-      });
     }
   };
 
   const getHype = async () => {
     if (!hypeId) {
-      toast({
-        title: "❌ Hype ID Obrigatório",
-        description: "Insira um Hype ID para buscar hype",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -529,17 +448,9 @@ export default function ContractInteractionPage() {
         status: status.toString(),
       });
 
-      toast({
-        title: "🔥 Hype Carregado",
-        description: `Hype A: ${hypeA}, Hype B: ${hypeB}, Status: ${getStatusText(status.toString())}`,
-      });
+      console.log("[Sucesso] Hype Carregado");
     } catch (error) {
       console.error("Erro ao buscar hype:", error);
-      toast({
-        title: "❌ Erro ao Buscar Hype",
-        description: "Falha ao buscar hype. Verifique o Hype ID.",
-        variant: "destructive",
-      });
     }
   };
 
@@ -550,11 +461,6 @@ export default function ContractInteractionPage() {
 
   const matchExists = async () => {
     if (!hypeId) {
-      toast({
-        title: "❌ Hype ID Obrigatório",
-        description: "Insira um Hype ID para verificar existência",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -578,30 +484,15 @@ export default function ContractInteractionPage() {
         console.log("DEBUG: Verificação manual:", exists);
       }
 
-      toast({
-        title: exists ? "✅ Match Existe" : "❌ Match Não Existe",
-        description: `Match ${hypeId}: ${
-          exists ? "Encontrado" : "Não encontrado"
-        }`,
-      });
+      console.log("[Sucesso] Match:", hypeId, ":", exists ? "Encontrado" : "Não encontrado");
     } catch (error) {
       console.error("Erro ao verificar existência do match:", error);
-      toast({
-        title: "❌ Erro ao Verificar",
-        description: "Falha ao verificar existência do match.",
-        variant: "destructive",
-      });
     }
   };
 
   // Etapa 0: Criar Jogo
   const scheduleMatch = async () => {
     if (!account || !hypeId || !scheduledTime) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Preencha todos os campos para criar o match",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -620,19 +511,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "📅 Match Criado!",
-        description: `Match ${hypeId} agendado com sucesso`,
-      });
+      console.log("[Sucesso] Match Criado!");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao criar match:", error);
-      toast({
-        title: "❌ Erro ao Criar Match",
-        description: "Falha ao criar match. Verifique os parâmetros.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -641,20 +524,10 @@ export default function ContractInteractionPage() {
   // Etapa 1: Alimentar com Hype
   const updateHype = async () => {
     if (!account || !hypeId || !hypeA || !hypeB) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Preencha todos os campos para atualizar hype",
-        variant: "destructive",
-      });
       return;
     }
 
     if (Number(hypeA) + Number(hypeB) !== 100) {
-      toast({
-        title: "❌ Hype Inválido",
-        description: "Hype A + Hype B deve ser igual a 100",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -673,19 +546,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "📈 Hype Atualizado!",
-        description: `Hype A: ${hypeA}%, Hype B: ${hypeB}% para match ${hypeId}`,
-      });
+      console.log("[Sucesso] Hype Atualizado!");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao atualizar hype:", error);
-      toast({
-        title: "❌ Erro ao Atualizar Hype",
-        description: "Falha ao atualizar hype. Verifique as permissões.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -694,11 +559,6 @@ export default function ContractInteractionPage() {
   // Etapa 2: Abrir para Apostas
   const openToBets = async () => {
     if (!account || !hypeId) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Conecte sua carteira e insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -717,19 +577,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "🎲 Apostas Abertas!",
-        description: `Match ${hypeId} aberto para apostas`,
-      });
+      console.log("[Sucesso] Apostas Abertas!");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao abrir apostas:", error);
-      toast({
-        title: "❌ Erro ao Abrir Apostas",
-        description: "Falha ao abrir apostas. Verifique as permissões.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -738,11 +590,6 @@ export default function ContractInteractionPage() {
   // Etapa 3: Fechar Apostas
   const closeBets = async () => {
     if (!account || !hypeId) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Conecte sua carteira e insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -761,19 +608,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "🔒 Apostas Fechadas!",
-        description: `Match ${hypeId} fechado para apostas`,
-      });
+      console.log("[Sucesso] Apostas Fechadas!");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao fechar apostas:", error);
-      toast({
-        title: "❌ Erro ao Fechar Apostas",
-        description: "Falha ao fechar apostas. Verifique as permissões.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -782,11 +621,6 @@ export default function ContractInteractionPage() {
   // Etapa 4: Atualizar Placar
   const updateScore = async () => {
     if (!account || !hypeId || !goalsA || !goalsB) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Preencha todos os campos para atualizar placar",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -805,19 +639,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "⚽ Placar Atualizado!",
-        description: `Resultado: ${goalsA}x${goalsB} para match ${hypeId}`,
-      });
+      console.log("[Sucesso] Placar Atualizado!");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao atualizar placar:", error);
-      toast({
-        title: "❌ Erro ao Atualizar Placar",
-        description: "Falha ao atualizar placar. Verifique as permissões.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -826,11 +652,6 @@ export default function ContractInteractionPage() {
   // Etapa 5: Finalizar Jogo
   const finishMatch = async () => {
     if (!account || !hypeId) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Conecte sua carteira e insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -849,19 +670,11 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "🏁 Jogo Finalizado!",
-        description: `Match ${hypeId} finalizado com sucesso`,
-      });
+      console.log("[Sucesso] Jogo Finalizado!");
 
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao finalizar jogo:", error);
-      toast({
-        title: "❌ Erro ao Finalizar Jogo",
-        description: "Falha ao finalizar jogo. Verifique as permissões.",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -870,11 +683,6 @@ export default function ContractInteractionPage() {
   // Funções do Funify
   const getOdds = async () => {
     if (!hypeId) {
-      toast({
-        title: "Erro",
-        description: "Insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -891,27 +699,14 @@ export default function ContractInteractionPage() {
         oddsB: formatEther(data[1]),
       });
 
-      toast({
-        title: "Sucesso",
-        description: "Odds carregadas",
-      });
+      console.log("[Sucesso] Odds carregadas");
     } catch (error) {
       console.error("Erro ao buscar odds:", error);
-      toast({
-        title: "Erro",
-        description: "Falha ao buscar odds",
-        variant: "destructive",
-      });
     }
   };
 
   const getPrizePools = async () => {
     if (!hypeId) {
-      toast({
-        title: "Erro",
-        description: "Insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -931,27 +726,14 @@ export default function ContractInteractionPage() {
         houseCut: formatEther(data[2]),
       });
 
-      toast({
-        title: "Sucesso",
-        description: "Prize pools carregadas",
-      });
+      console.log("[Sucesso] Prize pools carregadas");
     } catch (error) {
       console.error("Erro ao buscar prize pools:", error);
-      toast({
-        title: "Erro",
-        description: "Falha ao buscar prize pools",
-        variant: "destructive",
-      });
     }
   };
 
   const placeBet = async () => {
     if (!account || !hypeId || !betAmount) {
-      toast({
-        title: "Erro",
-        description: "Preencha todos os campos",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -970,19 +752,16 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "Sucesso",
-        description: `Aposta realizada! Hash: ${hash}`,
-      });
+      console.log("[Sucesso] Aposta realizada! Hash:", hash);
 
       await updateBalances(account);
     } catch (error) {
-      console.error("Erro ao fazer aposta:", error);
-      toast({
-        title: "Erro",
-        description: "Falha ao fazer aposta",
-        variant: "destructive",
-      });
+      const friendly = getFriendlyErrorMessage(error);
+      if (friendly) {
+        console.error("[Erro Funify]", friendly);
+      } else {
+        console.error("Erro ao fazer aposta:", error);
+      }
     } finally {
       setLoading(false);
     }
@@ -990,11 +769,6 @@ export default function ContractInteractionPage() {
 
   const claimPrize = async () => {
     if (!account || !hypeId) {
-      toast({
-        title: "Erro",
-        description: "Conecte sua carteira e insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -1013,19 +787,16 @@ export default function ContractInteractionPage() {
         }
       );
 
-      toast({
-        title: "Sucesso",
-        description: `Prêmio reclamado! Hash: ${hash}`,
-      });
+      console.log("[Sucesso] Prêmio reclamado! Hash:", hash);
 
       await updateBalances(account);
     } catch (error) {
-      console.error("Erro ao reclamar prêmio:", error);
-      toast({
-        title: "Erro",
-        description: "Falha ao reclamar prêmio",
-        variant: "destructive",
-      });
+      const friendly = getFriendlyErrorMessage(error);
+      if (friendly) {
+        console.error("[Erro Funify]", friendly);
+      } else {
+        console.error("Erro ao reclamar prêmio:", error);
+      }
     } finally {
       setLoading(false);
     }
@@ -1034,11 +805,6 @@ export default function ContractInteractionPage() {
   // Funções adicionais do Funify
   const getUserBet = async () => {
     if (!account || !hypeId) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Conecte sua carteira e insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -1059,27 +825,19 @@ export default function ContractInteractionPage() {
         teamA: data[1],
       });
 
-      toast({
-        title: "📊 Aposta do Usuário",
-        description: `Valor: ${formatEther(data[0])} HYPE, Time: ${data[1] ? 'A' : 'B'}`,
-      });
+      console.log("[Sucesso] Aposta do Usuário");
     } catch (error) {
-      console.error("Erro ao buscar aposta do usuário:", error);
-      toast({
-        title: "❌ Erro ao Buscar Aposta",
-        description: "Falha ao buscar aposta do usuário.",
-        variant: "destructive",
-      });
+      const friendly = getFriendlyErrorMessage(error);
+      if (friendly) {
+        console.error("[Erro Funify]", friendly);
+      } else {
+        console.error("Erro ao buscar aposta do usuário:", error);
+      }
     }
   };
 
   const getMatchStats = async () => {
     if (!hypeId) {
-      toast({
-        title: "❌ Hype ID Obrigatório",
-        description: "Insira um Hype ID para buscar estatísticas",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -1099,27 +857,19 @@ export default function ContractInteractionPage() {
         houseCut: formatEther(data[3]),
       });
 
-      toast({
-        title: "📈 Estatísticas do Match",
-        description: `Total Pool: ${formatEther(data[2])} HYPE`,
-      });
+      console.log("[Sucesso] Estatísticas do Match");
     } catch (error) {
-      console.error("Erro ao buscar estatísticas do match:", error);
-      toast({
-        title: "❌ Erro ao Buscar Estatísticas",
-        description: "Falha ao buscar estatísticas do match.",
-        variant: "destructive",
-      });
+      const friendly = getFriendlyErrorMessage(error);
+      if (friendly) {
+        console.error("[Erro Funify]", friendly);
+      } else {
+        console.error("Erro ao buscar estatísticas do match:", error);
+      }
     }
   };
 
   const checkClaimStatus = async () => {
     if (!account || !hypeId) {
-      toast({
-        title: "❌ Campos Obrigatórios",
-        description: "Conecte sua carteira e insira um Hype ID",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -1140,17 +890,15 @@ export default function ContractInteractionPage() {
         reason: data[1],
       });
 
-      toast({
-        title: data[0] ? "✅ Pode Reclamar" : "❌ Não Pode Reclamar",
-        description: data[1],
-      });
+      console.log("[Sucesso] Pode Reclamar:", data[0]);
+      console.log("[Sucesso] Motivo:", data[1]);
     } catch (error) {
-      console.error("Erro ao verificar status de claim:", error);
-      toast({
-        title: "❌ Erro ao Verificar",
-        description: "Falha ao verificar status de claim.",
-        variant: "destructive",
-      });
+      const friendly = getFriendlyErrorMessage(error);
+      if (friendly) {
+        console.error("[Erro Funify]", friendly);
+      } else {
+        console.error("Erro ao verificar status de claim:", error);
+      }
     }
   };
 
@@ -1173,27 +921,19 @@ export default function ContractInteractionPage() {
         contractOwner: data[5],
       });
 
-      toast({
-        title: "📊 Estatísticas do Contrato",
-        description: `Total Matches: ${data[0]}, Total Bets: ${data[1]}`,
-      });
+      console.log("[Sucesso] Estatísticas do Contrato");
     } catch (error) {
-      console.error("Erro ao buscar estatísticas do contrato:", error);
-      toast({
-        title: "❌ Erro ao Buscar Estatísticas",
-        description: "Falha ao buscar estatísticas do contrato.",
-        variant: "destructive",
-      });
+      const friendly = getFriendlyErrorMessage(error);
+      if (friendly) {
+        console.error("[Erro Funify]", friendly);
+      } else {
+        console.error("Erro ao buscar estatísticas do contrato:", error);
+      }
     }
   };
 
   const emergencyWithdraw = async () => {
     if (!account) {
-      toast({
-        title: "❌ Carteira Necessária",
-        description: "Conecte sua carteira primeiro",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -1209,23 +949,16 @@ export default function ContractInteractionPage() {
         account: account as `0x${string}`,
       });
 
-      toast({
-        title: "🚨 Emergency Withdraw Realizado!",
-        description: `Emergency withdraw executado. Hash: ${hash.slice(
-          0,
-          10
-        )}...`,
-      });
+      console.log("[Sucesso] Emergency Withdraw Realizado!");
 
       await updateBalances(account);
     } catch (error) {
-      console.error("Erro ao fazer emergency withdraw:", error);
-      toast({
-        title: "❌ Erro no Emergency Withdraw",
-        description:
-          "Falha ao fazer emergency withdraw. Verifique as permissões.",
-        variant: "destructive",
-      });
+      const friendly = getFriendlyErrorMessage(error);
+      if (friendly) {
+        console.error("[Erro Funify]", friendly);
+      } else {
+        console.error("Erro ao fazer emergency withdraw:", error);
+      }
     } finally {
       setLoading(false);
     }

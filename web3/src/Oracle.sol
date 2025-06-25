@@ -73,7 +73,7 @@ contract Oracle {
 
         matchHype.status = Status.Open;
         matchHype.start = block.timestamp;
-        matchHype.end = matchHype.scheduledTime;
+        matchHype.end = block.timestamp + 120 minutes;
 
         emit MatchOpened(hypeId, matchHype.HypeA, matchHype.HypeB);
     }
