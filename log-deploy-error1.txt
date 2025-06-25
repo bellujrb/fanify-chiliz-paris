@@ -1,0 +1,55 @@
+➜  web3 git:(main) ✗ ./testnet.deploy.sh
+[⠒] Compiling...
+No files changed, compilation skipped
+Enter keystore password:
+Script ran successfully.
+
+== Logs ==
+  Deployer address: 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38
+  Deployer balance: 115792089237316195423570985008687907853269984665640564039457584007913129639935
+  Deploying HypeToken...
+  HypeToken deployed at: 0xE7c3e1C1F678cDfE8651556F28c396A38CC88E8D
+  Deploying Oracle...
+  Oracle deployed at: 0x101De02821A2b148c49cd39d2182dB216C74DC5F
+  Deploying Funify...
+  Funify deployed at: 0x2AcdECE8bf880e0114b499940fa699666c965de0
+  
+=== DEPLOYMENT SUMMARY ===
+  HypeToken: 0xE7c3e1C1F678cDfE8651556F28c396A38CC88E8D
+  Oracle: 0x101De02821A2b148c49cd39d2182dB216C74DC5F
+  Funify: 0x2AcdECE8bf880e0114b499940fa699666c965de0
+  Deployer: 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38
+  ========================
+
+  === INITIAL STATE VERIFICATION ===
+  HypeToken total supply: 0
+  HypeToken deployer balance: 0
+  Funify owner: 0x5a6Bb86Ab5986B5b8CAd04F3732dA96989969300
+  Funify token address: 0xE7c3e1C1F678cDfE8651556F28c396A38CC88E8D
+  Funify oracle address: 0x101De02821A2b148c49cd39d2182dB216C74DC5F
+  ==================================
+
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 88882
+
+Estimated gas price: 5000.000000001 gwei
+
+Estimated total gas used for script: 4463340
+
+Estimated amount required: 22.31670000000446334 ETH
+
+==========================
+
+Transactions saved to: /Users/lucasoliveira/dev/funfy/fanify-chiliz-paris/web3/broadcast/Deploy.s.sol/88882/run-latest.json
+
+Sensitive values saved to: /Users/lucasoliveira/dev/funfy/fanify-chiliz-paris/web3/cache/Deploy.s.sol/88882/run-latest.json
+
+Error: Failed to send transaction
+
+Context:
+- server returned an error response: error code -32000: replacement transaction underpriced
+➜  web3 git:(main) ✗ 

@@ -1,4 +1,6 @@
 forge script script/Deploy.s.sol:DeployScript \
-    --rpc-url https://spicy-rpc.chiliz.com/ \
+    --rpc-url https://x-api-key:API_KEY@chiliz-testnet.gateway.tatum.io/ \
     --account sepolia \
-    --broadcast
+    --broadcast \
+    --gas-price 5000000000000 \
+    --priority-gas-price 1000000000000 
