@@ -18,7 +18,17 @@ contract Fase2Cenario2Test is BaseSetup {
         token = new HypeToken();
         oracle = new Oracle();
         funify = new Funify(address(token), address(oracle));
-        oracle.openMatch(0x12345678, 7000, 3000);
+        
+        // Schedule match for future time
+        uint256 scheduledTime = block.timestamp + 1 hours;
+        oracle.scheduleMatch(0x12345678, scheduledTime);
+        
+        // Update hype (70% for Team A, 30% for Team B)
+        oracle.updateHype(0x12345678, 70, 30);
+        
+        // Open match for betting
+        oracle.openToBets(0x12345678);
+        
         apostadores = createUsers(10);
         for (uint256 i = 0; i < 10; i++) {
             token.mint(apostadores[i], 10000 ether);
@@ -28,19 +38,32 @@ contract Fase2Cenario2Test is BaseSetup {
     }
 
     function testCenarioAleatorio() public {
+        // Place random bets (7 on Team A, 3 on Team B)
         for (uint256 i = 0; i < 10; i++) {
             uint256 amount = (100 + (i * 100)) * 1 ether;
             bool apostaA = i < 7;
             vm.prank(apostadores[i]);
             funify.placeBet(0x12345678, apostaA, amount);
         }
-        oracle.updateMatch(0x12345678, 0, 1, Status.Finished);
+        
+        // Close bets and start match
+        oracle.closeBets(0x12345678);
+        
+        // Update score: Team B wins (0-1)
+        oracle.updateScore(0x12345678, 0, 1);
+        
+        // Finish match
+        oracle.finishMatch(0x12345678);
+        
+        // Winners claim prizes (Team B bettors - last 3 users)
         for (uint256 i = 7; i < 10; i++) {
             uint256 saldoAntes = token.balanceOf(apostadores[i]);
             vm.prank(apostadores[i]);
             funify.claimPrize(0x12345678);
             assertGt(token.balanceOf(apostadores[i]), saldoAntes, "Sem ganho para vencedor");
         }
+        
+        // Losers should not receive anything (Team A bettors - first 7 users)
         for (uint256 i = 0; i < 7; i++) {
             uint256 saldoAntes = token.balanceOf(apostadores[i]);
             vm.prank(apostadores[i]);
