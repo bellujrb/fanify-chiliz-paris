@@ -15,6 +15,10 @@ interface FunifyTabProps {
   teamA: boolean;
   odds: any;
   prizePools: any;
+  userBet: any;
+  matchStats: any;
+  claimStatus: any;
+  contractStats: any;
   onHypeIdChange: (value: string) => void;
   onBetAmountChange: (value: string) => void;
   onTeamAChange: (value: boolean) => void;
@@ -22,6 +26,10 @@ interface FunifyTabProps {
   onGetPrizePools: () => void;
   onPlaceBet: () => void;
   onClaimPrize: () => void;
+  onGetUserBet: () => void;
+  onGetMatchStats: () => void;
+  onCheckClaimStatus: () => void;
+  onGetContractStats: () => void;
 }
 
 export default function FunifyTab({
@@ -32,6 +40,10 @@ export default function FunifyTab({
   teamA,
   odds,
   prizePools,
+  userBet,
+  matchStats,
+  claimStatus,
+  contractStats,
   onHypeIdChange,
   onBetAmountChange,
   onTeamAChange,
@@ -39,6 +51,10 @@ export default function FunifyTab({
   onGetPrizePools,
   onPlaceBet,
   onClaimPrize,
+  onGetUserBet,
+  onGetMatchStats,
+  onCheckClaimStatus,
+  onGetContractStats,
 }: FunifyTabProps) {
   return (
     <Card>
@@ -53,9 +69,17 @@ export default function FunifyTab({
           hypeId={hypeId}
           odds={odds}
           prizePools={prizePools}
+          userBet={userBet}
+          matchStats={matchStats}
+          claimStatus={claimStatus}
+          contractStats={contractStats}
           onHypeIdChange={onHypeIdChange}
           onGetOdds={onGetOdds}
           onGetPrizePools={onGetPrizePools}
+          onGetUserBet={onGetUserBet}
+          onGetMatchStats={onGetMatchStats}
+          onCheckClaimStatus={onCheckClaimStatus}
+          onGetContractStats={onGetContractStats}
         />
 
         <Separator />

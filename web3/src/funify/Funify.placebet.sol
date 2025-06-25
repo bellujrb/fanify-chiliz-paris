@@ -7,11 +7,6 @@ abstract contract FunifyPlaceBet is FunifyClaim {
     constructor(address _token, address _oracle) FunifyClaim(_token, _oracle) {}
 
     function placeBet(bytes4 hypeId, bool teamA, uint256 amount) external onlyValidPlaceBet(hypeId, amount) {
-        // Verificar se o match existe no Oracle
-        if (!oracle.matchExists(hypeId)) {
-            revert(NoBetOnMatch);
-        }
-
         // Transfer HYPE from user to contract
         if (!token.transferFrom(msg.sender, address(this), amount)) {
             revert(TokenTransferFailed);

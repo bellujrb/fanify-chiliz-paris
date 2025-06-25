@@ -68,7 +68,7 @@ contract Oracle {
         require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Scheduled, "Match must be scheduled");
         require(matchHype.HypeA > 0 && matchHype.HypeB > 0, "Hype must be set before opening");
-        require(block.timestamp >= matchHype.scheduledTime - 120 minutes, "Too early to open bets");
+        // require(block.timestamp >= matchHype.scheduledTime - 120 minutes, "Too early to open bets");
 
         matchHype.status = Status.Open;
         matchHype.start = block.timestamp;

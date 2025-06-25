@@ -26,6 +26,10 @@ interface ContractTabsProps {
   prizePools: any;
   hypeTokenOwner: string;
   tokenInfo: any;
+  userBet: any;
+  matchStats: any;
+  claimStatus: any;
+  contractStats: any;
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -59,6 +63,10 @@ interface ContractTabsProps {
   onGetPrizePools: () => void;
   onPlaceBet: () => void;
   onClaimPrize: () => void;
+  onGetUserBet: () => void;
+  onGetMatchStats: () => void;
+  onCheckClaimStatus: () => void;
+  onGetContractStats: () => void;
 }
 
 export default function ContractTabs({
@@ -81,6 +89,10 @@ export default function ContractTabs({
   prizePools,
   hypeTokenOwner,
   tokenInfo,
+  userBet,
+  matchStats,
+  claimStatus,
+  contractStats,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -114,6 +126,10 @@ export default function ContractTabs({
   onGetPrizePools,
   onPlaceBet,
   onClaimPrize,
+  onGetUserBet,
+  onGetMatchStats,
+  onCheckClaimStatus,
+  onGetContractStats,
 }: ContractTabsProps) {
   return (
     <Tabs defaultValue="hypeToken" className="space-y-6">
@@ -186,6 +202,10 @@ export default function ContractTabs({
           teamA={teamA}
           odds={odds}
           prizePools={prizePools}
+          userBet={userBet}
+          matchStats={matchStats}
+          claimStatus={claimStatus}
+          contractStats={contractStats}
           onHypeIdChange={onHypeIdChange}
           onBetAmountChange={onBetAmountChange}
           onTeamAChange={onTeamAChange}
@@ -193,6 +213,10 @@ export default function ContractTabs({
           onGetPrizePools={onGetPrizePools}
           onPlaceBet={onPlaceBet}
           onClaimPrize={onClaimPrize}
+          onGetUserBet={onGetUserBet}
+          onGetMatchStats={onGetMatchStats}
+          onCheckClaimStatus={onCheckClaimStatus}
+          onGetContractStats={onGetContractStats}
         />
       </TabsContent>
     </Tabs>

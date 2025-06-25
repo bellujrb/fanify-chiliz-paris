@@ -52,6 +52,10 @@ export default function ContractInteractionPage() {
   const [prizePools, setPrizePools] = useState<any>(null);
   const [hypeTokenOwner, setHypeTokenOwner] = useState<string>("");
   const [tokenInfo, setTokenInfo] = useState<any>(null);
+  const [userBet, setUserBet] = useState<any>(null);
+  const [matchStats, setMatchStats] = useState<any>(null);
+  const [claimStatus, setClaimStatus] = useState<any>(null);
+  const [contractStats, setContractStats] = useState<any>(null);
   const { toast } = useToast();
 
   // Conectar carteira
@@ -438,24 +442,50 @@ export default function ContractInteractionPage() {
         client: publicClient,
       });
 
-      const data = await oracleContract.read.matchHypes([
-        hypeId as `0x${string}`,
-      ]);
+      console.log("DEBUG: Chamando getMatch para hypeId:", hypeId);
+      
+      let data;
+      try {
+        // Tentar usar a função getMatch primeiro
+        data = await oracleContract.read.getMatch([hypeId as `0x${string}`]);
+        console.log("DEBUG: getMatch funcionou, dados:", data);
+      } catch (getMatchError) {
+        console.log("DEBUG: getMatch falhou, tentando matchHypes:", getMatchError);
+        // Fallback para matchHypes se getMatch não existir
+        data = await oracleContract.read.matchHypes([hypeId as `0x${string}`]);
+        console.log("DEBUG: matchHypes funcionou, dados:", data);
+      }
+      
+      console.log("DEBUG: Dados retornados pelo contrato:", data);
+      
+      // Interpretar os dados corretamente baseado na estrutura do contrato
+      const [hypeA, hypeB, goalsA, goalsB, start, end, scheduledTime, status] = data;
+      
+      console.log("DEBUG: Dados interpretados:", {
+        hypeA: hypeA.toString(),
+        hypeB: hypeB.toString(),
+        goalsA: goalsA.toString(),
+        goalsB: goalsB.toString(),
+        start: start.toString(),
+        end: end.toString(),
+        scheduledTime: scheduledTime.toString(),
+        status: status.toString(),
+      });
+      
       setMatchData({
-        hypeA: formatEther(data[0]),
-        hypeB: formatEther(data[1]),
-        goalsA: data[2],
-        goalsB: data[3],
-        start: new Date(Number(data[4]) * 1000).toLocaleString(),
-        end: new Date(Number(data[5]) * 1000).toLocaleString(),
-        status: data[6].toString(),
+        hypeA: hypeA.toString(),
+        hypeB: hypeB.toString(),
+        goalsA: goalsA.toString(),
+        goalsB: goalsB.toString(),
+        start: start > 0 ? new Date(Number(start) * 1000).toLocaleString() : "Não iniciado",
+        end: end > 0 ? new Date(Number(end) * 1000).toLocaleString() : "Não definido",
+        scheduledTime: scheduledTime > 0 ? new Date(Number(scheduledTime) * 1000).toLocaleString() : "Não agendado",
+        status: status.toString(),
       });
 
       toast({
         title: "📊 Dados do Match Carregados",
-        description: `Match ${hypeId} - Hype A: ${formatEther(
-          data[0]
-        )}, Hype B: ${formatEther(data[1])}, Status: ${getStatusText(data[6].toString())}`,
+        description: `Match ${hypeId} - Hype A: ${hypeA}, Hype B: ${hypeB}, Status: ${getStatusText(status.toString())}`,
       });
     } catch (error) {
       console.error("Erro ao buscar dados do match:", error);
@@ -485,23 +515,23 @@ export default function ContractInteractionPage() {
       });
 
       const data = await oracleContract.read.getHype([hypeId as `0x${string}`]);
+      const [hypeA, hypeB, status] = data;
+      
       console.table({
-        hypeA: formatEther(data[0]),
-        hypeB: formatEther(data[1]),
-        status: getStatusText(data[2].toString()),
-        statusRaw: data[2].toString(),
+        hypeA: hypeA.toString(),
+        hypeB: hypeB.toString(),
+        status: getStatusText(status.toString()),
+        statusRaw: status.toString(),
       });
       setMatchData({
-        hypeA: formatEther(data[0]),
-        hypeB: formatEther(data[1]),
-        status: data[2],
+        hypeA: hypeA.toString(),
+        hypeB: hypeB.toString(),
+        status: status.toString(),
       });
 
       toast({
         title: "🔥 Hype Carregado",
-        description: `Hype A: ${formatEther(data[0])}, Hype B: ${formatEther(
-          data[1]
-        )}, Status: ${getStatusText(data[2].toString())}`,
+        description: `Hype A: ${hypeA}, Hype B: ${hypeB}, Status: ${getStatusText(status.toString())}`,
       });
     } catch (error) {
       console.error("Erro ao buscar hype:", error);
@@ -535,11 +565,18 @@ export default function ContractInteractionPage() {
         client: publicClient,
       });
 
-      // Verificar se o match existe verificando se start > 0
-      const data = await oracleContract.read.matchHypes([
-        hypeId as `0x${string}`,
-      ]);
-      const exists = Number(data[4]) > 0; // start
+      let exists;
+      try {
+        // Tentar usar a função matchExists primeiro
+        exists = await oracleContract.read.matchExists([hypeId as `0x${string}`]);
+        console.log("DEBUG: matchExists funcionou:", exists);
+      } catch (matchExistsError) {
+        console.log("DEBUG: matchExists falhou, verificando manualmente:", matchExistsError);
+        // Fallback: verificar se scheduledTime > 0
+        const data = await oracleContract.read.matchHypes([hypeId as `0x${string}`]);
+        exists = Number(data[6]) > 0; // scheduledTime
+        console.log("DEBUG: Verificação manual:", exists);
+      }
 
       toast({
         title: exists ? "✅ Match Existe" : "❌ Match Não Existe",
@@ -994,6 +1031,162 @@ export default function ContractInteractionPage() {
     }
   };
 
+  // Funções adicionais do Funify
+  const getUserBet = async () => {
+    if (!account || !hypeId) {
+      toast({
+        title: "❌ Campos Obrigatórios",
+        description: "Conecte sua carteira e insira um Hype ID",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const funifyContract = getContract({
+        address: deployedContracts.Funify.address as `0x${string}`,
+        abi: deployedContracts.Funify.abi,
+        client: publicClient,
+      });
+
+      const data = await funifyContract.read.getUserBet([
+        hypeId as `0x${string}`,
+        account as `0x${string}`,
+      ]);
+
+      setUserBet({
+        amount: formatEther(data[0]),
+        teamA: data[1],
+      });
+
+      toast({
+        title: "📊 Aposta do Usuário",
+        description: `Valor: ${formatEther(data[0])} HYPE, Time: ${data[1] ? 'A' : 'B'}`,
+      });
+    } catch (error) {
+      console.error("Erro ao buscar aposta do usuário:", error);
+      toast({
+        title: "❌ Erro ao Buscar Aposta",
+        description: "Falha ao buscar aposta do usuário.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const getMatchStats = async () => {
+    if (!hypeId) {
+      toast({
+        title: "❌ Hype ID Obrigatório",
+        description: "Insira um Hype ID para buscar estatísticas",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const funifyContract = getContract({
+        address: deployedContracts.Funify.address as `0x${string}`,
+        abi: deployedContracts.Funify.abi,
+        client: publicClient,
+      });
+
+      const data = await funifyContract.read.getMatchStats([hypeId as `0x${string}`]);
+
+      setMatchStats({
+        totalBetsA: formatEther(data[0]),
+        totalBetsB: formatEther(data[1]),
+        totalPool: formatEther(data[2]),
+        houseCut: formatEther(data[3]),
+      });
+
+      toast({
+        title: "📈 Estatísticas do Match",
+        description: `Total Pool: ${formatEther(data[2])} HYPE`,
+      });
+    } catch (error) {
+      console.error("Erro ao buscar estatísticas do match:", error);
+      toast({
+        title: "❌ Erro ao Buscar Estatísticas",
+        description: "Falha ao buscar estatísticas do match.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const checkClaimStatus = async () => {
+    if (!account || !hypeId) {
+      toast({
+        title: "❌ Campos Obrigatórios",
+        description: "Conecte sua carteira e insira um Hype ID",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const funifyContract = getContract({
+        address: deployedContracts.Funify.address as `0x${string}`,
+        abi: deployedContracts.Funify.abi,
+        client: publicClient,
+      });
+
+      const data = await funifyContract.read.canClaimPrize([
+        hypeId as `0x${string}`,
+        account as `0x${string}`,
+      ]);
+
+      setClaimStatus({
+        canClaim: data[0],
+        reason: data[1],
+      });
+
+      toast({
+        title: data[0] ? "✅ Pode Reclamar" : "❌ Não Pode Reclamar",
+        description: data[1],
+      });
+    } catch (error) {
+      console.error("Erro ao verificar status de claim:", error);
+      toast({
+        title: "❌ Erro ao Verificar",
+        description: "Falha ao verificar status de claim.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const getContractStats = async () => {
+    try {
+      const funifyContract = getContract({
+        address: deployedContracts.Funify.address as `0x${string}`,
+        abi: deployedContracts.Funify.abi,
+        client: publicClient,
+      });
+
+      const data = await funifyContract.read.getContractStats();
+
+      setContractStats({
+        totalMatches: data[0].toString(),
+        totalBets: data[1].toString(),
+        totalHouseProfit: formatEther(data[2]),
+        tokenAddress: data[3],
+        oracleAddress: data[4],
+        contractOwner: data[5],
+      });
+
+      toast({
+        title: "📊 Estatísticas do Contrato",
+        description: `Total Matches: ${data[0]}, Total Bets: ${data[1]}`,
+      });
+    } catch (error) {
+      console.error("Erro ao buscar estatísticas do contrato:", error);
+      toast({
+        title: "❌ Erro ao Buscar Estatísticas",
+        description: "Falha ao buscar estatísticas do contrato.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const emergencyWithdraw = async () => {
     if (!account) {
       toast({
@@ -1103,6 +1296,10 @@ export default function ContractInteractionPage() {
               prizePools={prizePools}
               hypeTokenOwner={hypeTokenOwner}
               tokenInfo={tokenInfo}
+              userBet={userBet}
+              matchStats={matchStats}
+              claimStatus={claimStatus}
+              contractStats={contractStats}
               onHypeIdChange={setHypeId}
               onScheduledTimeChange={setScheduledTime}
               onHypeAChange={setHypeA}
@@ -1136,6 +1333,10 @@ export default function ContractInteractionPage() {
               onPlaceBet={placeBet}
               onClaimPrize={claimPrize}
               onEmergencyWithdraw={emergencyWithdraw}
+              onGetUserBet={getUserBet}
+              onGetMatchStats={getMatchStats}
+              onCheckClaimStatus={checkClaimStatus}
+              onGetContractStats={getContractStats}
             />
           </>
         )}

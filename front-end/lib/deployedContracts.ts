@@ -1,7 +1,7 @@
 
 const deployedContracts = {
     "HypeToken": {
-        "address": "0xc3e53f4d16ae77db1c982e75a937b9f60fe63690",
+        "address": "0x9a676e781a523b5d0c0e43731313a708cb607508",
         "abi": [
             {
                 "type": "constructor",
@@ -520,7 +520,7 @@ const deployedContracts = {
         ]
     },
     "Oracle": {
-        "address": "0x84ea74d481ee0a5332c457a4d796187f6ba67feb",
+        "address": "0x0b306bf915c4d645ff596e518faf3f9669b97016",
         "abi": [
             {
                 "type": "function",
@@ -916,7 +916,7 @@ const deployedContracts = {
         ]
     },
     "Funify": {
-        "address": "0x9e545e3c0baab3e08cdfd552c960a1050f373042",
+        "address": "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
         "abi": [
             {
                 "type": "constructor",
