@@ -4,15 +4,13 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Wallet, Calendar, TrendingUp, Users, Zap, AlertCircle, Trophy } from 'lucide-react';
 import Link from 'next/link';
-import { useWallet } from '@/contexts/WalletContext';
 import { useWalletBalance } from '@/hooks/useWalletBalance';
+import { useAccount } from 'wagmi';
 
 export default function FanWalletDashboard() {
   const [activeTab, setActiveTab] = useState<'portfolio' | 'history' | 'rewards' | 'ranking'>('portfolio');
-  const { isConnected, address } = useWallet();
   const { balance, isLoading: balanceLoading } = useWalletBalance();
-
-  // Create truncated address for display
+  const { address, isConnected } = useAccount();
   const truncatedAddress = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
 
   // Mock user portfolio data (in a real app, this would come from API)

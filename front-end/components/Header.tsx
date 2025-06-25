@@ -17,23 +17,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Menu, X, Wallet, Settings, Users, Trophy, Copy, ExternalLink, RefreshCw, LogOut } from 'lucide-react';
+import { Menu, X, Wallet, Settings, Users, Trophy, Copy, ExternalLink, RefreshCw, LogOut, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import WalletConnectionModal from './WalletConnectionModal';
-import { useWallet } from '@/contexts/WalletContext';
-import { useWalletBalance } from '@/hooks/useWalletBalance';
+import ChilizLogo from './ChilizLogo';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isConnected, address, disconnect } = useWallet();
-  const { balance, isLoading: balanceLoading } = useWalletBalance();
-
-  // Get wallet data from context
-  const walletData = {
-    address: address || '',
-    balance: balanceLoading ? 'Loading...' : `${parseFloat(balance).toFixed(4)} CHZ`,
-    shortAddress: address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''
-  };
 
   const navigationItems = [
     {
@@ -61,85 +50,6 @@ export default function Header() {
     },
   ];
 
-  const handleWalletDisconnect = () => {
-    disconnect();
-  };
-
-  const copyAddress = () => {
-    if (address) {
-      navigator.clipboard.writeText(address);
-    }
-  };
-
-  const WalletButton = () => {
-    if (!isConnected) {
-      return (
-        <WalletConnectionModal>
-          <Button
-            variant="outline"
-            className="border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
-          >
-            <Wallet className="w-4 h-4" />
-            <span>Connect Wallet</span>
-          </Button>
-        </WalletConnectionModal>
-      );
-    }
-
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            className="border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center space-x-3 px-4 py-2 h-auto"
-          >
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-red-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-              {walletData.shortAddress.slice(2, 4).toUpperCase()}
-            </div>
-            <div className="flex flex-col items-start">
-              <span className="text-sm font-semibold text-gray-900">{walletData.shortAddress}</span>
-              <span className="text-xs text-gray-500">{walletData.balance}</span>
-            </div>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <div className="p-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">Connected Wallet</p>
-            <p className="text-xs text-gray-500 mt-1">{walletData.shortAddress}</p>
-          </div>
-          
-          <DropdownMenuItem onClick={copyAddress} className="cursor-pointer">
-            <Copy className="w-4 h-4 mr-2" />
-            Copy Address
-          </DropdownMenuItem>
-          
-          <DropdownMenuItem asChild>
-            <Link href="/wallet" className="cursor-pointer">
-              <Wallet className="w-4 h-4 mr-2" />
-              My Wallet
-            </Link>
-          </DropdownMenuItem>
-          
-          <DropdownMenuSeparator />
-          
-          <DropdownMenuItem asChild>
-            <Link href="/settings" className="cursor-pointer">
-              <Settings className="w-4 h-4 mr-2" />
-              Settings
-            </Link>
-          </DropdownMenuItem>
-          
-          <DropdownMenuSeparator />
-          
-          <DropdownMenuItem onClick={handleWalletDisconnect} className="cursor-pointer text-red-600">
-            <LogOut className="w-4 h-4 mr-2" />
-            Disconnect
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  };
-
   return (
     <header className="w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,9 +57,12 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-3">
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-red-600 bg-clip-text text-transparent">
-                Fanify.
+              <span className="text-2xl font-black text-gray-900">
+                Fanify
               </span>
+              <div className="text-xs text-gray-500 font-medium">
+                by Chiliz
+              </div>
             </Link>
           </div>
 
@@ -190,8 +103,8 @@ export default function Header() {
                                     href={subItem.href}
                                     className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                                   >
-                                    <div className="w-10 h-10 bg-gradient-to-r from-purple-100 to-red-100 rounded-lg flex items-center justify-center group-hover:from-purple-200 group-hover:to-red-200 transition-colors">
-                                      <subItem.icon className="w-5 h-5 text-purple-600" />
+                                    <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                                      <subItem.icon className="w-5 h-5 text-red-600" />
                                     </div>
                                     <div>
                                       <h4 className="font-medium text-gray-900 mb-1">
@@ -215,9 +128,13 @@ export default function Header() {
             </NavigationMenu>
           </nav>
 
-          {/* Desktop CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            <WalletButton />
+          {/* Launch App Button */}
+          <div className="flex items-center space-x-4">
+            <Link href="/trading">
+              <Button className="bg-red-500 hover:bg-red-600 text-white border-0 font-semibold px-6 py-2 rounded-xl transition-all duration-300">
+                Launch App
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -268,13 +185,6 @@ export default function Header() {
                   )}
                 </div>
               ))}
-
-              {/* Mobile Buttons */}
-              <div className="px-3 py-4 space-y-3 border-t border-gray-100">
-                <div className="w-full">
-                  <WalletButton />
-                </div>
-              </div>
             </div>
           </div>
         )}
