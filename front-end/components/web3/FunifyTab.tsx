@@ -19,6 +19,7 @@ interface FunifyTabProps {
   matchStats: any;
   claimStatus: any;
   contractStats: any;
+  allowance: string;
   onHypeIdChange: (value: string) => void;
   onBetAmountChange: (value: string) => void;
   onTeamAChange: (value: boolean) => void;
@@ -30,6 +31,7 @@ interface FunifyTabProps {
   onGetMatchStats: () => void;
   onCheckClaimStatus: () => void;
   onGetContractStats: () => void;
+  onApproveHypeToken: () => void;
 }
 
 export default function FunifyTab({
@@ -44,6 +46,7 @@ export default function FunifyTab({
   matchStats,
   claimStatus,
   contractStats,
+  allowance,
   onHypeIdChange,
   onBetAmountChange,
   onTeamAChange,
@@ -55,6 +58,7 @@ export default function FunifyTab({
   onGetMatchStats,
   onCheckClaimStatus,
   onGetContractStats,
+  onApproveHypeToken,
 }: FunifyTabProps) {
   return (
     <Card>
@@ -90,10 +94,12 @@ export default function FunifyTab({
           hypeId={hypeId}
           betAmount={betAmount}
           teamA={teamA}
+          allowance={allowance}
           onBetAmountChange={onBetAmountChange}
           onTeamAChange={onTeamAChange}
           onPlaceBet={onPlaceBet}
           onClaimPrize={onClaimPrize}
+          onApproveHypeToken={onApproveHypeToken}
         />
       </CardContent>
     </Card>

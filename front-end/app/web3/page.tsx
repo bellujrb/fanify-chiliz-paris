@@ -88,6 +88,7 @@ export default function ContractInteractionPage() {
   const [matchStats, setMatchStats] = useState<any>(null);
   const [claimStatus, setClaimStatus] = useState<any>(null);
   const [contractStats, setContractStats] = useState<any>(null);
+  const [allowance, setAllowance] = useState<string>("0");
 
   // Conectar carteira
   const connectWallet = async () => {
@@ -964,9 +965,87 @@ export default function ContractInteractionPage() {
     }
   };
 
+  // Função para dar approve do HypeToken para o contrato Funify
+  const approveHypeToken = async () => {
+    if (!account || !betAmount) {
+      console.log("DEBUG: Account ou betAmount não fornecidos");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log("DEBUG: Criando contrato HypeToken para approve");
+      const hypeTokenContract = getContract({
+        address: deployedContracts.HypeToken.address as `0x${string}`,
+        abi: deployedContracts.HypeToken.abi,
+        client: walletClient,
+      });
+
+      console.log("DEBUG: Chamando approve");
+      console.log("DEBUG: Parâmetros - spender:", deployedContracts.Funify.address, "amount:", parseEther(betAmount));
+
+      const hash = await hypeTokenContract.write.approve(
+        [deployedContracts.Funify.address as `0x${string}`, parseEther(betAmount)],
+        {
+          account: account as `0x${string}`,
+        }
+      );
+
+      console.log("[Sucesso] Approve realizado! Hash:", hash);
+      console.log(`[Sucesso] ${betAmount} HYPE tokens aprovados para o contrato Funify`);
+
+      await updateBalances(account);
+      // Atualizar allowance após o approve
+      await getAllowance();
+    } catch (error) {
+      console.error("DEBUG: Erro ao dar approve:", error);
+      console.error("DEBUG: Tipo do erro:", typeof error);
+      console.error(
+        "DEBUG: Mensagem do erro:",
+        error instanceof Error ? error.message : error
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Função para buscar o allowance do HypeToken para o contrato Funify
+  const getAllowance = async () => {
+    if (!account) {
+      console.log("DEBUG: Nenhuma conta conectada para buscar allowance");
+      return;
+    }
+
+    try {
+      console.log("DEBUG: Buscando allowance para conta:", account);
+      const hypeTokenContract = getContract({
+        address: deployedContracts.HypeToken.address as `0x${string}`,
+        abi: deployedContracts.HypeToken.abi,
+        client: publicClient,
+      });
+
+      const allowanceValue = await hypeTokenContract.read.allowance([
+        account as `0x${string}`,
+        deployedContracts.Funify.address as `0x${string}`,
+      ]);
+
+      console.log("DEBUG: Allowance encontrado:", allowanceValue);
+      setAllowance(formatEther(allowanceValue as bigint));
+      console.log("DEBUG: Allowance formatado:", formatEther(allowanceValue as bigint));
+    } catch (error) {
+      console.error("DEBUG: Erro ao buscar allowance:", error);
+      console.error("DEBUG: Tipo do erro:", typeof error);
+      console.error(
+        "DEBUG: Mensagem do erro:",
+        error instanceof Error ? error.message : error
+      );
+    }
+  };
+
   useEffect(() => {
     if (account) {
       updateBalances(account);
+      getAllowance();
     }
   }, [account]);
 
@@ -1033,6 +1112,7 @@ export default function ContractInteractionPage() {
               matchStats={matchStats}
               claimStatus={claimStatus}
               contractStats={contractStats}
+              allowance={allowance}
               onHypeIdChange={setHypeId}
               onScheduledTimeChange={setScheduledTime}
               onHypeAChange={setHypeA}
@@ -1070,6 +1150,7 @@ export default function ContractInteractionPage() {
               onGetMatchStats={getMatchStats}
               onCheckClaimStatus={checkClaimStatus}
               onGetContractStats={getContractStats}
+              onApproveHypeToken={approveHypeToken}
             />
           </>
         )}
