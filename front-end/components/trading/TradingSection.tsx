@@ -2,14 +2,15 @@
 
 import React from 'react';
 import LiveHypeDisplay from './LiveHypeDisplay';
-import HypeChart from './HypeChart';
-import LiveStats from './LiveStats';
-import RecentTrades from './RecentTrades';
 import SocialSentiment from './SocialSentiment';
 
 interface Game {
+  hypeId: string;
   homeTeam: { name: string; logo: string; hype: number };
   awayTeam: { name: string; logo: string; hype: number };
+  status: string;
+  goalsA: number;
+  goalsB: number;
 }
 
 interface LiveData {
@@ -40,15 +41,11 @@ interface ChartData {
 interface TradingSectionProps {
   currentGame: Game;
   liveData: LiveData;
-  recentTrades: Trade[];
-  chartData: ChartData[];
 }
 
 const TradingSection: React.FC<TradingSectionProps> = ({
   currentGame,
   liveData,
-  recentTrades,
-  chartData
 }) => {
   return (
     <div className="space-y-6">

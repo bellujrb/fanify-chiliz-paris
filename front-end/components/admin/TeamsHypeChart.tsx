@@ -11,8 +11,8 @@ const TeamsHypeChart: React.FC<TeamsHypeChartProps> = ({ mockHypeData, homeTeamN
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-100">
       <h3 className="text-lg font-bold text-gray-900 mb-2 flex items-center gap-2">
-        <span>Hype dos Times</span>
-        <span className="text-xs font-normal text-gray-400">(últimos dias)</span>
+        <span>Teams Hype</span>
+        <span className="text-xs font-normal text-gray-400">(last days)</span>
       </h3>
       <div className="w-full h-64">
         <ResponsiveContainer width="100%" height="100%">
@@ -24,8 +24,8 @@ const TeamsHypeChart: React.FC<TeamsHypeChartProps> = ({ mockHypeData, homeTeamN
             <Legend verticalAlign="top" height={36} iconType="circle" />
             <Bar dataKey="homeHype" name={homeTeamName} fill="#f87171" barSize={18} radius={[4, 4, 0, 0]} />
             <Bar dataKey="awayHype" name={awayTeamName} fill="#60a5fa" barSize={18} radius={[4, 4, 0, 0]} />
-            <Line type="monotone" dataKey="homeHype" name={homeTeamName + ' (linha)'} stroke="#ef4444" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
-            <Line type="monotone" dataKey="awayHype" name={awayTeamName + ' (linha)'} stroke="#3b82f6" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="homeHype" name={homeTeamName + ' (line)'} stroke="#ef4444" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="awayHype" name={awayTeamName + ' (line)'} stroke="#3b82f6" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
           </LineChart>
         </ResponsiveContainer>
       </div>

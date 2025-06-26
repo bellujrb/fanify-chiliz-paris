@@ -3,9 +3,7 @@
 import React from 'react';
 import { 
   Gamepad2,
-  Shield,
-  BarChart3
-} from 'lucide-react';
+  Shield} from 'lucide-react';
 
 interface AdminNavigationTabsProps {
   activeSection: string;
@@ -19,13 +17,13 @@ const AdminNavigationTabs: React.FC<AdminNavigationTabsProps> = ({
   const navigationSections = [
     {
       id: 'games',
-      label: 'Jogos',
+      label: 'Match',
       icon: Gamepad2,
       color: 'text-red-600',
     },
     {
       id: 'system',
-      label: 'Sistema',
+      label: 'System',
       icon: Shield,
       color: 'text-blue-600',
     }

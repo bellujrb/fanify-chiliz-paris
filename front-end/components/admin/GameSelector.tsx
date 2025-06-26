@@ -111,9 +111,9 @@ const GameSelector: React.FC<GameSelectorProps> = ({
             className="w-full justify-between bg-white border border-gray-200 hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow-md p-4 h-auto"
           >
             <div className="flex items-center space-x-3">
-              <span className="text-gray-600">Selecionar Jogo:</span>
+              <span className="text-gray-600">Select Game:</span>
               {contractLoading ? (
-                <span className="text-gray-400">Carregando...</span>
+                <span className="text-gray-400">Loading...</span>
               ) : (
                 <>
                   {games.length > 0 ? (
@@ -127,7 +127,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
                       </span>
                     </div>
                   ) : (
-                    <span className="text-gray-400">Nenhum jogo</span>
+                    <span className="text-gray-400">No games</span>
                   )}
                 </>
               )}
@@ -139,15 +139,15 @@ const GameSelector: React.FC<GameSelectorProps> = ({
         <PopoverContent className="w-[400px] p-0 shadow-xl border-0 rounded-xl" align="center">
           <div className="bg-white rounded-xl overflow-hidden">
             <div className="p-4 bg-gray-50 border-b border-gray-100">
-              <h3 className="font-bold text-gray-900">Jogos Disponíveis</h3>
-              <p className="text-sm text-gray-600">Selecione um jogo para gerenciar</p>
+              <h3 className="font-bold text-gray-900">Available Games</h3>
+              <p className="text-sm text-gray-600">Select a game to manage</p>
             </div>
 
             <div className="max-h-80 overflow-y-auto">
               {contractLoading ? (
-                <div className="p-4 text-gray-400">Carregando jogos do contrato...</div>
+                <div className="p-4 text-gray-400">Loading games from contract...</div>
               ) : games.length === 0 ? (
-                <div className="p-4 text-gray-400">Nenhum jogo encontrado</div>
+                <div className="p-4 text-gray-400">No games found</div>
               ) : (
                 games.map((game) => (
                   <div key={game.hypeId} className="flex items-center justify-between border-b last:border-b-0 hover:bg-gray-50 transition-all">
@@ -176,7 +176,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
                         <div className="font-mono text-sm break-all mb-2">{game.hypeId}</div>
                         <div className="text-xs text-gray-500 mb-1">Status:</div>
                         <div className="text-sm mb-2">{game.status}</div>
-                        <div className="text-xs text-gray-500 mb-1">Gols:</div>
+                        <div className="text-xs text-gray-500 mb-1">Goals:</div>
                         <div className="text-sm">{game.goalsA} - {game.goalsB}</div>
                       </PopoverContent>
                     </Popover>
@@ -196,7 +196,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
           className="min-w-[140px]"
           disabled={!selectedGame || loading}
         >
-          Abrir para apostas
+          Open for bets
         </Button>
         <Button
           onClick={onCloseBets}
@@ -204,7 +204,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
           className="min-w-[140px]"
           disabled={!selectedGame || loading}
         >
-          Fechar apostas
+          Close bets
         </Button>
         <Button
           onClick={onFinishMatch}
@@ -212,29 +212,29 @@ const GameSelector: React.FC<GameSelectorProps> = ({
           className="min-w-[140px]"
           disabled={!selectedGame || loading}
         >
-          Finalizar jogo
+          Finish match
         </Button>
       </div>
 
       {/* Exibir dados completos do match */}
       {matchData && (
         <div className="mt-6 mb-2 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-          <h3 className="font-bold text-lg text-gray-900 mb-4">Dados do Match</h3>
+          <h3 className="font-bold text-lg text-gray-900 mb-4">Match Data</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-2 gap-x-6 text-sm">
             <div className="text-gray-500">Hype A:<span className="ml-2 text-gray-900 font-semibold">{matchData.hypeA}</span></div>
             <div className="text-gray-500">Hype B:<span className="ml-2 text-gray-900 font-semibold">{matchData.hypeB}</span></div>
-            <div className="text-gray-500">Gols A:<span className="ml-2 text-gray-900 font-semibold">{matchData.goalsA}</span></div>
-            <div className="text-gray-500">Gols B:<span className="ml-2 text-gray-900 font-semibold">{matchData.goalsB}</span></div>
-            <div className="text-gray-500">Início:<span className="ml-2 text-gray-900 font-semibold">{matchData.start}</span></div>
-            <div className="text-gray-500">Fim:<span className="ml-2 text-gray-900 font-semibold">{matchData.end}</span></div>
-            <div className="text-gray-500">Agendado:<span className="ml-2 text-gray-900 font-semibold">{matchData.scheduledTime ? new Date(Number(matchData.scheduledTime) * 1000).toLocaleString('pt-BR') : '-'}</span></div>
+            <div className="text-gray-500">Goals A:<span className="ml-2 text-gray-900 font-semibold">{matchData.goalsA}</span></div>
+            <div className="text-gray-500">Goals B:<span className="ml-2 text-gray-900 font-semibold">{matchData.goalsB}</span></div>
+            <div className="text-gray-500">Start:<span className="ml-2 text-gray-900 font-semibold">{matchData.start}</span></div>
+            <div className="text-gray-500">End:<span className="ml-2 text-gray-900 font-semibold">{matchData.end}</span></div>
+            <div className="text-gray-500">Scheduled:<span className="ml-2 text-gray-900 font-semibold">{matchData.scheduledTime ? new Date(Number(matchData.scheduledTime) * 1000).toLocaleString('en-US') : '-'}</span></div>
             <div className="text-gray-500 flex items-center">Status:
               <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${matchData.status === 0 ? 'bg-blue-100 text-blue-700' : matchData.status === 1 ? 'bg-green-100 text-green-700' : matchData.status === 2 ? 'bg-yellow-100 text-yellow-700' : matchData.status === 3 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'}`}>
                 {typeof matchData.status === 'number' ? (['Scheduled','Open','Closed','Finished'][matchData.status] || matchData.status) : String(matchData.status)}
               </span>
             </div>
-            <div className="text-gray-500 col-span-2 md:col-span-1">Time A:<span className="ml-2 text-gray-900 font-bold uppercase tracking-wide">{matchData.teamAAbbreviation}</span></div>
-            <div className="text-gray-500 col-span-2 md:col-span-1">Time B:<span className="ml-2 text-gray-900 font-bold uppercase tracking-wide">{matchData.teamBAbbreviation}</span></div>
+            <div className="text-gray-500 col-span-2 md:col-span-1">Team A:<span className="ml-2 text-gray-900 font-bold uppercase tracking-wide">{matchData.teamAAbbreviation}</span></div>
+            <div className="text-gray-500 col-span-2 md:col-span-1">Team B:<span className="ml-2 text-gray-900 font-bold uppercase tracking-wide">{matchData.teamBAbbreviation}</span></div>
           </div>
         </div>
       )}

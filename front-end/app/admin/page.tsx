@@ -18,16 +18,16 @@ export default function AdminPage() {
   const [selectedGame, setSelectedGame] = useState('psg-bot');
   const [activeSection, setActiveSection] = useState('games');
   const [loading, setLoading] = useState(false);
-  const { address: account } = useAccount();
+  const { address: account, isConnected } = useAccount();
 
-  // Função para abrir apostas
+  // Function to open bets
   const openToBets = async () => {
     if (!account || !selectedGame) {
-      alert("Selecione um jogo e conecte a carteira!");
+      alert("Select a game and connect your wallet!");
       return;
     }
     if (typeof window === 'undefined' || !window.ethereum) {
-      alert("Wallet não disponível");
+      alert("Wallet not available");
       return;
     }
     setLoading(true);
@@ -45,21 +45,21 @@ export default function AdminPage() {
         [selectedGame as `0x${string}`],
         { account: account as `0x${string}` }
       );
-      alert("Apostas abertas com sucesso!");
+      alert("Bets opened successfully!");
     } catch (e: any) {
-      alert("Erro ao abrir apostas: " + (e?.message || e));
+      alert("Error opening bets: " + (e?.message || e));
     }
     setLoading(false);
   };
 
-  // Função para fechar apostas
+  // Function to close bets
   const closeBets = async () => {
     if (!account || !selectedGame) {
-      alert("Selecione um jogo e conecte a carteira!");
+      alert("Select a game and connect your wallet!");
       return;
     }
     if (typeof window === 'undefined' || !window.ethereum) {
-      alert("Wallet não disponível");
+      alert("Wallet not available");
       return;
     }
     setLoading(true);
@@ -77,21 +77,21 @@ export default function AdminPage() {
         [selectedGame as `0x${string}`],
         { account: account as `0x${string}` }
       );
-      alert("Apostas fechadas com sucesso!");
+      alert("Bets closed successfully!");
     } catch (e: any) {
-      alert("Erro ao fechar apostas: " + (e?.message || e));
+      alert("Error closing bets: " + (e?.message || e));
     }
     setLoading(false);
   };
 
-  // Função para finalizar jogo
+  // Function to finish match
   const finishMatch = async () => {
     if (!account || !selectedGame) {
-      alert("Selecione um jogo e conecte a carteira!");
+      alert("Select a game and connect your wallet!");
       return;
     }
     if (typeof window === 'undefined' || !window.ethereum) {
-      alert("Wallet não disponível");
+      alert("Wallet not available");
       return;
     }
     setLoading(true);
@@ -109,9 +109,9 @@ export default function AdminPage() {
         [selectedGame as `0x${string}`],
         { account: account as `0x${string}` }
       );
-      alert("Jogo finalizado com sucesso!");
+      alert("Match finished successfully!");
     } catch (e: any) {
-      alert("Erro ao finalizar jogo: " + (e?.message || e));
+      alert("Error finishing match: " + (e?.message || e));
     }
     setLoading(false);
   };
@@ -165,7 +165,7 @@ export default function AdminPage() {
               <Link href="/">
                 <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Voltar
+                  Back
                 </Button>
               </Link>
               <div className="h-6 w-px bg-gray-300"></div>
@@ -188,7 +188,18 @@ export default function AdminPage() {
           activeSection={activeSection}
           onSectionChange={setActiveSection}
         />
-        {renderActiveSection()}
+        {!isConnected ? (
+          <div className="mb-6 flex items-center justify-center">
+            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-xl shadow text-center flex items-center space-x-3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-yellow-500">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2.25m0 2.25h.008v.008H12v-.008zm.75-8.25a.75.75 0 00-1.5 0v.75a.75.75 0 001.5 0v-.75zm-6 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm12 0a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-9.53 4.28a.75.75 0 00-1.06 1.06l.53.53a.75.75 0 001.06-1.06l-.53-.53zm10.06 0a.75.75 0 00-1.06 1.06l.53.53a.75.75 0 001.06-1.06l-.53-.53zM12 19.5a.75.75 0 00.75-.75v-.75a.75.75 0 00-1.5 0v.75a.75.75 0 00.75.75z" />
+              </svg>
+              <span className="font-medium">Connect your wallet to access this section.</span>
+            </div>
+          </div>
+        ) : (
+          renderActiveSection()
+        )}
       </div>
     </div>
   );

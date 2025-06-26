@@ -1,14 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { formatEther } from 'viem';
-import { getBalance, readContract } from 'viem/actions';
-import { useAccount, useWalletClient, usePublicClient } from 'wagmi';
+import { formatEther, getContract } from 'viem';
+import { useAccount, usePublicClient } from 'wagmi';
 import deployedContracts from '@/lib/deployedContracts';
 
 export const useWalletBalance = () => {
   const { address, isConnected } = useAccount();
-  useWalletClient();
   const publicClient = usePublicClient();
   const [balance, setBalance] = useState<string>('0');
   const [hypeBalance, setHypeBalance] = useState<string>('0');
@@ -21,29 +19,24 @@ export const useWalletBalance = () => {
       setHypeBalance('0');
       return;
     }
-
     setIsLoading(true);
     setError(null);
-
     try {
       // Fetch native token balance (CHZ/ETH)
-      const balanceWei = await getBalance(publicClient, { address });
-      const balanceEth = formatEther(balanceWei);
-      setBalance(balanceEth);
+      const balanceWei = await publicClient.getBalance({ address });
+      setBalance(formatEther(balanceWei));
 
-      // Fetch HYPE token balance
-      const hypeBalanceWei = await readContract(publicClient, {
+      // Fetch HYPE token balance (igual ao /web3)
+      const hypeTokenContract = getContract({
         address: deployedContracts.HypeToken.address as `0x${string}`,
         abi: deployedContracts.HypeToken.abi,
-        functionName: 'balanceOf',
-        args: [address],
+        client: publicClient,
       });
-      
-      const hypeBalanceFormatted = formatEther(hypeBalanceWei as bigint);
-      setHypeBalance(hypeBalanceFormatted);
-
+      const hypeBalanceWei = await hypeTokenContract.read.balanceOf([
+        address as `0x${string}`,
+      ]);
+      setHypeBalance(formatEther(hypeBalanceWei as bigint));
     } catch (err: any) {
-      console.error('Error fetching balances:', err);
       setError(err.message || 'Failed to fetch balances');
       setBalance('0');
       setHypeBalance('0');
@@ -54,10 +47,7 @@ export const useWalletBalance = () => {
 
   useEffect(() => {
     fetchBalances();
-
-    // Set up interval to refresh balance every 30 seconds
     const interval = setInterval(fetchBalances, 30000);
-
     return () => clearInterval(interval);
   }, [publicClient, address, isConnected]);
 
@@ -66,6 +56,6 @@ export const useWalletBalance = () => {
     hypeBalance,
     isLoading,
     error,
-    refetch: fetchBalances
+    refetch: fetchBalances,
   };
 }; 
