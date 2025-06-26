@@ -7,7 +7,8 @@ import {
   Bell,
   Settings,
   Coins,
-  Zap
+  Zap,
+  Shield
 } from 'lucide-react';
 import Link from 'next/link';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -100,13 +101,16 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
             </div>
 
             <div className="h-6 w-px bg-gray-300"></div>
-
-            <Button variant="ghost" size="sm">
-              <Bell className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Settings className="w-4 h-4" />
-            </Button>
+            
+                  <Link href="/admin">
+                    <Button
+                      variant="outline"
+                      className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-semibold"
+                    >
+                      <Shield className="w-4 h-4 mr-2" />
+                      Admin Panel
+                    </Button>
+                  </Link>
 
             {/* Apenas o botão oficial do RainbowKit */}
             <ConnectButton
