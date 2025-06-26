@@ -36,13 +36,13 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
     console.log('DEBUG: Iniciando handleCreate...');
     
     if (!hypeId || !scheduledTime || !teamA || !teamB) {
-      setError('Preencha todos os campos.');
+      setError('Please fill in all fields.');
       return;
     }
     
     // Verificar se ethereum está disponível
     if (typeof window === 'undefined' || !window.ethereum) {
-      setError('MetaMask não encontrado. Instale o MetaMask.');
+      setError('MetaMask not found. Please install MetaMask.');
       return;
     }
     
@@ -105,11 +105,11 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
       console.error('DEBUG: Mensagem do erro:', err?.message);
       console.error('DEBUG: Stack trace:', err?.stack);
       
-      let errorMessage = 'Erro ao criar jogo';
+      let errorMessage = 'Error creating game';
       if (err?.message?.includes('User rejected')) {
-        errorMessage = 'Transação rejeitada pelo usuário.';
+        errorMessage = 'Transaction rejected by user.';
       } else if (err?.message?.includes('insufficient funds')) {
-        errorMessage = 'Saldo insuficiente para gas.';
+        errorMessage = 'Insufficient funds for gas.';
       } else if (err?.message) {
         errorMessage = err.message;
       }
@@ -124,13 +124,13 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="mb-4">+ Criar Novo Jogo</Button>
+        <Button variant="outline" className="mb-4">+ Create New Game</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Criar Jogo (Scheduled)</DialogTitle>
+          <DialogTitle>Create Game (Scheduled)</DialogTitle>
           <DialogDescription>
-            Preencha os dados para agendar um novo jogo no smart contract.
+            Fill in the details to schedule a new game on the smart contract.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleCreate} className="space-y-4">
@@ -139,7 +139,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
             <Input value={hypeId} onChange={e => setHypeId(e.target.value)} placeholder="0x1231412" required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Data e Hora do Jogo</label>
+            <label className="block text-sm font-medium mb-1">Game Date & Time</label>
             <div className="flex items-center gap-2">
               <Input
                 type="datetime-local"
@@ -151,21 +151,21 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Time A (Abreviação)</label>
+            <label className="block text-sm font-medium mb-1">Team A (Abbreviation)</label>
             <Input value={teamA} onChange={e => setTeamA(e.target.value)} placeholder="PSG" required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Time B (Abreviação)</label>
+            <label className="block text-sm font-medium mb-1">Team B (Abbreviation)</label>
             <Input value={teamB} onChange={e => setTeamB(e.target.value)} placeholder="RMA" required />
           </div>
           {error && <div className="text-red-500 text-sm">{error}</div>}
-          {success && <div className="text-green-600 text-sm">Jogo criado com sucesso!</div>}
+          {success && <div className="text-green-600 text-sm">Game created successfully!</div>}
           <DialogFooter>
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? 'Agendando...' : 'Agendar Match'}
+              {loading ? 'Scheduling...' : 'Schedule Match'}
             </Button>
             <DialogClose asChild>
-              <Button type="button" variant="ghost">Cancelar</Button>
+              <Button type="button" variant="ghost">Cancel</Button>
             </DialogClose>
           </DialogFooter>
         </form>

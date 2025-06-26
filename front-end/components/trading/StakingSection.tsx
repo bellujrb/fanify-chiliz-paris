@@ -42,22 +42,22 @@ const StakingSection: React.FC = () => {
 
   // Dados de staking reais (baseados no saldo de HYPE)
   const stakingData = {
-    totalStaked: parseFloat(hypeBalance) || 0, // HYPE tokens = CHZ stakados (1:1)
-    totalHype: parseFloat(hypeBalance) || 0, // HYPE tokens recebidos
+    totalStaked: parseFloat(hypeBalance) / 1000 || 0, // CHZ staked (1 CHZ = 1000 HYPE)
+    totalHype: parseFloat(hypeBalance) || 0, // HYPE tokens received
     pendingRewards: 0, // Por enquanto 0, pode ser implementado depois
     stakingAPY: 18.5, // Annual percentage yield
     timeStaked: '15 days' // Mock data
   };
 
   const calculateHypeReceived = (amount: string) => {
-    // 1:1 ratio - 1 CHZ = 1 HYPE
-    return parseFloat(amount) || 0;
+    // 1 CHZ = 1000 HYPE
+    return (parseFloat(amount) || 0) * 1000;
   };
 
   const calculateRewards = (amount: string) => {
     const amountNum = parseFloat(amount) || 0;
     const dailyRate = stakingData.stakingAPY / 365 / 100;
-    return (amountNum * dailyRate * 30).toFixed(2); // Monthly estimate
+    return (amountNum * dailyRate * 30).toFixed(2); // Monthly estimate (in CHZ)
   };
 
   // Função de stake real usando wagmi
@@ -276,7 +276,7 @@ const StakingSection: React.FC = () => {
       {!isConnected && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
           <p className="text-yellow-800 font-medium">
-            🔗 Conecte sua carteira para começar a stakar
+            🔗 Connect your wallet to start staking
           </p>
         </div>
       )}
@@ -487,7 +487,7 @@ const StakingSection: React.FC = () => {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-700">CHZ Received:</span>
-                        <span className="font-semibold text-red-600">{calculateHypeReceived(unstakeAmount)} CHZ</span>
+                        <span className="font-semibold text-red-600">{(parseFloat(unstakeAmount) / 1000 || 0).toFixed(3)} CHZ</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-700">Remaining Staked:</span>
@@ -537,25 +537,18 @@ const StakingSection: React.FC = () => {
                 <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xs font-bold mt-0.5">1</div>
                 <div>
                   <div className="font-medium text-gray-900">Stake CHZ</div>
-                  <div className="text-gray-600">Convert your CHZ to HYPE tokens (1:1 ratio)</div>
+                  <div className="text-gray-600">Convert your CHZ to HYPE tokens (1 CHZ = 1000 HYPE)</div>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
                 <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xs font-bold mt-0.5">2</div>
                 <div>
                   <div className="font-medium text-gray-900">Use HYPE</div>
-                  <div className="text-gray-600">Use HYPE tokens to bet on games and events</div>
+                  <div className="text-gray-600">HYPE tokens are used for betting on games</div>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-xs font-bold mt-0.5">3</div>
-                <div>
-                  <div className="font-medium text-gray-900">Earn Rewards</div>
-                  <div className="text-gray-600">Get {stakingData.stakingAPY}% APY on your staked CHZ</div>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-red-600 text-xs font-bold mt-0.5">4</div>
+                <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-red-600 text-xs font-bold mt-0.5">3</div>
                 <div>
                   <div className="font-medium text-gray-900">Unstake Anytime</div>
                   <div className="text-gray-600">Convert HYPE back to CHZ whenever you want</div>
@@ -572,8 +565,7 @@ const StakingSection: React.FC = () => {
             </div>
             <div className="space-y-2 text-sm text-yellow-700">
               <div>• HYPE tokens are used for betting on games</div>
-              <div>• 1 CHZ = 1 HYPE (always 1:1 ratio)</div>
-              <div>• Earn {stakingData.stakingAPY}% APY on staked CHZ</div>
+              <div>• 1 CHZ = 1000 HYPE (fixed ratio)</div>
               <div>• No lock-up period - unstake anytime</div>
               <div>• Rewards are paid in CHZ tokens</div>
             </div>

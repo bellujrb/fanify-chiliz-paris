@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, Minus, HelpCircle } from 'lucide-react';
+import { Plus, Minus, HelpCircle, Twitter } from 'lucide-react';
 
 const FAQ = () => {
   const [openItem, setOpenItem] = useState<number | null>(null);
@@ -9,63 +9,63 @@ const FAQ = () => {
   const faqItems = [
     {
       id: 1,
-      question: "What is Fanify and how does it work?",
+      question: "What is Fanify?",
       answer:
-        "Fanify is a revolutionary fan engagement platform built on Chiliz Chain. We analyze real-time social media sentiment to create dynamic Fan Tokens that reflect collective fan excitement. Users can trade these tokens, earn rewards, and participate in exclusive experiences with their favorite teams.",
+        "Fanify is the first decentralized hype market for sports. Before each major match, fans shape the odds through social media activity and by staking CHZ or team tokens. Here, it's not a betting house or algorithm — the community sets the odds based on real-time hype.",
     },
     {
       id: 2,
-      question: "How do I get started with Fanify?",
+      question: "How are odds created on Fanify?",
       answer:
-        "Getting started is simple! Connect your Web3 wallet (like MetaMask), choose your favorite teams, and start trading Fan Tokens. New users receive a welcome bonus of 100 points and an exclusive NFT badge to kickstart their journey.",
+        "Odds are dynamically generated based on fan engagement: posts, likes, shares, and staking volume for each team. The more hype your team generates across social media and the blockchain, the more the odds shift in its favor.",
     },
     {
       id: 3,
-      question: "What are Fan Tokens and how do they work?",
+      question: "What does it mean to 'bet on the hype'?",
       answer:
-        "Fan Tokens are digital assets that represent fan sentiment and engagement for specific teams. Their value fluctuates based on real-time social media activity, team performance, and community engagement. You can trade these tokens to potentially profit from your sports knowledge.",
+        "'Betting on the hype' means staking tokens on the team you believe has momentum — before the rest of the world notices. If your team wins or beats the odds created by the community, you earn rewards. Timing and community insight are key.",
     },
     {
       id: 4,
-      question: "Is Fanify safe and secure?",
+      question: "Do I need to understand blockchain to use Fanify?",
       answer:
-        "Absolutely. Fanify is built on Chiliz Chain, a secure blockchain specifically designed for sports. We use industry-standard security practices, and your wallet remains under your complete control. We never store your private keys or personal information.",
+        "Not at all! Fanify is designed for every sports fan. You can connect a Web3 wallet like MetaMask, Trust Wallet, or even your Socios.com account — which is fully compatible with Chiliz Chain. All the blockchain magic happens behind the scenes. You just need to support your team and join the hype.",
     },
     {
       id: 5,
-      question: "What rewards can I earn on Fanify?",
+      question: "How is Fanify related to Chiliz and Socios.com?",
       answer:
-        "You can earn CHZ tokens, exclusive NFTs, team merchandise, VIP experiences, and access to special events. Rewards are distributed based on your ranking, trading activity, and social engagement. Top performers receive legendary NFTs and premium experiences.",
+        "Fanify is built on Chiliz Chain, the same blockchain powering Socios.com — the home of official Fan Tokens for teams like PSG, Barcelona, and Juventus. While Socios focuses on fan voting and collectibles, Fanify brings a competitive layer: fans use those tokens to influence odds, trade hype, and earn based on match outcomes.",
     },
     {
       id: 6,
-      question: "Which teams and sports are available?",
+      question: "What rewards can I earn?",
       answer:
-        "Fanify features 150+ sports partners including major football clubs like FC Barcelona, PSG, Juventus, and AC Milan. We're constantly expanding to include more teams across football, basketball, esports, and other popular sports.",
+        "You can earn CHZ tokens, collectible NFTs, exclusive team merchandise, VIP access to matches, and more. Rewards depend on your activity, your accuracy in reading hype trends, and how early you joined the movement before the match.",
     },
     {
       id: 7,
-      question: "How does the ranking system work?",
+      question: "Do I have to pay to use Fanify?",
       answer:
-        "Your ranking is determined by your trading performance, social engagement, and overall platform activity. Higher ranks unlock better rewards and exclusive privileges. Rankings reset monthly, giving everyone a fresh chance to climb the leaderboard.",
+        "No, it's free to join and participate in social challenges. If you want to stake and influence the odds directly, you'll need CHZ or Fan Tokens — but you can still be active and climb the leaderboard without spending money.",
     },
     {
       id: 8,
-      question: "What fees does Fanify charge?",
+      question: "Can I use Fanify on mobile?",
       answer:
-        "Fanify charges minimal trading fees (typically 1-2%) and leverages Chiliz Chain's low transaction costs. There are no hidden fees, and all costs are transparently displayed before you confirm any transaction.",
+        "Yes! Fanify is fully mobile-friendly. You can access it through your browser and connect using mobile wallets like MetaMask Mobile, Trust Wallet, or the Socios.com app. Engage in hype battles wherever you are.",
     },
     {
       id: 9,
-      question: "Can I use Fanify on mobile devices?",
+      question: "Which teams and sports are available?",
       answer:
-        "Yes! Fanify is fully responsive and works seamlessly on all devices. You can also use mobile Web3 wallets like MetaMask Mobile or Trust Wallet to access all features on the go.",
+        "Fanify supports over 150 teams from the Chiliz ecosystem, including global giants like PSG, FC Barcelona, Juventus, AC Milan, and many more. We're constantly expanding into football, basketball, esports, and other sports where hype rules.",
     },
     {
       id: 10,
-      question: "How do I contact support?",
+      question: "How do I get help if I need support?",
       answer:
-        "Our support team is available 24/7 through our help center, live chat, and community Discord. We also have comprehensive documentation and video tutorials to help you get the most out of Fanify.",
+        "Our team is available 24/7 through Discord, live chat, and our Help Center. We also provide step-by-step guides and tutorials to help you set up, stake, and start dominating the hype game.",
     },
   ];  
 

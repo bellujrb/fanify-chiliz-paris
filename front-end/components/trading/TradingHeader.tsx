@@ -14,19 +14,7 @@ import Link from 'next/link';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useWalletBalance } from '@/hooks/useWalletBalance';
 
-interface Game {
-  id: string;
-  homeTeam: { name: string; logo: string; hype: number };
-  awayTeam: { name: string; logo: string; hype: number };
-  status: string;
-  time: string;
-  competition: string;
-  score: string;
-}
-
 interface TradingHeaderProps {
-  currentGame: Game;
-  liveGames: Game[];
   selectedGame: string;
   onGameSelect: (gameId: string) => void;
 }
