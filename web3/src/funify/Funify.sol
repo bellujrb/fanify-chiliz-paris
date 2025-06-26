@@ -1,7 +1,7 @@
 // SPDX-License-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import {FunifyPlaceBet} from "./funify.placebet.sol";
+import {FunifyPlaceBet} from "./Funify.placebet.sol";
 import {Status} from "../Oracle.sol";
 
 contract Funify is FunifyPlaceBet {

@@ -93,12 +93,10 @@ contract Oracle {
     // 4. Iniciar o jogo e fechar para apostas (status.closed)
     function closeBets(bytes4 hypeId) public {
         MatchHype storage matchHype = matchHypes[hypeId];
-        require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Open, "Match must be open to close bets");
-        // AQUI - VALIDAÇÃO DE TEMPO COMENTADA PARA TESTES
-        // require(block.timestamp >= matchHype.scheduledTime, "Match has not started yet");
 
         matchHype.status = Status.Closed;
+        matchHype.end = block.timestamp;
 
         emit MatchClosed(hypeId);
     }
@@ -166,7 +164,7 @@ contract Oracle {
 
     // Função para verificar se um jogo existe
     function matchExists(bytes4 hypeId) public view returns (bool) {
-        return matchHypes[hypeId].scheduledTime != 0;
+        return matchHypes[hypeId].status != Status.Scheduled;
     }
 
     // Função para obter todos os hypeIds

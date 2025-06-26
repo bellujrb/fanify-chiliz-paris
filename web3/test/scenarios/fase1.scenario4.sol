@@ -21,7 +21,7 @@ contract Fase1Cenario4Test is BaseSetup {
         
         // Schedule match for future time
         uint256 scheduledTime = block.timestamp + 1 hours;
-        oracle.scheduleMatch(0x12345678, scheduledTime);
+        oracle.scheduleMatch(0x12345678, scheduledTime, "AAA", "BBB");
         
         // Update hype (70% for Team A, 30% for Team B)
         oracle.updateHype(0x12345678, 70, 30);
@@ -49,7 +49,7 @@ contract Fase1Cenario4Test is BaseSetup {
         oracle.updateScore(0x12345678, 1, 0);
         
         // Try to claim prize before match is finished - should revert
-        vm.expectRevert("Match not finished");
+        vm.expectRevert("MatchNotFinished");
         vm.prank(apostadores[0]);
         funify.claimPrize(0x12345678);
     }

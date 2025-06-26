@@ -25,7 +25,7 @@ contract Fase0Cenario0Test is BaseSetup {
         
         // Schedule match for future time
         uint256 scheduledTime = block.timestamp + 1 hours;
-        oracle.scheduleMatch(0x11111111, scheduledTime);
+        oracle.scheduleMatch(0x11111111, scheduledTime, "AAA", "BBB");
         
         // Update hype (50% for Team A, 50% for Team B)
         oracle.updateHype(0x11111111, 50, 50);
