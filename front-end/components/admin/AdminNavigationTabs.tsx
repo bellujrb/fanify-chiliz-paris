@@ -24,12 +24,6 @@ const AdminNavigationTabs: React.FC<AdminNavigationTabsProps> = ({
       color: 'text-red-600',
     },
     {
-      id: 'stats',
-      label: 'Estatísticas dos Jogos',
-      icon: BarChart3,
-      color: 'text-green-600',
-    },
-    {
       id: 'system',
       label: 'Sistema',
       icon: Shield,

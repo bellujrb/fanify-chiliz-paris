@@ -2,13 +2,11 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Settings, Shield, Activity } from 'lucide-react';
+import { ArrowLeft, Settings, Shield, Activity, DollarSign, Square, Trophy, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import AdminNavigationTabs from '@/components/admin/AdminNavigationTabs';
 import GamesSection from '@/components/admin/GamesSection';
 import SystemSection from '@/components/admin/SystemSection';
-import GamesData from '@/components/admin/GamesData';
-import TradingHeader from '@/components/trading/TradingHeader';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import CreateGameModal from '@/components/admin/CreateGameModal';
 
@@ -16,20 +14,7 @@ export default function AdminPage() {
   const [selectedGame, setSelectedGame] = useState('psg-bot');
   const [activeSection, setActiveSection] = useState('games');
 
-  const liveGames = [
-    {
-      id: 'psg-bot',
-      homeTeam: { name: 'PSG', logo: '🔴', hype: 62 },
-      awayTeam: { name: 'BOT', logo: '🤖', hype: 38 },
-      status: 'Live',
-      time: '45 min left',
-      competition: 'Champions League',
-      score: '1-1',
-      minute: 67
-    },
-  ];
 
-  const currentGame = liveGames.find(game => game.id === selectedGame) || liveGames[0];
 
   const renderActiveSection = () => {
     switch (activeSection) {
@@ -43,28 +28,15 @@ export default function AdminPage() {
             />
           </div>
         );
-      case 'stats':
-        return (
-          <div>
-            <CreateGameModal />
-            <GamesData
-              currentGame={currentGame}
-              selectedGame={selectedGame}
-              onGameSelect={setSelectedGame}
-            />
-          </div>
-        );
       case 'system':
         return (
           <div>
-            <CreateGameModal />
             <SystemSection />
           </div>
         );
       default:
         return (
           <div>
-            <CreateGameModal />
             <GamesSection
               selectedGame={selectedGame}
               onGameSelect={setSelectedGame}
@@ -73,8 +45,6 @@ export default function AdminPage() {
         );
     }
   };
-
-  // Função mock para gerar dados de hype por dia para cada jogo
 
   return (
     <div className="min-h-screen bg-gray-50">

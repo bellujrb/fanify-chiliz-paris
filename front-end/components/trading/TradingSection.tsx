@@ -57,13 +57,11 @@ const TradingSection: React.FC<TradingSectionProps> = ({
         {/* Left Column - Hype Trading */}
         <div className="lg:col-span-2 space-y-6">
           <LiveHypeDisplay currentGame={currentGame} liveData={liveData} />
-          <HypeChart chartData={chartData} currentGame={currentGame} />
+          {/* <HypeChart chartData={chartData} currentGame={currentGame} /> */}
         </div>
 
         {/* Right Column - Stats & Activity */}
         <div className="space-y-6">
-          <LiveStats liveData={liveData} />
-          <RecentTrades trades={recentTrades} />
           <SocialSentiment currentGame={currentGame} />
         </div>
       </div>

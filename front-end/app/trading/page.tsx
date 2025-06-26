@@ -114,8 +114,6 @@ export default function TradingApp() {
         return (
           <>
             <GameSelector
-              currentGame={currentGame}
-              liveGames={liveGames}
               selectedGame={selectedGame}
               onGameSelect={setSelectedGame}
             />

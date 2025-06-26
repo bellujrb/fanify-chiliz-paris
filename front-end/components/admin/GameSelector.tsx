@@ -3,7 +3,11 @@
 import React from 'react';
 import { 
   ChevronDown,
-  Info} from 'lucide-react';
+  Info,
+  DollarSign,
+  Square,
+  Trophy
+} from 'lucide-react';
 import {
   Popover,
   PopoverContent,
@@ -11,6 +15,7 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { useSmartContractGames } from '@/hooks/useSmartContractGames';
+import TeamsHypeChart from './TeamsHypeChart';
 
 interface Game {
   id: string;
@@ -34,10 +39,34 @@ const GameSelector: React.FC<GameSelectorProps> = ({
 }) => {
   const { games, loading } = useSmartContractGames();
 
+  // Funções de ação (mock)
+  const handleOpenBetting = () => {
+    // lógica para abrir apostas
+  };
+  const handleCloseBetting = () => {
+    // lógica para fechar apostas
+  };
+  const handleFinalizeGame = () => {
+    // lógica para finalizar jogo
+  };
 
+  // Dados mock para o gráfico (exemplo)
+  const mockHypeData = [
+    { day: 'Seg', homeHype: 60, awayHype: 40 },
+    { day: 'Ter', homeHype: 65, awayHype: 35 },
+    { day: 'Qua', homeHype: 70, awayHype: 30 },
+    { day: 'Qui', homeHype: 68, awayHype: 32 },
+    { day: 'Sex', homeHype: 72, awayHype: 28 },
+    { day: 'Sáb', homeHype: 75, awayHype: 25 },
+    { day: 'Dom', homeHype: 80, awayHype: 20 },
+  ];
+
+  const selected = games.find(g => g.hypeId === selectedGame);
+  const homeTeamName = selected?.teamA || 'Time A';
+  const awayTeamName = selected?.teamB || 'Time B';
 
   return (
-    <div className="mb-6">
+    <div className="display">
       {/* Game Selector */}
       <Popover>
         <PopoverTrigger asChild>
@@ -122,6 +151,29 @@ const GameSelector: React.FC<GameSelectorProps> = ({
           </div>
         </PopoverContent>
       </Popover>
+
+      {/* Row de botões de ação do admin */}
+      <div className="flex flex-row gap-3 justify-center mt-4">
+        <Button onClick={handleOpenBetting} variant="default" className="min-w-[140px]">
+          Abrir para apostas
+        </Button>
+        <Button onClick={handleCloseBetting} variant="outline" className="min-w-[140px]">
+          Fechar apostas
+        </Button>
+        <Button onClick={handleFinalizeGame} variant="destructive" className="min-w-[140px]">
+          Finalizar jogo
+        </Button>
+      </div>
+      
+      <div className='py-2 mt-4'>
+        <TeamsHypeChart
+          mockHypeData={mockHypeData}
+          homeTeamName={homeTeamName}
+          awayTeamName={awayTeamName}
+        />
+      </div>
+
+      
     </div>
   );
 };
