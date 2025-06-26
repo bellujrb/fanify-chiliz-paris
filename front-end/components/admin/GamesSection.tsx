@@ -20,11 +20,6 @@ import {
   CheckCircle,
   AlertTriangle
 } from 'lucide-react';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { 
   DropdownMenu,
@@ -32,8 +27,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ChartContainer, ChartLegend, ChartTooltip } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, Bar } from 'recharts';
+import GameSelector from './GameSelector';
 
 interface Game {
   id: string;
@@ -47,15 +41,11 @@ interface Game {
 }
 
 interface GamesSectionProps {
-  currentGame: Game;
-  liveGames: Game[];
   selectedGame: string;
   onGameSelect: (gameId: string) => void;
 }
 
 const GamesSection: React.FC<GamesSectionProps> = ({
-  currentGame,
-  liveGames,
   selectedGame,
   onGameSelect
 }) => {
@@ -112,73 +102,20 @@ const GamesSection: React.FC<GamesSectionProps> = ({
 
   return (
     <div className="space-y-8">
-      {/* Game Selector */}
-      <div className="bg-white rounded-2xl p-4 shadow-lg border border-gray-200">
-        <h3 className="text-lg font-bold text-gray-900 mb-2">Selecionar Jogo</h3>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-full justify-between bg-white border border-gray-200 hover:border-purple-300 transition-all duration-200 shadow-sm hover:shadow-md p-2 h-auto min-h-0"
-            >
-              <div className="flex items-center space-x-2">
-                <span className="text-gray-600 text-sm">Jogo Selecionado:</span>
-                <div className="flex items-center space-x-1">
-                  <span className="text-base">{currentGame.homeTeam.logo}</span>
-                  <span className="font-semibold text-gray-900 text-sm">{currentGame.homeTeam.name}</span>
-                  <span className="text-gray-400 text-xs">vs</span>
-                  <span className="font-semibold text-gray-900 text-sm">{currentGame.awayTeam.name}</span>
-                  <span className="text-base">{currentGame.awayTeam.logo}</span>
-                </div>
-              </div>
-              <ChevronDown className="h-3 w-3 text-gray-500" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[320px] p-0 shadow-xl border-0 rounded-xl" align="center">
-            <div className="bg-white rounded-xl overflow-hidden">
-              <div className="p-2 bg-gray-50 border-b border-gray-100">
-                <h3 className="font-bold text-gray-900 text-base">Jogos Disponíveis</h3>
-                <p className="text-xs text-gray-600">Selecione um jogo</p>
-              </div>
-              <div className="max-h-60 overflow-y-auto divide-y divide-gray-100">
-                {liveGames.map((game) => (
-                  <button
-                    key={game.id}
-                    onClick={() => onGameSelect(game.id)}
-                    className={`w-full px-3 py-2 text-left hover:bg-gray-50 transition-all duration-200 border-l-2 text-sm flex items-center justify-between ${
-                      game.id === selectedGame 
-                        ? 'border-purple-500 bg-purple-50/50' 
-                        : 'border-transparent'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{game.homeTeam.logo}</span>
-                      <span className="font-semibold text-gray-900 text-sm">{game.homeTeam.name}</span>
-                      <span className="text-gray-400 text-xs">vs</span>
-                      <span className="font-semibold text-gray-900 text-sm">{game.awayTeam.name}</span>
-                      <span className="text-lg">{game.awayTeam.logo}</span>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <span className="text-xs font-bold text-gray-900">{game.score}</span>
-                      <span className="text-[10px] text-gray-400">{game.time}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
+      <GameSelector
+        selectedGame={selectedGame}
+        onGameSelect={onGameSelect}
+      />
 
       {/* Game Status Overview */}
       <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-        <div className="flex items-center justify-between mb-6">
+        {/* <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-gray-900">Status do Jogo: {currentGame.homeTeam.name} vs {currentGame.awayTeam.name}</h3>
           <div className="flex items-center space-x-2">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
             <span className="text-sm text-gray-600">Painel Admin</span>
           </div>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           {[

@@ -86,6 +86,7 @@ export default function ContractInteractionPage() {
   const [hypeIds, setHypeIds] = useState<string[]>([]);
   const [teamAAbbreviation, setTeamAAbbreviation] = useState<string>("");
   const [teamBAbbreviation, setTeamBAbbreviation] = useState<string>("");
+  const [selectedGame, setSelectedGame] = useState<string>('');
 
   // Conectar carteira
   const connectWallet = async () => {
