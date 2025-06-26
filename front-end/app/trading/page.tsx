@@ -90,10 +90,16 @@ export default function TradingApp() {
               onGameSelect={setSelectedGame}
             />
             <TokenBalance userTokens={userTokens} />
-            <TradingSection
-              currentGame={currentGame}
-              liveData={liveData}
-            />
+            {currentGame ? (
+              <TradingSection
+                currentGame={currentGame}
+                liveData={liveData}
+              />
+            ) : (
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 text-center text-gray-400 mt-6">
+                No game data to display.
+              </div>
+            )}
           </>
         );
       case 'staking':
