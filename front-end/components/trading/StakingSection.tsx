@@ -4,28 +4,49 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
-  Coins, 
-  TrendingUp, 
   ArrowUpDown,
-  Zap,
   ArrowUp,
   ArrowDown,
   Clock,
-  Target
+  Target,
+  Coins,
+  Zap
 } from 'lucide-react';
+import { parseEther, getContract } from 'viem';
+import deployedContracts from '@/lib/deployedContracts';
+import { useToast } from '@/hooks/use-toast';
+import { useAccount, useWalletClient, usePublicClient } from 'wagmi';
+import { useWalletBalance } from '@/hooks/useWalletBalance';
 
 const StakingSection: React.FC = () => {
   const [stakeAmount, setStakeAmount] = useState('');
   const [unstakeAmount, setUnstakeAmount] = useState('');
   const [activeTab, setActiveTab] = useState<'stake' | 'unstake'>('stake');
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+  
+  // Wagmi hooks
+  const { address, isConnected } = useAccount();
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
+  
+  // Dados reais do usuário
+  const { balance, hypeBalance, isLoading, refetch } = useWalletBalance();
 
-  // User's current staking data
+  // Formatar valores para exibição
+  const formatBalance = (value: string) => {
+    const num = parseFloat(value);
+    if (isNaN(num)) return '0.00';
+    return num.toFixed(2);
+  };
+
+  // Dados de staking reais (baseados no saldo de HYPE)
   const stakingData = {
-    totalStaked: 450, // CHZ staked
-    totalHype: 450, // HYPE tokens received (1:1 ratio)
-    pendingRewards: 12.5, // CHZ rewards
+    totalStaked: parseFloat(hypeBalance) || 0, // HYPE tokens = CHZ stakados (1:1)
+    totalHype: parseFloat(hypeBalance) || 0, // HYPE tokens recebidos
+    pendingRewards: 0, // Por enquanto 0, pode ser implementado depois
     stakingAPY: 18.5, // Annual percentage yield
-    timeStaked: '15 days'
+    timeStaked: '15 days' // Mock data
   };
 
   const calculateHypeReceived = (amount: string) => {
@@ -39,6 +60,208 @@ const StakingSection: React.FC = () => {
     return (amountNum * dailyRate * 30).toFixed(2); // Monthly estimate
   };
 
+  // Função de stake real usando wagmi
+  const handleStake = async () => {
+    if (!isConnected || !address) {
+      toast({
+        title: '❌ Carteira não conectada',
+        description: 'Conecte sua carteira primeiro',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!stakeAmount || parseFloat(stakeAmount) <= 0) {
+      toast({
+        title: '❌ Valor inválido',
+        description: 'Insira um valor válido para stake',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!walletClient) {
+      toast({
+        title: '❌ Wallet não disponível',
+        description: 'Wallet client não está disponível',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Verificar se tem saldo suficiente
+    const currentBalance = parseFloat(balance);
+    const stakeValue = parseFloat(stakeAmount);
+    if (currentBalance < stakeValue) {
+      toast({
+        title: '❌ Saldo insuficiente',
+        description: `Você tem ${formatBalance(balance)} CHZ, mas está tentando stakar ${stakeAmount} CHZ`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log('Iniciando stake...', {
+        address,
+        amount: stakeAmount,
+        contractAddress: deployedContracts.HypeToken.address
+      });
+
+      const hypeTokenContract = getContract({
+        address: deployedContracts.HypeToken.address as `0x${string}`,
+        abi: deployedContracts.HypeToken.abi,
+        client: walletClient,
+      });
+
+      console.log('Contrato criado, chamando stake...');
+
+      const hash = await hypeTokenContract.write.stake({
+        value: parseEther(stakeAmount),
+      });
+
+      console.log('Stake realizado com sucesso!', hash);
+
+      toast({
+        title: '💰 Stake Realizado!',
+        description: `${stakeAmount} CHZ foram stakados. Hash: ${hash.slice(0, 10)}...`,
+      });
+      
+      setStakeAmount('');
+      
+      // Atualizar saldos após o stake
+      setTimeout(() => {
+        refetch();
+      }, 2000);
+      
+    } catch (error: any) {
+      console.error('Erro no stake:', error);
+      
+      let errorMessage = 'Falha ao stakar tokens.';
+      if (error?.message) {
+        if (error.message.includes('insufficient funds')) {
+          errorMessage = 'Saldo insuficiente de CHZ.';
+        } else if (error.message.includes('user rejected')) {
+          errorMessage = 'Transação cancelada pelo usuário.';
+        } else if (error.message.includes('network')) {
+          errorMessage = 'Erro de rede. Verifique sua conexão.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      toast({
+        title: '❌ Erro no Stake',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Função de unstake real usando wagmi
+  const handleUnstake = async () => {
+    if (!isConnected || !address) {
+      toast({
+        title: '❌ Carteira não conectada',
+        description: 'Conecte sua carteira primeiro',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!unstakeAmount || parseFloat(unstakeAmount) <= 0) {
+      toast({
+        title: '❌ Valor inválido',
+        description: 'Insira um valor válido para unstake',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!walletClient) {
+      toast({
+        title: '❌ Wallet não disponível',
+        description: 'Wallet client não está disponível',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Verificar se tem HYPE suficiente
+    const currentHypeBalance = parseFloat(hypeBalance);
+    const unstakeValue = parseFloat(unstakeAmount);
+    if (currentHypeBalance < unstakeValue) {
+      toast({
+        title: '❌ Saldo insuficiente',
+        description: `Você tem ${formatBalance(hypeBalance)} HYPE, mas está tentando unstakar ${unstakeAmount} HYPE`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log('Iniciando unstake...', {
+        address,
+        amount: unstakeAmount,
+        contractAddress: deployedContracts.HypeToken.address
+      });
+
+      const hypeTokenContract = getContract({
+        address: deployedContracts.HypeToken.address as `0x${string}`,
+        abi: deployedContracts.HypeToken.abi,
+        client: walletClient,
+      });
+
+      console.log('Contrato criado, chamando unstake...');
+
+      const hash = await hypeTokenContract.write.unstake([
+        parseEther(unstakeAmount)
+      ]);
+
+      console.log('Unstake realizado com sucesso!', hash);
+
+      toast({
+        title: '🔄 Unstake Realizado!',
+        description: `${unstakeAmount} HYPE foram unstakados. Hash: ${hash.slice(0, 10)}...`,
+      });
+      
+      setUnstakeAmount('');
+      
+      // Atualizar saldos após o unstake
+      setTimeout(() => {
+        refetch();
+      }, 2000);
+      
+    } catch (error: any) {
+      console.error('Erro no unstake:', error);
+      
+      let errorMessage = 'Falha ao unstakar tokens.';
+      if (error?.message) {
+        if (error.message.includes('insufficient')) {
+          errorMessage = 'Saldo insuficiente de HYPE stakado.';
+        } else if (error.message.includes('user rejected')) {
+          errorMessage = 'Transação cancelada pelo usuário.';
+        } else if (error.message.includes('network')) {
+          errorMessage = 'Erro de rede. Verifique sua conexão.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      toast({
+        title: '❌ Erro no Unstake',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -48,6 +271,15 @@ const StakingSection: React.FC = () => {
           Stake your CHZ tokens to receive HYPE tokens for betting. Earn rewards while your tokens are staked.
         </p>
       </div>
+
+      {/* Connection Status */}
+      {!isConnected && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
+          <p className="text-yellow-800 font-medium">
+            🔗 Conecte sua carteira para começar a stakar
+          </p>
+        </div>
+      )}
 
       {/* Stake/Unstake Tabs */}
       <div className="flex justify-center mb-8">
@@ -105,23 +337,36 @@ const StakingSection: React.FC = () => {
                       onChange={(e) => setStakeAmount(e.target.value)}
                       placeholder="Enter CHZ amount"
                       className="pr-16"
+                      disabled={!isConnected}
+                      max={balance}
                     />
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                       CHZ
                     </div>
                   </div>
+                  <div className="text-xs text-gray-600 mt-1">
+                    Available: {formatBalance(balance)} CHZ
+                  </div>
                 </div>
 
                 <div className="flex space-x-2">
-                  {['50', '100', '250', '500'].map((amount) => (
+                  {['25%', '50%', '75%', 'Max'].map((percentage) => (
                     <Button
-                      key={amount}
+                      key={percentage}
                       variant="outline"
                       size="sm"
-                      onClick={() => setStakeAmount(amount)}
+                      onClick={() => {
+                        const currentBalance = parseFloat(balance);
+                        if (isNaN(currentBalance)) return;
+                        
+                        const multiplier = percentage === 'Max' ? 1 : parseInt(percentage) / 100;
+                        const amount = currentBalance * multiplier;
+                        setStakeAmount(amount.toFixed(2));
+                      }}
                       className="flex-1"
+                      disabled={!isConnected || isLoading}
                     >
-                      {amount}
+                      {percentage}
                     </Button>
                   ))}
                 </div>
@@ -149,9 +394,25 @@ const StakingSection: React.FC = () => {
                   </div>
                 )}
 
-                <Button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3">
-                  <ArrowUp className="w-5 h-5 mr-2" />
-                  Stake {stakeAmount || '0'} CHZ
+                <Button
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3"
+                  onClick={handleStake}
+                  disabled={loading || !stakeAmount || !isConnected}
+                >
+                  {loading && activeTab === 'stake' ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                      </svg>
+                      Staking...
+                    </span>
+                  ) : (
+                    <>
+                      <ArrowUp className="w-5 h-5 mr-2" />
+                      {isConnected ? `Stake ${stakeAmount || '0'} CHZ` : 'Conecte sua carteira'}
+                    </>
+                  )}
                 </Button>
               </div>
             </>
@@ -179,14 +440,15 @@ const StakingSection: React.FC = () => {
                       onChange={(e) => setUnstakeAmount(e.target.value)}
                       placeholder="Enter HYPE amount"
                       className="pr-16"
-                      max={stakingData.totalHype}
+                      max={hypeBalance}
+                      disabled={!isConnected}
                     />
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
                       HYPE
                     </div>
                   </div>
                   <div className="text-xs text-gray-600 mt-1">
-                    Available: {stakingData.totalHype} HYPE
+                    Available: {formatBalance(hypeBalance)} HYPE
                   </div>
                 </div>
 
@@ -197,10 +459,15 @@ const StakingSection: React.FC = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => {
+                        const currentHypeBalance = parseFloat(hypeBalance);
+                        if (isNaN(currentHypeBalance)) return;
+                        
                         const multiplier = percentage === 'Max' ? 1 : parseInt(percentage) / 100;
-                        setUnstakeAmount((stakingData.totalHype * multiplier).toString());
+                        const amount = currentHypeBalance * multiplier;
+                        setUnstakeAmount(amount.toFixed(2));
                       }}
                       className="flex-1"
+                      disabled={!isConnected || isLoading}
                     >
                       {percentage}
                     </Button>
@@ -225,16 +492,32 @@ const StakingSection: React.FC = () => {
                       <div className="flex justify-between">
                         <span className="text-gray-700">Remaining Staked:</span>
                         <span className="font-semibold text-gray-900">
-                          {stakingData.totalStaked - parseFloat(unstakeAmount || '0')} CHZ
+                          {formatBalance((parseFloat(hypeBalance) - parseFloat(unstakeAmount || '0')).toString())} HYPE
                         </span>
                       </div>
                     </div>
                   </div>
                 )}
 
-                <Button className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3">
-                  <ArrowDown className="w-5 h-5 mr-2" />
-                  Unstake {unstakeAmount || '0'} HYPE
+                <Button
+                  className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3"
+                  onClick={handleUnstake}
+                  disabled={loading || !unstakeAmount || !isConnected}
+                >
+                  {loading && activeTab === 'unstake' ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                      </svg>
+                      Unstaking...
+                    </span>
+                  ) : (
+                    <>
+                      <ArrowDown className="w-5 h-5 mr-2" />
+                      {isConnected ? `Unstake ${unstakeAmount || '0'} HYPE` : 'Conecte sua carteira'}
+                    </>
+                  )}
                 </Button>
               </div>
             </>

@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useWalletBalance } from '@/hooks/useWalletBalance';
 
 interface Game {
   id: string;
@@ -31,10 +32,14 @@ interface TradingHeaderProps {
 
 const TradingHeader: React.FC<TradingHeaderProps> = ({
   }) => {
-  // Mock user balance data
-  const userBalance = {
-    CHZ: 1250.50,
-    HYPE: 450
+  // Usar dados reais do hook
+  const { balance, hypeBalance, isLoading } = useWalletBalance();
+
+  // Formatar os valores para exibição
+  const formatBalance = (value: string) => {
+    const num = parseFloat(value);
+    if (isNaN(num)) return '0.00';
+    return num.toFixed(2);
   };
 
   return (
@@ -62,8 +67,17 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
             <div className="flex items-center space-x-2 bg-purple-50 px-3 py-2 rounded-xl border border-purple-200">
               <Coins className="w-4 h-4 text-purple-600" />
               <div className="text-sm">
-                <span className="font-semibold text-purple-600">{userBalance.CHZ.toFixed(2)}</span>
-                <span className="text-purple-500 ml-1">CHZ</span>
+                {isLoading ? (
+                  <div className="flex items-center space-x-1">
+                    <div className="w-3 h-3 bg-purple-300 rounded-full animate-pulse"></div>
+                    <span className="text-purple-500">Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    <span className="font-semibold text-purple-600">{formatBalance(balance)}</span>
+                    <span className="text-purple-500 ml-1">CHZ</span>
+                  </>
+                )}
               </div>
             </div>
 
@@ -71,8 +85,17 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
             <div className="flex items-center space-x-2 bg-red-50 px-3 py-2 rounded-xl border border-red-200">
               <Zap className="w-4 h-4 text-red-600" />
               <div className="text-sm">
-                <span className="font-semibold text-red-600">{userBalance.HYPE}</span>
-                <span className="text-red-500 ml-1">HYPE</span>
+                {isLoading ? (
+                  <div className="flex items-center space-x-1">
+                    <div className="w-3 h-3 bg-red-300 rounded-full animate-pulse"></div>
+                    <span className="text-red-500">Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    <span className="font-semibold text-red-600">{formatBalance(hypeBalance)}</span>
+                    <span className="text-red-500 ml-1">HYPE</span>
+                  </>
+                )}
               </div>
             </div>
 

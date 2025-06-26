@@ -7,6 +7,8 @@ import {
 } from '@rainbow-me/rainbowkit';
 import {
   walletConnectWallet,
+  metaMaskWallet,
+  injectedWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { WagmiProvider, createConfig } from 'wagmi';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -33,11 +35,33 @@ const chilizChain = {
   testnet: true,
 };
 
+// Anvil Local Chain para testes
+const anvilChain = {
+  id: 31337,
+  name: 'Anvil Local',
+  network: 'anvil',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['http://localhost:8545'] },
+    public: { http: ['http://localhost:8545'] },
+  },
+  blockExplorers: {
+    default: { name: 'Etherscan (Local)', url: 'http://localhost:8545' },
+  },
+  testnet: true,
+};
+
 const connectors = connectorsForWallets(
   [
     {
       groupName: 'Recomendado',
       wallets: [
+        metaMaskWallet,
+        injectedWallet,
         walletConnectWallet,
       ],
     },
@@ -50,8 +74,9 @@ const connectors = connectorsForWallets(
 
 const config = createConfig({
   connectors,
-  chains: [chilizChain],
+  chains: [anvilChain, chilizChain],
   transports: {
+    [anvilChain.id]: http('http://localhost:8545'),
     [chilizChain.id]: http('https://spicy-rpc.chiliz.com'),
   },
 });
