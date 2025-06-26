@@ -9,12 +9,112 @@ import GamesSection from '@/components/admin/GamesSection';
 import SystemSection from '@/components/admin/SystemSection';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import CreateGameModal from '@/components/admin/CreateGameModal';
+import { createWalletClient, custom, getContract } from "viem";
+import { anvil } from "viem/chains";
+import deployedContracts from "@/lib/deployedContracts";
+import { useAccount } from "wagmi";
 
 export default function AdminPage() {
   const [selectedGame, setSelectedGame] = useState('psg-bot');
   const [activeSection, setActiveSection] = useState('games');
+  const [loading, setLoading] = useState(false);
+  const { address: account } = useAccount();
 
+  // Função para abrir apostas
+  const openToBets = async () => {
+    if (!account || !selectedGame) {
+      alert("Selecione um jogo e conecte a carteira!");
+      return;
+    }
+    if (typeof window === 'undefined' || !window.ethereum) {
+      alert("Wallet não disponível");
+      return;
+    }
+    setLoading(true);
+    try {
+      const walletClient = createWalletClient({
+        chain: anvil,
+        transport: custom(window.ethereum as any),
+      });
+      const oracleContract = getContract({
+        address: deployedContracts.Oracle.address as `0x${string}`,
+        abi: deployedContracts.Oracle.abi,
+        client: walletClient,
+      });
+      await oracleContract.write.openToBets(
+        [selectedGame as `0x${string}`],
+        { account: account as `0x${string}` }
+      );
+      alert("Apostas abertas com sucesso!");
+    } catch (e: any) {
+      alert("Erro ao abrir apostas: " + (e?.message || e));
+    }
+    setLoading(false);
+  };
 
+  // Função para fechar apostas
+  const closeBets = async () => {
+    if (!account || !selectedGame) {
+      alert("Selecione um jogo e conecte a carteira!");
+      return;
+    }
+    if (typeof window === 'undefined' || !window.ethereum) {
+      alert("Wallet não disponível");
+      return;
+    }
+    setLoading(true);
+    try {
+      const walletClient = createWalletClient({
+        chain: anvil,
+        transport: custom(window.ethereum as any),
+      });
+      const oracleContract = getContract({
+        address: deployedContracts.Oracle.address as `0x${string}`,
+        abi: deployedContracts.Oracle.abi,
+        client: walletClient,
+      });
+      await oracleContract.write.closeBets(
+        [selectedGame as `0x${string}`],
+        { account: account as `0x${string}` }
+      );
+      alert("Apostas fechadas com sucesso!");
+    } catch (e: any) {
+      alert("Erro ao fechar apostas: " + (e?.message || e));
+    }
+    setLoading(false);
+  };
+
+  // Função para finalizar jogo
+  const finishMatch = async () => {
+    if (!account || !selectedGame) {
+      alert("Selecione um jogo e conecte a carteira!");
+      return;
+    }
+    if (typeof window === 'undefined' || !window.ethereum) {
+      alert("Wallet não disponível");
+      return;
+    }
+    setLoading(true);
+    try {
+      const walletClient = createWalletClient({
+        chain: anvil,
+        transport: custom(window.ethereum as any),
+      });
+      const oracleContract = getContract({
+        address: deployedContracts.Oracle.address as `0x${string}`,
+        abi: deployedContracts.Oracle.abi,
+        client: walletClient,
+      });
+      await oracleContract.write.finishMatch(
+        [selectedGame as `0x${string}`],
+        { account: account as `0x${string}` }
+      );
+      alert("Jogo finalizado com sucesso!");
+    } catch (e: any) {
+      alert("Erro ao finalizar jogo: " + (e?.message || e));
+    }
+    setLoading(false);
+  };
 
   const renderActiveSection = () => {
     switch (activeSection) {
@@ -25,6 +125,10 @@ export default function AdminPage() {
             <GamesSection
               selectedGame={selectedGame}
               onGameSelect={setSelectedGame}
+              onOpenToBets={openToBets}
+              onCloseBets={closeBets}
+              onFinishMatch={finishMatch}
+              loading={loading}
             />
           </div>
         );
@@ -40,6 +144,10 @@ export default function AdminPage() {
             <GamesSection
               selectedGame={selectedGame}
               onGameSelect={setSelectedGame}
+              onOpenToBets={openToBets}
+              onCloseBets={closeBets}
+              onFinishMatch={finishMatch}
+              loading={loading}
             />
           </div>
         );

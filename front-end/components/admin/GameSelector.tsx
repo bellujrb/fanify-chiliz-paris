@@ -1,12 +1,9 @@
 'use client';
 
 import React from 'react';
-import { 
+import {
   ChevronDown,
   Info,
-  DollarSign,
-  Square,
-  Trophy
 } from 'lucide-react';
 import {
   Popover,
@@ -16,39 +13,79 @@ import {
 import { Button } from '@/components/ui/button';
 import { useSmartContractGames } from '@/hooks/useSmartContractGames';
 import TeamsHypeChart from './TeamsHypeChart';
+import { createPublicClient, http, getContract } from 'viem';
+import { anvil } from 'viem/chains';
+import deployedContracts from '@/lib/deployedContracts';
 
-interface Game {
-  id: string;
-  homeTeam: { name: string; logo: string; hype: number };
-  awayTeam: { name: string; logo: string; hype: number };
-  status: string;
-  time: string;
-  competition: string;
-  score: string;
-  minute?: number;
-}
 
 interface GameSelectorProps {
   selectedGame: string;
   onGameSelect: (hypeId: string) => void;
+  onOpenToBets: () => void;
+  onCloseBets: () => void;
+  onFinishMatch: () => void;
+  loading: boolean;
 }
 
 const GameSelector: React.FC<GameSelectorProps> = ({
   selectedGame,
-  onGameSelect
+  onGameSelect,
+  onOpenToBets,
+  onCloseBets,
+  onFinishMatch,
+  loading
 }) => {
-  const { games, loading } = useSmartContractGames();
+  const { games, loading: contractLoading } = useSmartContractGames();
 
-  // Funções de ação (mock)
-  const handleOpenBetting = () => {
-    // lógica para abrir apostas
-  };
-  const handleCloseBetting = () => {
-    // lógica para fechar apostas
-  };
-  const handleFinalizeGame = () => {
-    // lógica para finalizar jogo
-  };
+  // Estado local para siglas dos times e dados completos do match
+  const [teamAAbbreviation, setTeamAAbbreviation] = React.useState('');
+  const [teamBAbbreviation, setTeamBAbbreviation] = React.useState('');
+  const [matchData, setMatchData] = React.useState<any>(null);
+
+  // Buscar dados do contrato ao selecionar um novo jogo
+  React.useEffect(() => {
+    async function fetchMatchData() {
+      if (!selectedGame) {
+        setTeamAAbbreviation('');
+        setTeamBAbbreviation('');
+        setMatchData(null);
+        return;
+      }
+      try {
+        const publicClient = createPublicClient({
+          chain: anvil,
+          transport: http(),
+        });
+        const oracleContract = getContract({
+          address: deployedContracts.Oracle.address as `0x${string}`,
+          abi: deployedContracts.Oracle.abi,
+          client: publicClient,
+        });
+        const data = await oracleContract.read.getMatch([
+          selectedGame as `0x${string}`,
+        ]);
+        setTeamAAbbreviation(data[8]);
+        setTeamBAbbreviation(data[9]);
+        setMatchData({
+          hypeA: data[0]?.toString(),
+          hypeB: data[1]?.toString(),
+          goalsA: data[2]?.toString(),
+          goalsB: data[3]?.toString(),
+          start: data[4]?.toString(),
+          end: data[5]?.toString(),
+          scheduledTime: data[6]?.toString(),
+          status: data[7],
+          teamAAbbreviation: data[8],
+          teamBAbbreviation: data[9],
+        });
+      } catch (err) {
+        setTeamAAbbreviation('');
+        setTeamBAbbreviation('');
+        setMatchData(null);
+      }
+    }
+    fetchMatchData();
+  }, [selectedGame]);
 
   // Dados mock para o gráfico (exemplo)
   const mockHypeData = [
@@ -61,9 +98,8 @@ const GameSelector: React.FC<GameSelectorProps> = ({
     { day: 'Dom', homeHype: 80, awayHype: 20 },
   ];
 
-  const selected = games.find(g => g.hypeId === selectedGame);
-  const homeTeamName = selected?.teamA || 'Time A';
-  const awayTeamName = selected?.teamB || 'Time B';
+  const homeTeamName = teamAAbbreviation || 'Time A';
+  const awayTeamName = teamBAbbreviation || 'Time B';
 
   return (
     <div className="display">
@@ -76,7 +112,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
           >
             <div className="flex items-center space-x-3">
               <span className="text-gray-600">Selecionar Jogo:</span>
-              {loading ? (
+              {contractLoading ? (
                 <span className="text-gray-400">Carregando...</span>
               ) : (
                 <>
@@ -99,16 +135,16 @@ const GameSelector: React.FC<GameSelectorProps> = ({
             <ChevronDown className="h-4 w-4 text-gray-500" />
           </Button>
         </PopoverTrigger>
-        
+
         <PopoverContent className="w-[400px] p-0 shadow-xl border-0 rounded-xl" align="center">
           <div className="bg-white rounded-xl overflow-hidden">
             <div className="p-4 bg-gray-50 border-b border-gray-100">
               <h3 className="font-bold text-gray-900">Jogos Disponíveis</h3>
               <p className="text-sm text-gray-600">Selecione um jogo para gerenciar</p>
             </div>
-            
+
             <div className="max-h-80 overflow-y-auto">
-              {loading ? (
+              {contractLoading ? (
                 <div className="p-4 text-gray-400">Carregando jogos do contrato...</div>
               ) : games.length === 0 ? (
                 <div className="p-4 text-gray-400">Nenhum jogo encontrado</div>
@@ -154,17 +190,55 @@ const GameSelector: React.FC<GameSelectorProps> = ({
 
       {/* Row de botões de ação do admin */}
       <div className="flex flex-row gap-3 justify-center mt-4">
-        <Button onClick={handleOpenBetting} variant="default" className="min-w-[140px]">
+        <Button
+          onClick={onOpenToBets}
+          variant="default"
+          className="min-w-[140px]"
+          disabled={!selectedGame || loading}
+        >
           Abrir para apostas
         </Button>
-        <Button onClick={handleCloseBetting} variant="outline" className="min-w-[140px]">
+        <Button
+          onClick={onCloseBets}
+          variant="outline"
+          className="min-w-[140px]"
+          disabled={!selectedGame || loading}
+        >
           Fechar apostas
         </Button>
-        <Button onClick={handleFinalizeGame} variant="destructive" className="min-w-[140px]">
+        <Button
+          onClick={onFinishMatch}
+          variant="destructive"
+          className="min-w-[140px]"
+          disabled={!selectedGame || loading}
+        >
           Finalizar jogo
         </Button>
       </div>
-      
+
+      {/* Exibir dados completos do match */}
+      {matchData && (
+        <div className="mt-6 mb-2 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+          <h3 className="font-bold text-lg text-gray-900 mb-4">Dados do Match</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-2 gap-x-6 text-sm">
+            <div className="text-gray-500">Hype A:<span className="ml-2 text-gray-900 font-semibold">{matchData.hypeA}</span></div>
+            <div className="text-gray-500">Hype B:<span className="ml-2 text-gray-900 font-semibold">{matchData.hypeB}</span></div>
+            <div className="text-gray-500">Gols A:<span className="ml-2 text-gray-900 font-semibold">{matchData.goalsA}</span></div>
+            <div className="text-gray-500">Gols B:<span className="ml-2 text-gray-900 font-semibold">{matchData.goalsB}</span></div>
+            <div className="text-gray-500">Início:<span className="ml-2 text-gray-900 font-semibold">{matchData.start}</span></div>
+            <div className="text-gray-500">Fim:<span className="ml-2 text-gray-900 font-semibold">{matchData.end}</span></div>
+            <div className="text-gray-500">Agendado:<span className="ml-2 text-gray-900 font-semibold">{matchData.scheduledTime ? new Date(Number(matchData.scheduledTime) * 1000).toLocaleString('pt-BR') : '-'}</span></div>
+            <div className="text-gray-500 flex items-center">Status:
+              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${matchData.status === 0 ? 'bg-blue-100 text-blue-700' : matchData.status === 1 ? 'bg-green-100 text-green-700' : matchData.status === 2 ? 'bg-yellow-100 text-yellow-700' : matchData.status === 3 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'}`}>
+                {typeof matchData.status === 'number' ? (['Scheduled','Open','Closed','Finished'][matchData.status] || matchData.status) : String(matchData.status)}
+              </span>
+            </div>
+            <div className="text-gray-500 col-span-2 md:col-span-1">Time A:<span className="ml-2 text-gray-900 font-bold uppercase tracking-wide">{matchData.teamAAbbreviation}</span></div>
+            <div className="text-gray-500 col-span-2 md:col-span-1">Time B:<span className="ml-2 text-gray-900 font-bold uppercase tracking-wide">{matchData.teamBAbbreviation}</span></div>
+          </div>
+        </div>
+      )}
+
       <div className='py-2 mt-4'>
         <TeamsHypeChart
           mockHypeData={mockHypeData}
@@ -172,8 +246,6 @@ const GameSelector: React.FC<GameSelectorProps> = ({
           awayTeamName={awayTeamName}
         />
       </div>
-
-      
     </div>
   );
 };

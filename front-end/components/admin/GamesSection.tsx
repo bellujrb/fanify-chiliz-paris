@@ -6,11 +6,19 @@ import GameSelector from './GameSelector';
 interface GamesSectionProps {
   selectedGame: string;
   onGameSelect: (gameId: string) => void;
+  onOpenToBets: () => void;
+  onCloseBets: () => void;
+  onFinishMatch: () => void;
+  loading: boolean;
 }
 
 const GamesSection: React.FC<GamesSectionProps> = ({
   selectedGame,
-  onGameSelect
+  onGameSelect,
+  onOpenToBets,
+  onCloseBets,
+  onFinishMatch,
+  loading
 }) => {
 
   return (
@@ -18,6 +26,10 @@ const GamesSection: React.FC<GamesSectionProps> = ({
       <GameSelector
         selectedGame={selectedGame}
         onGameSelect={onGameSelect}
+        onOpenToBets={onOpenToBets}
+        onCloseBets={onCloseBets}
+        onFinishMatch={onFinishMatch}
+        loading={loading}
       />
     </div>
   );
