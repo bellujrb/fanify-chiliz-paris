@@ -8,10 +8,10 @@ abstract contract FunifyClaim is FunifyCrud {
 
     function claimPrize(bytes4 hypeId)
         external
-        onlyValidClaim(hypeId)
         onlyMatchFinished(hypeId)
         onlyNoDraw(hypeId)
         onlyUserWon(hypeId)
+        onlyValidClaim(hypeId)
     {
         // Get bet and match details
         Bet storage bet = bets[hypeId][msg.sender];
@@ -39,13 +39,24 @@ abstract contract FunifyClaim is FunifyCrud {
         (,, uint8 goalsA, uint8 goalsB,,,,,,) = oracle.getMatch(hypeId);
         bool teamAWon = goalsA > goalsB;
 
-        uint256 odds = _getOdds(hypeA, hypeB, bet.teamA);
+        // Calcule oddsA e oddsB
+        uint256 oddsA = _getOdds(hypeA, hypeB, true);
+        uint256 oddsB = _getOdds(hypeA, hypeB, false);
+        uint256 userOdds = bet.teamA ? oddsA : oddsB;
         uint256 totalPool = prizePoolA[hypeId] + prizePoolB[hypeId];
         uint256 houseCut = (totalPool * HOUSE_FEE) / 1e18;
         uint256 prizePool = totalPool - houseCut;
 
-        uint256 totalProporcao = _getTotalProporcao(teamAWon, prizePoolA[hypeId], prizePoolB[hypeId], odds);
-        return (bet.amount * odds * prizePool) / totalProporcao;
+        uint256 totalProporcao = _getTotalProporcao(teamAWon, prizePoolA[hypeId], prizePoolB[hypeId], oddsA, oddsB);
+        return (bet.amount * userOdds * prizePool) / totalProporcao;
+    }
+
+    function _getTotalProporcao(bool teamAWon, uint256 prizePoolA_, uint256 prizePoolB_, uint256 oddsA, uint256 oddsB)
+        internal
+        pure
+        returns (uint256)
+    {
+        return teamAWon ? prizePoolA_ * oddsA : prizePoolB_ * oddsB;
     }
 
     function _updateHouseProfit(bytes4 hypeId) internal {

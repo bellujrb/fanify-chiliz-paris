@@ -17,11 +17,12 @@ contract Fase2Cenario2Test is BaseSetup {
         super.setUp();
         token = new HypeToken();
         oracle = new Oracle();
+        vm.prank(casa);
         funify = new Funify(address(token), address(oracle));
         
         // Schedule match for future time
         uint256 scheduledTime = block.timestamp + 1 hours;
-        oracle.scheduleMatch(0x12345678, scheduledTime);
+        oracle.scheduleMatch(0x12345678, scheduledTime, "AAA", "BBB");
         
         // Update hype (70% for Team A, 30% for Team B)
         oracle.updateHype(0x12345678, 70, 30);
@@ -46,13 +47,13 @@ contract Fase2Cenario2Test is BaseSetup {
             funify.placeBet(0x12345678, apostaA, amount);
         }
         
-        // Close bets and start match
+        // Close bets (match status becomes Closed)
         oracle.closeBets(0x12345678);
         
         // Update score: Team B wins (0-1)
         oracle.updateScore(0x12345678, 0, 1);
         
-        // Finish match
+        // Finish match (match status becomes Finished)
         oracle.finishMatch(0x12345678);
         
         // Winners claim prizes (Team B bettors - last 3 users)

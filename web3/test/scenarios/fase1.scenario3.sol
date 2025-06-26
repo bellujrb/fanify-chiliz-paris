@@ -17,11 +17,12 @@ contract Fase1Cenario3Test is BaseSetup {
         super.setUp();
         token = new HypeToken();
         oracle = new Oracle();
+        vm.prank(casa);
         funify = new Funify(address(token), address(oracle));
         
         // Schedule match for future time
         uint256 scheduledTime = block.timestamp + 1 hours;
-        oracle.scheduleMatch(0x12345678, scheduledTime);
+        oracle.scheduleMatch(0x12345678, scheduledTime, "AAA", "BBB");
         
         // Update hype (70% for Team A, 30% for Team B)
         oracle.updateHype(0x12345678, 70, 30);
@@ -48,7 +49,7 @@ contract Fase1Cenario3Test is BaseSetup {
         oracle.closeBets(0x12345678);
         
         // Try to place a bet after match is closed - should revert
-        vm.expectRevert("Match not open for betting");
+        vm.expectRevert(bytes("E009"));
         vm.prank(apostadores[0]);
         funify.placeBet(0x12345678, true, 100 ether);
     }

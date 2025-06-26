@@ -93,12 +93,10 @@ contract Oracle {
     // 4. Iniciar o jogo e fechar para apostas (status.closed)
     function closeBets(bytes4 hypeId) public {
         MatchHype storage matchHype = matchHypes[hypeId];
-        require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Open, "Match must be open to close bets");
-        // AQUI - VALIDAÇÃO DE TEMPO COMENTADA PARA TESTES
-        // require(block.timestamp >= matchHype.scheduledTime, "Match has not started yet");
 
         matchHype.status = Status.Closed;
+        matchHype.end = block.timestamp;
 
         emit MatchClosed(hypeId);
     }
@@ -120,7 +118,6 @@ contract Oracle {
         MatchHype storage matchHype = matchHypes[hypeId];
         require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Closed, "Match must be closed to finish");
-        require(matchHype.goalsA > 0 || matchHype.goalsB > 0, "Score must be set before finishing");
 
         matchHype.status = Status.Finished;
 
@@ -166,7 +163,7 @@ contract Oracle {
 
     // Função para verificar se um jogo existe
     function matchExists(bytes4 hypeId) public view returns (bool) {
-        return matchHypes[hypeId].scheduledTime != 0;
+        return matchHypes[hypeId].status != Status.Scheduled;
     }
 
     // Função para obter todos os hypeIds
@@ -178,4 +175,12 @@ contract Oracle {
     function getTotalMatches() public view returns (uint256) {
         return hypeIds.length;
     }
+
+    function getMatchStatus(bytes4 hypeId) public view returns (Status) {
+        return matchHypes[hypeId].status;
+    }
+
+    function getMatchGoals(bytes4 hypeId) public view returns (uint8 goalsA, uint8 goalsB) {
+        return (matchHypes[hypeId].goalsA, matchHypes[hypeId].goalsB);
+    }   
 }

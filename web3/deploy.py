@@ -28,8 +28,8 @@ class Contract:
 CHAIN_ID = int(os.getenv('CHAIN_ID'))
 CONTRACT_SCRIPT_NAME = "Deploy.s.sol"
 TRANSACTIONS_PATH = f"broadcast/{CONTRACT_SCRIPT_NAME}/{CHAIN_ID}/run-latest.json"
-TARGET_DIR_UI = "../ui/contracts/deployedContracts.ts"
-TARGET_DIR_MICROSERVICES = "../front-end/lib/deployedContracts.ts"
+TARGET_DIR_FRONTEND = "../front-end/lib/deployedContracts.ts"
+TARGET_DIR_BACKEND = "../back-end/lib/deployedContracts.ts"
 
 CONTRACTS = []
 
@@ -72,9 +72,30 @@ const deployedContracts = {json_data} as const;
 export default deployedContracts;
         """
 
-    with open(TARGET_DIR_MICROSERVICES, "w") as ts_file:
+    with open(TARGET_DIR_FRONTEND, "w") as ts_file:
         ts_file.write(typescript_content_agent)
-    print_success(f"Arquivo de contratos atualizado em {TARGET_DIR_MICROSERVICES}")
+    print_success(f"Arquivo de contratos atualizado em {TARGET_DIR_FRONTEND}")
+
+
+def generate_typescript_for_backend(contracts):
+    print_step("Gerando arquivo TypeScript para Microservices")
+    json_data = dumps(
+        {
+            contract.name: {"address": contract.address, "abi": contract.abi}
+            for contract in contracts
+        },
+        indent=4,
+    )
+
+    typescript_content_agent = f"""
+const deployedContracts = {json_data} as const;
+
+export default deployedContracts;
+        """
+
+    with open(TARGET_DIR_BACKEND, "w") as ts_file:
+        ts_file.write(typescript_content_agent)
+    print_success(f"Arquivo de contratos atualizado em {TARGET_DIR_BACKEND}")
 
 def updateABI():
     print_step("Iniciando atualização de ABIs e endereços")
@@ -105,6 +126,7 @@ def updateABI():
                     print_success(f"ABI de {name} carregada com sucesso")
                     
     generate_typescript_for_frontend(contracts)
+    generate_typescript_for_backend(contracts)
 
 
 
