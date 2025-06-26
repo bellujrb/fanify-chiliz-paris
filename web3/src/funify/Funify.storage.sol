@@ -9,7 +9,7 @@ import {FunifyEvents} from "./funify.events.sol";
 /**
  * @title FunifyStorage
  * @dev Contrato base que define a estrutura de dados e constantes do sistema Funify
- * 
+ *
  * Este contrato trabalha em conjunto com o Oracle refatorado que possui as seguintes etapas:
  * 1. Scheduled - Jogo criado e agendado
  * 2. Open - Aberto para apostas
@@ -18,9 +18,9 @@ import {FunifyEvents} from "./funify.events.sol";
  */
 abstract contract FunifyStorage is FunifyError, FunifyEvents {
     // Contratos externos
-    HypeToken public immutable token;      // Contrato do token HYPE
-    Oracle public immutable oracle;        // Contrato Oracle refatorado
-    address public immutable owner;        // Endereço do owner do contrato
+    HypeToken public immutable token; // Contrato do token HYPE
+    Oracle public immutable oracle; // Contrato Oracle refatorado
+    address public immutable owner; // Endereço do owner do contrato
 
     /**
      * @dev Estrutura para rastrear apostas dos usuários

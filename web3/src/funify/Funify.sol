@@ -3,7 +3,6 @@ pragma solidity ^0.8.28;
 
 import {FunifyPlaceBet} from "./Funify.placebet.sol";
 
-
 contract Funify is FunifyPlaceBet {
     constructor(address _token, address _oracle) FunifyPlaceBet(_token, _oracle) {}
 

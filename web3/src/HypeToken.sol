@@ -70,11 +70,11 @@ contract HypeToken is ERC20 {
         if (address(this).balance < ethToReturn) {
             revert("Insufficient contract balance");
         }
-        
+
         // Burn tokens first to prevent reentrancy
         _burn(msg.sender, _amount);
-        
-        (bool success, ) = payable(msg.sender).call{value: ethToReturn}("");
+
+        (bool success,) = payable(msg.sender).call{value: ethToReturn}("");
         if (!success) {
             revert("ETH transfer failed");
         }

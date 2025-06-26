@@ -15,7 +15,7 @@ abstract contract FunifyError {
     string public constant NoBetOnMatch = "E010";
     string public constant OnlyOwner = "E011";
     string public constant NotOwner = "E012";
-    
+
     // Novos códigos de erro para funcionalidades adicionadas
     string public constant MatchNotFound = "E013";
     string public constant InvalidMatchStatus = "E014";
@@ -23,7 +23,7 @@ abstract contract FunifyError {
     string public constant PrizeAlreadyClaimed = "E016";
     string public constant InvalidUserAddress = "E017";
     string public constant OracleCallFailed = "E018";
-    
+
     // Novos códigos de erro para funcionalidade de siglas dos times
     string public constant TeamAbbreviationsNotSet = "E019";
     string public constant InvalidTeamAbbreviation = "E020";

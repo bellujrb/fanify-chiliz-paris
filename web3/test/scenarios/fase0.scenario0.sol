@@ -24,29 +24,29 @@ contract Fase0Cenario0Test is BaseSetup {
         // Deploy Funify com casa como owner
         vm.prank(casa);
         funify = new Funify(address(token), address(oracle));
-        
+
         // Schedule match for future time
         uint256 scheduledTime = block.timestamp + 1 hours;
         oracle.scheduleMatch(0x11111111, scheduledTime, "AAA", "BBB");
-        
-        // Update hype (50% for Team A, 50% for Team B)
-        oracle.updateHype(0x11111111, 50, 50);
-        
+
+        // Update hype (80% for Team A, 20% for Team B)
+        oracle.updateHype(0x11111111, 80, 20);
+
         // Open match for betting
         oracle.openToBets(0x11111111);
-        
+
         apostador1 = createUsers(1)[0];
         apostador2 = createUsers(2)[1];
         apostador3 = createUsers(3)[2];
         apostador4 = createUsers(4)[3];
         apostador5 = createUsers(5)[4];
-        
+
         token.mint(apostador1, 10000 ether);
         token.mint(apostador2, 10000 ether);
         token.mint(apostador3, 10000 ether);
         token.mint(apostador4, 10000 ether);
         token.mint(apostador5, 10000 ether);
-        
+
         vm.prank(apostador1);
         token.approve(address(funify), type(uint256).max);
         vm.prank(apostador2);
@@ -63,23 +63,27 @@ contract Fase0Cenario0Test is BaseSetup {
         // Apostador 1 aposta no Time A
         vm.prank(apostador1);
         funify.placeBet(0x11111111, true, 100 ether);
-        // Apostador 2 aposta no Time B
-        vm.prank(apostador2);
-        funify.placeBet(0x11111111, false, 200 ether);
         // Apostador 3 aposta no Time A
         vm.prank(apostador3);
         funify.placeBet(0x11111111, true, 300 ether);
-        // Apostador 4 aposta no Time B
-        vm.prank(apostador4);
-        funify.placeBet(0x11111111, false, 400 ether);
         // Apostador 5 aposta no Time A
         vm.prank(apostador5);
         funify.placeBet(0x11111111, true, 500 ether);
+        // Apostador 4 aposta no Time B
+        vm.prank(apostador4);
+        funify.placeBet(0x11111111, false, 400 ether);
+        // Apostador 2 aposta no Time B
+        vm.prank(apostador2);
+        funify.placeBet(0x11111111, false, 200 ether);
 
         // Fechar apostas
         oracle.closeBets(0x11111111);
         // Atualizar placar: Time A vence
-        oracle.updateScore(0x11111111, 1, 0);
+        oracle.updateScore(0x11111111, 3, 2);
+        (uint8 A, uint8 B) = oracle.getMatchGoals(0x11111111);
+        assertEq(A, 3);
+        assertEq(B, 2);
+
         // Finalizar partida
         oracle.finishMatch(0x11111111);
 
@@ -100,14 +104,12 @@ contract Fase0Cenario0Test is BaseSetup {
         assertGt(token.balanceOf(apostador5), saldoAntes5, "Apostador5 sem ganho");
 
         // Apostadores do Time B não recebem nada
-        uint256 saldoAntes2 = token.balanceOf(apostador2);
         vm.prank(apostador2);
+        vm.expectRevert(bytes("E008")); // Espera revert porque apostador2 perdeu
         funify.claimPrize(0x11111111);
-        assertEq(token.balanceOf(apostador2), saldoAntes2, "Apostador2 recebeu erroneamente");
 
-        uint256 saldoAntes4 = token.balanceOf(apostador4);
         vm.prank(apostador4);
+        vm.expectRevert(bytes("E008")); // Espera revert porque apostador4 perdeu
         funify.claimPrize(0x11111111);
-        assertEq(token.balanceOf(apostador4), saldoAntes4, "Apostador4 recebeu erroneamente");
     }
 }
