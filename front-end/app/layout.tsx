@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { WalletProvider } from '@/contexts/WalletContext';
+import Web3Providers from '@/providers/Web3Providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,9 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <WalletProvider>
+        <Web3Providers>
           {children}
-        </WalletProvider>
+        </Web3Providers>
       </body>
     </html>
   );
