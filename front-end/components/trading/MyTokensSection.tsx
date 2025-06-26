@@ -109,7 +109,7 @@ const MyTokensSection: React.FC = () => {
           <div className={`text-sm font-semibold ${
             totalProfit >= 0 ? 'text-green-600' : 'text-red-600'
           }`}>
-            {totalProfit >= 0 ? '+' : ''}{totalProfit.toFixed(1)} ({totalProfitPercent >= 0 ? '+' : ''}{totalProfitPercent}%)
+            {totalProfit >= 0 ? '+' : ''}{totalProfit.toFixed(1)} ({Number(totalProfitPercent) >= 0 ? '+' : ''}{totalProfitPercent}%)
           </div>
         </div>
       </div>
