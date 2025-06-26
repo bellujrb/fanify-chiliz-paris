@@ -38,8 +38,6 @@ export default function AdminPage() {
           <div>
             <CreateGameModal />
             <GamesSection
-              currentGame={currentGame}
-              liveGames={liveGames}
               selectedGame={selectedGame}
               onGameSelect={setSelectedGame}
             />
@@ -51,7 +49,6 @@ export default function AdminPage() {
             <CreateGameModal />
             <GamesData
               currentGame={currentGame}
-              liveGames={liveGames}
               selectedGame={selectedGame}
               onGameSelect={setSelectedGame}
             />
@@ -69,8 +66,6 @@ export default function AdminPage() {
           <div>
             <CreateGameModal />
             <GamesSection
-              currentGame={currentGame}
-              liveGames={liveGames}
               selectedGame={selectedGame}
               onGameSelect={setSelectedGame}
             />
