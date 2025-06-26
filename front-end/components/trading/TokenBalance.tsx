@@ -52,7 +52,7 @@ const TokenBalance: React.FC<TokenBalanceProps> = ({ userTokens }) => {
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
       <div className="flex items-center space-x-3 mb-4">
         <Wallet className="w-6 h-6 text-purple-600" />
-        <h3 className="text-lg font-bold text-gray-900">My Data</h3>
+        <h3 className="text-lg font-bold text-gray-900">My Hype</h3>
       </div>
       
       {hasActiveBets ? (
@@ -61,16 +61,16 @@ const TokenBalance: React.FC<TokenBalanceProps> = ({ userTokens }) => {
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-200/50">
             <div className="flex items-center space-x-2 mb-2">
               <Coins className="w-4 h-4 text-purple-600" />
-              <span className="text-sm font-medium text-gray-700">Apostou em</span>
+              <span className="text-sm font-medium text-gray-700">Bet on</span>
             </div>
             <div className="text-2xl font-bold text-purple-600">PSG</div>
-            <div className="text-xs text-gray-600">Time escolhido</div>
+            <div className="text-xs text-gray-600">Chosen team</div>
           </div>
 
           <div className="bg-gradient-to-r from-red-50 to-pink-50 p-4 rounded-xl border border-red-200/50">
             <div className="flex items-center space-x-2 mb-2">
               <span className="text-lg">🔴</span>
-              <span className="text-sm font-medium text-gray-700">Hypes depositados</span>
+              <span className="text-sm font-medium text-gray-700">Hypes deposited</span>
             </div>
             <div className="text-2xl font-bold text-red-600">{userTokens.HYPE_PSG}</div>
             <div className="text-xs text-gray-600">Tokens</div>
@@ -79,7 +79,7 @@ const TokenBalance: React.FC<TokenBalanceProps> = ({ userTokens }) => {
           <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200/50">
             <div className="flex items-center space-x-2 mb-2">
               {getStatusIcon(gameStatus.status)}
-              <span className="text-sm font-medium text-gray-700">Status do Jogo</span>
+              <span className="text-sm font-medium text-gray-700">Game Status</span>
             </div>
             <div className={`text-2xl font-bold ${getStatusColor(gameStatus.status).replace('text-', 'text-')}`}>
               {gameStatus.status}
@@ -100,28 +100,28 @@ const TokenBalance: React.FC<TokenBalanceProps> = ({ userTokens }) => {
           </div>
           
           <h4 className="text-lg font-semibold text-gray-900 mb-2">
-            Nenhuma aposta ativa
+            No active bets
           </h4>
           
           <p className="text-gray-600 mb-6 max-w-md mx-auto">
-            Você ainda não apostou em nenhum time. Comece fazendo sua primeira aposta nos jogos disponíveis!
+            You haven't placed a bet on any team yet. Start by making your first bet on the available games!
           </p>
 
           {/* Available Balance */}
           <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-200/50 max-w-xs mx-auto mb-4">
             <div className="flex items-center justify-center space-x-2 mb-2">
               <Coins className="w-4 h-4 text-purple-600" />
-              <span className="text-sm font-medium text-gray-700">Saldo Disponível</span>
+              <span className="text-sm font-medium text-gray-700">Available Balance</span>
             </div>
             <div className="text-2xl font-bold text-purple-600">{userTokens.CHZ.toFixed(2)}</div>
-            <div className="text-xs text-gray-600">CHZ para apostar</div>
+            <div className="text-xs text-gray-600">CHZ to bet</div>
           </div>
 
           {/* Game Status in empty state */}
           <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl border border-blue-200/50 max-w-xs mx-auto">
             <div className="flex items-center justify-center space-x-2 mb-2">
               {getStatusIcon(gameStatus.status)}
-              <span className="text-sm font-medium text-gray-700">Jogo Atual</span>
+              <span className="text-sm font-medium text-gray-700">Current Game</span>
             </div>
             <div className={`text-xl font-bold ${getStatusColor(gameStatus.status).replace('text-', 'text-')}`}>
               {gameStatus.status}

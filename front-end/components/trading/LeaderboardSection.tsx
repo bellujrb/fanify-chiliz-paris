@@ -23,10 +23,10 @@ const LeaderboardSection: React.FC = () => {
           <Trophy className="w-10 h-10 text-white" />
         </div>
         
-        <h3 className="text-2xl font-bold text-gray-900 mb-4">Em Desenvolvimento</h3>
+        <h3 className="text-2xl font-bold text-gray-900 mb-4">In Development</h3>
         
         <p className="text-gray-600 mb-8 leading-relaxed">
-          O sistema de ranking global está sendo desenvolvido e será lançado em breve com recursos incríveis de competição.
+          The global ranking system is being developed and will be launched soon with amazing competition features.
         </p>
 
         <Button 
@@ -34,7 +34,7 @@ const LeaderboardSection: React.FC = () => {
           className="bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-xl"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Voltar para Trading
+          Back to Trading
         </Button>
       </div>
     </div>

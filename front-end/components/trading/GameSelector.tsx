@@ -36,9 +36,9 @@ const GameSelector: React.FC<GameSelectorProps> = ({
             className="w-full justify-between bg-white border border-gray-200 hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow-md p-4 h-auto"
           >
             <div className="flex items-center space-x-3">
-              <span className="text-gray-600">Selecionar Jogo:</span>
+              <span className="text-gray-600">Select Game:</span>
               {loading ? (
-                <span className="text-gray-400">Carregando...</span>
+                <span className="text-gray-400">Loading...</span>
               ) : (
                 <>
                   {games.length > 0 ? (
@@ -52,7 +52,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
                       </span>
                     </div>
                   ) : (
-                    <span className="text-gray-400">Nenhum jogo</span>
+                    <span className="text-gray-400">No games</span>
                   )}
                 </>
               )}
@@ -64,15 +64,15 @@ const GameSelector: React.FC<GameSelectorProps> = ({
         <PopoverContent className="w-[400px] p-0 shadow-xl border-0 rounded-xl" align="center">
           <div className="bg-white rounded-xl overflow-hidden">
             <div className="p-4 bg-gray-50 border-b border-gray-100">
-              <h3 className="font-bold text-gray-900">Jogos Disponíveis</h3>
-              <p className="text-sm text-gray-600">Selecione um jogo para gerenciar</p>
+              <h3 className="font-bold text-gray-900">Available Games</h3>
+              <p className="text-sm text-gray-600">Select a game to manage</p>
             </div>
             
             <div className="max-h-80 overflow-y-auto">
               {loading ? (
-                <div className="p-4 text-gray-400">Carregando jogos do contrato...</div>
+                <div className="p-4 text-gray-400">Loading games from contract...</div>
               ) : games.length === 0 ? (
-                <div className="p-4 text-gray-400">Nenhum jogo encontrado</div>
+                <div className="p-4 text-gray-400">No games found</div>
               ) : (
                 games.map((game) => (
                   <div key={game.hypeId} className="flex items-center justify-between border-b last:border-b-0 hover:bg-gray-50 transition-all">
@@ -101,7 +101,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
                         <div className="font-mono text-sm break-all mb-2">{game.hypeId}</div>
                         <div className="text-xs text-gray-500 mb-1">Status:</div>
                         <div className="text-sm mb-2">{game.status}</div>
-                        <div className="text-xs text-gray-500 mb-1">Gols:</div>
+                        <div className="text-xs text-gray-500 mb-1">Goals:</div>
                         <div className="text-sm">{game.goalsA} - {game.goalsB}</div>
                       </PopoverContent>
                     </Popover>

@@ -8,7 +8,7 @@ import {
   Circle
 } from 'lucide-react';
 import { useAccount } from "wagmi";
-import { createWalletClient, custom, getContract, formatEther, parseEther } from 'viem';
+import { createWalletClient, custom, getContract, formatEther, parseEther, createPublicClient, http } from 'viem';
 import { anvil } from 'viem/chains';
 import deployedContracts from '@/lib/deployedContracts';
 import { useWalletBalance } from '@/hooks/useWalletBalance';
@@ -42,6 +42,10 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
   const [loadingBet, setLoadingBet] = useState<'A' | 'B' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [odds, setOdds] = useState<{ oddsA: string; oddsB: string } | null>(null);
+  const [oddsLoading, setOddsLoading] = useState(false);
+
+  const publicClient = createPublicClient({ chain: anvil, transport: http() });
 
   // Fetch allowance
   useEffect(() => {
@@ -130,8 +134,36 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
     setLoadingBet(null);
   };
 
+  useEffect(() => {
+    const fetchOdds = async () => {
+      setOddsLoading(true);
+      if (!currentGame?.hypeId) {
+        setOdds(null);
+        setOddsLoading(false);
+        return;
+      }
+      try {
+        const funifyContract = getContract({
+          address: deployedContracts.Funify.address as `0x${string}`,
+          abi: deployedContracts.Funify.abi,
+          client: publicClient,
+        });
+        const data = await funifyContract.read.getOdds([
+          currentGame.hypeId as `0x${string}`
+        ]);
+        setOdds({
+          oddsA: formatEther(data[0]),
+          oddsB: formatEther(data[1]),
+        });
+      } catch (err) {
+        setOdds(null);
+      }
+      setOddsLoading(false);
+    };
+    fetchOdds();
+  }, [currentGame?.hypeId]);
+
   const allowanceEnough = Number(allowance) >= Number(betAmount || 0);
-  const isBetAmountValid = !!betAmount && !isNaN(Number(betAmount)) && Number(betAmount) > 0;
   const isApproveAmountValid = !!approveAmount && !isNaN(Number(approveAmount)) && Number(approveAmount) > 0;
   const hasEnoughHype = isApproveAmountValid && Number(hypeBalance) >= Number(approveAmount);
 
@@ -164,7 +196,13 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
           <div className="text-sm text-gray-600 mb-4">Fan Hype</div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Odds:</span>
-            <span className="text-lg font-bold text-red-600">{liveData.psgOdds.toFixed(2)}x</span>
+            <span className="text-lg font-bold text-red-600">
+              {oddsLoading
+                ? '...'
+                : odds?.oddsA
+                  ? `${odds.oddsA}x`
+                  : 'Calculing...'}
+            </span>
           </div>
         </div>
 
@@ -177,7 +215,13 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
           <div className="text-sm text-gray-600 mb-4">Fan Hype</div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Odds:</span>
-            <span className="text-lg font-bold text-blue-600">{liveData.realOdds.toFixed(2)}x</span>
+            <span className="text-lg font-bold text-blue-600">
+              {oddsLoading
+                ? '...'
+                : odds?.oddsB
+                  ? `${odds.oddsB}x`
+                  : 'Calculing...'}
+            </span>
           </div>
         </div>
       </div>
