@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import MyTokensSection from './MyTokensSection';
 import LiveHypeDisplay from './LiveHypeDisplay';
 import HypeChart from './HypeChart';
 import LiveStats from './LiveStats';

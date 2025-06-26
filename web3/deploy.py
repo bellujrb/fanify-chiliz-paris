@@ -8,6 +8,7 @@ from typing import List
 import json
 import glob
 import os
+import sys
 
 
 @dataclass
@@ -79,6 +80,9 @@ def updateABI():
     print_step("Iniciando atualização de ABIs e endereços")
 
     print("Lendo transações do arquivo de broadcast...")
+    if not os.path.exists(TRANSACTIONS_PATH):
+        print_error(f"Arquivo de transações não encontrado: {TRANSACTIONS_PATH}")
+        sys.exit(1)
     with open(TRANSACTIONS_PATH) as deployed_contracts:
         json_file = load(deployed_contracts)
         transactions = json_file["transactions"]

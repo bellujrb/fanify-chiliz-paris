@@ -8,7 +8,7 @@ import deployedContracts from '@/lib/deployedContracts';
 
 export const useWalletBalance = () => {
   const { address, isConnected } = useAccount();
-  const { data: walletClient } = useWalletClient();
+  useWalletClient();
   const publicClient = usePublicClient();
   const [balance, setBalance] = useState<string>('0');
   const [hypeBalance, setHypeBalance] = useState<string>('0');
