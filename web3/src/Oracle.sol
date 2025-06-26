@@ -21,6 +21,7 @@ contract Oracle {
     }
 
     mapping(bytes4 hypeId => MatchHype) public matchHypes;
+    bytes4[] public hypeIds; // Lista de todos os hypeIds
 
     // Events para cada etapa
     event MatchScheduled(bytes4 indexed hypeId, uint256 scheduledTime);
@@ -46,6 +47,8 @@ contract Oracle {
             goalsB: 0,
             status: Status.Scheduled
         });
+
+        hypeIds.push(hypeId); // Adiciona o hypeId à lista
 
         emit MatchScheduled(hypeId, scheduledTime);
     }
@@ -151,5 +154,15 @@ contract Oracle {
     // Função para verificar se um jogo existe
     function matchExists(bytes4 hypeId) public view returns (bool) {
         return matchHypes[hypeId].scheduledTime != 0;
+    }
+
+    // Função para obter todos os hypeIds
+    function getAllHypeIds() public view returns (bytes4[] memory) {
+        return hypeIds;
+    }
+
+    // Função para obter o número total de jogos
+    function getTotalMatches() public view returns (uint256) {
+        return hypeIds.length;
     }
 }

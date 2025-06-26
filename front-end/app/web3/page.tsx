@@ -83,6 +83,7 @@ export default function ContractInteractionPage() {
   const [claimStatus, setClaimStatus] = useState<any>(null);
   const [contractStats, setContractStats] = useState<any>(null);
   const [allowance, setAllowance] = useState<string>("0");
+  const [hypeIds, setHypeIds] = useState<string[]>([]);
 
   // Conectar carteira
   const connectWallet = async () => {
@@ -1176,10 +1177,46 @@ export default function ContractInteractionPage() {
     }
   };
 
+  // Função para buscar todos os hypeIds
+  const getAllHypeIds = async () => {
+    if (!account) {
+      console.log("DEBUG: Nenhuma conta conectada para buscar hypeIds");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log("DEBUG: Buscando todos os hypeIds");
+      const oracleContract = getContract({
+        address: deployedContracts.Oracle.address as `0x${string}`,
+        abi: deployedContracts.Oracle.abi,
+        client: publicClient,
+      });
+
+      const hypeIdsArray = await oracleContract.read.getAllHypeIds();
+      console.log("DEBUG: HypeIds encontrados:", hypeIdsArray);
+      
+      // Converter bytes4 para string hex
+      const formattedHypeIds = (hypeIdsArray as string[]).map(id => id);
+      setHypeIds(formattedHypeIds);
+      console.log("DEBUG: HypeIds formatados:", formattedHypeIds);
+    } catch (error) {
+      console.error("DEBUG: Erro ao buscar hypeIds:", error);
+      console.error("DEBUG: Tipo do erro:", typeof error);
+      console.error(
+        "DEBUG: Mensagem do erro:",
+        error instanceof Error ? error.message : error
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (account) {
       updateBalances(account);
       getAllowance();
+      getAllHypeIds();
     }
   }, [account]);
 
@@ -1247,6 +1284,7 @@ export default function ContractInteractionPage() {
               claimStatus={claimStatus}
               contractStats={contractStats}
               allowance={allowance}
+              hypeIds={hypeIds}
               onHypeIdChange={setHypeId}
               onScheduledTimeChange={setScheduledTime}
               onHypeAChange={setHypeA}
@@ -1285,6 +1323,7 @@ export default function ContractInteractionPage() {
               onCheckClaimStatus={checkClaimStatus}
               onGetContractStats={getContractStats}
               onApproveHypeToken={approveHypeToken}
+              onGetAllHypeIds={getAllHypeIds}
             />
           </>
         )}

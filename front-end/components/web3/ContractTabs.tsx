@@ -31,6 +31,7 @@ interface ContractTabsProps {
   claimStatus: any;
   contractStats: any;
   allowance: string;
+  hypeIds: string[];
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -69,6 +70,7 @@ interface ContractTabsProps {
   onCheckClaimStatus: () => void;
   onGetContractStats: () => void;
   onApproveHypeToken: () => void;
+  onGetAllHypeIds: () => void;
 }
 
 export default function ContractTabs({
@@ -96,6 +98,7 @@ export default function ContractTabs({
   claimStatus,
   contractStats,
   allowance,
+  hypeIds,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -134,6 +137,7 @@ export default function ContractTabs({
   onCheckClaimStatus,
   onGetContractStats,
   onApproveHypeToken,
+  onGetAllHypeIds,
 }: ContractTabsProps) {
   return (
     <Tabs defaultValue="hypeToken" className="space-y-6">
@@ -178,6 +182,7 @@ export default function ContractTabs({
           goalsA={goalsA}
           goalsB={goalsB}
           matchData={matchData}
+          hypeIds={hypeIds}
           onHypeIdChange={onHypeIdChange}
           onScheduledTimeChange={onScheduledTimeChange}
           onHypeAChange={onHypeAChange}
@@ -194,6 +199,7 @@ export default function ContractTabs({
           onCloseBets={onCloseBets}
           onUpdateScore={onUpdateScore}
           onFinishMatch={onFinishMatch}
+          onGetAllHypeIds={onGetAllHypeIds}
         />
       </TabsContent>
 

@@ -1,7 +1,7 @@
 
 const deployedContracts = {
     "HypeToken": {
-        "address": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+        "address": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
         "abi": [
             {
                 "type": "constructor",
@@ -520,7 +520,7 @@ const deployedContracts = {
         ]
     },
     "Oracle": {
-        "address": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+        "address": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
         "abi": [
             {
                 "type": "function",
@@ -547,6 +547,19 @@ const deployedContracts = {
                 ],
                 "outputs": [],
                 "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
+                "name": "getAllHypeIds",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bytes4[]",
+                        "internalType": "bytes4[]"
+                    }
+                ],
+                "stateMutability": "view"
             },
             {
                 "type": "function",
@@ -627,6 +640,38 @@ const deployedContracts = {
                         "name": "status",
                         "type": "uint8",
                         "internalType": "enum Status"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getTotalMatches",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "hypeIds",
+                "inputs": [
+                    {
+                        "name": "",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
                     }
                 ],
                 "stateMutability": "view"
@@ -916,7 +961,7 @@ const deployedContracts = {
         ]
     },
     "Funify": {
-        "address": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+        "address": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
         "abi": [
             {
                 "type": "constructor",
