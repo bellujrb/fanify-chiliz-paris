@@ -7,7 +7,7 @@ import {FunifyPlaceBet} from "./Funify.placebet.sol";
 contract Funify is FunifyPlaceBet {
     constructor(address _token, address _oracle) FunifyPlaceBet(_token, _oracle) {}
 
-    function withdrawMatchProfit(bytes4 hypeId) external onlyOwner {
+    function withdrawHouseProfit(bytes4 hypeId) external onlyOwner {
         uint256 profit = houseProfit[hypeId];
         if (profit == 0) {
             revert(NoProfitToWithdraw);

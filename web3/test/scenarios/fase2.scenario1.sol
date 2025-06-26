@@ -17,6 +17,7 @@ contract Fase2Cenario1Test is BaseSetup {
         super.setUp();
         token = new HypeToken();
         oracle = new Oracle();
+        vm.prank(casa);
         funify = new Funify(address(token), address(oracle));
         
         // Schedule match for future time

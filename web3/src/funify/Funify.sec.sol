@@ -42,13 +42,7 @@ abstract contract FunifySec is FunifyStorage {
         (uint8 goalsA, uint8 goalsB) = oracle.getMatchGoals(hypeId);
         bool teamAWon = goalsA > goalsB;
         bool userBetOnTeamA = bet.teamA;
-
-        if (teamAWon && !userBetOnTeamA) {
-            revert(UserDidNotWin);
-        }
-        if (!teamAWon && userBetOnTeamA) {
-            revert(UserDidNotWin);
-        }
+        require((teamAWon && userBetOnTeamA) || (!teamAWon && !userBetOnTeamA), UserDidNotWin);
         _;
     }
 

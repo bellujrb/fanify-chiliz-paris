@@ -118,7 +118,6 @@ contract Oracle {
         MatchHype storage matchHype = matchHypes[hypeId];
         require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Closed, "Match must be closed to finish");
-        require(matchHype.goalsA > 0 || matchHype.goalsB > 0, "Score must be set before finishing");
 
         matchHype.status = Status.Finished;
 
