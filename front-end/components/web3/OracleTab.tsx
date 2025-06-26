@@ -17,6 +17,7 @@ interface OracleTabProps {
   goalsA: string;
   goalsB: string;
   matchData: any;
+  hypeIds: string[];
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -33,6 +34,7 @@ interface OracleTabProps {
   onCloseBets: () => void;
   onUpdateScore: () => void;
   onFinishMatch: () => void;
+  onGetAllHypeIds: () => void;
 }
 
 export default function OracleTab({
@@ -45,6 +47,7 @@ export default function OracleTab({
   goalsA,
   goalsB,
   matchData,
+  hypeIds,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -61,6 +64,7 @@ export default function OracleTab({
   onCloseBets,
   onUpdateScore,
   onFinishMatch,
+  onGetAllHypeIds,
 }: OracleTabProps) {
   return (
     <Card>
@@ -75,12 +79,14 @@ export default function OracleTab({
           hypeId={hypeId}
           scheduledTime={scheduledTime}
           matchData={matchData}
+          hypeIds={hypeIds}
           onHypeIdChange={onHypeIdChange}
           onScheduledTimeChange={onScheduledTimeChange}
           onGetMatchData={onGetMatchData}
           onGetHype={onGetHype}
           onGetMatch={onGetMatch}
           onMatchExists={onMatchExists}
+          onGetAllHypeIds={onGetAllHypeIds}
         />
 
         <Separator />

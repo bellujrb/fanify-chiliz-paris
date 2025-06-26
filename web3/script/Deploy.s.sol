@@ -32,6 +32,16 @@ contract DeployScript is Script {
         Funify funify = new Funify(address(hypeToken), address(oracle));
         console.log("Funify deployed at:", address(funify));
 
+
+        // Schedule test match
+        console.log("Scheduling test match...");
+        bytes4 testHypeId = 0x12341234;
+        uint256 scheduledTime = block.timestamp + 3600;
+        
+        oracle.scheduleMatch(testHypeId, scheduledTime);
+        console.log("Test match scheduled with hypeId: ");
+        console.logBytes4(testHypeId);
+
         vm.stopBroadcast();
 
         // Log deployment summary
@@ -49,6 +59,7 @@ contract DeployScript is Script {
         console.log("Funify owner:", funify.owner());
         console.log("Funify token address:", address(funify.token()));
         console.log("Funify oracle address:", address(funify.oracle()));
+        console.log("Test match exists:", oracle.matchExists(testHypeId));
         console.log("==================================\n");
     }
 }

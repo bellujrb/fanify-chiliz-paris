@@ -10,24 +10,28 @@ interface OracleReadFunctionsProps {
   hypeId: string;
   scheduledTime: string;
   matchData: any;
+  hypeIds: string[];
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onGetMatchData: () => void;
   onGetHype: () => void;
   onGetMatch: () => void;
   onMatchExists: () => void;
+  onGetAllHypeIds: () => void;
 }
 
 export default function OracleReadFunctions({
   hypeId,
   scheduledTime,
   matchData,
+  hypeIds,
   onHypeIdChange,
   onScheduledTimeChange,
   onGetMatchData,
   onGetHype,
   onGetMatch,
   onMatchExists,
+  onGetAllHypeIds,
 }: OracleReadFunctionsProps) {
   return (
     <div className="space-y-4">
@@ -86,6 +90,44 @@ export default function OracleReadFunctions({
         >
           Verificar Existência
         </Button>
+      </div>
+
+      {/* Seção para Lista de HypeIds */}
+      <div className="mt-6 p-4 border rounded-lg bg-gray-50">
+        <div className="flex justify-between items-center mb-4">
+          <h4 className="font-medium text-gray-800">Lista de HypeIds</h4>
+          <Button 
+            onClick={onGetAllHypeIds} 
+            variant="outline"
+            size="sm"
+          >
+            Atualizar Lista
+          </Button>
+        </div>
+        
+        {hypeIds.length > 0 ? (
+          <div className="space-y-2">
+            <p className="text-sm text-gray-600 mb-3">
+              Total de jogos: {hypeIds.length}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+              {hypeIds.map((id, index) => (
+                <div 
+                  key={index}
+                  className="p-2 bg-white border rounded text-sm font-mono text-blue-600 hover:bg-blue-50 cursor-pointer"
+                  onClick={() => onHypeIdChange(id)}
+                  title="Clique para selecionar este HypeId"
+                >
+                  {id}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500 text-center py-4">
+            Nenhum hypeId encontrado. Clique em "Atualizar Lista" para buscar.
+          </p>
+        )}
       </div>
 
       {matchData && (
