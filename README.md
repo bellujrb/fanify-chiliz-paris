@@ -59,19 +59,61 @@ Leveraging Chiliz’s fan-centric ecosystem, we ensure that each tokenized hype 
     
 ```
 fanify-chiliz-paris
+├── back-end
+│   └── lib
+│       └── deployedContracts.ts
+│       └── ...
+│   └── models
+│       └── Game.js
+│       └── Tweets.js
+│   └── routes
+│       └── games.js
+│       └── tweets.js
+│   └── services
+│       └── blockchain.js
+│   └── ...
+│   └── server.js
 ├── front-end
 │   └── app
-│       └── events
+│       └── admin
 │           └── page.tsx
-│       └── wallet
+│       └── trading
 │           └── page.tsx
 │       └── globals.css
 │       └── layout.tsx
 │       └── not-found.tsx
 │       └── page.tsx
 │   └── components
-│       └── connect-wallet-modal.tsx
-├── blockchain
+│       └── admin
+│           └── ...
+│       └── trading
+│           └── ...
+│       └── ui
+│           └── ...
+│       └── ...
+│   └── hooks
+│       └── use-toast.ts
+│       └── useSmartContractGames.ts
+│       └── useWalletBalance.ts
+│   └── lib
+│       └── deployedContracts.ts
+│       └── utils.ts
+│   └── providers
+│       └── Web3Providers.tsx
+│   └── ...
+├── web3
+│   └── src
+│       └── funify
+│           └── Funify.claim.sol
+│           └── Funify.crud.sol
+│           └── Funify.error.sol
+│           └── Funify.events.sol
+│           └── Funify.placebet.sol
+│           └── Funify.sec.sol
+│           └── Funify.sol
+│           └── Funify.storage.sol
+│       └── HypeToken.sol
+│       └── Oracle.sol
 ├── README.MD
 ```
 ---
