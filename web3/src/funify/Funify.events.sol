@@ -11,4 +11,8 @@ abstract contract FunifyEvents {
     event UserBetQueried(bytes4 indexed hypeId, address indexed user, uint256 amount, bool teamA);
     event MatchStatsCalculated(bytes4 indexed hypeId, uint256 totalBetsA, uint256 totalBetsB, uint256 totalPool);
     event PrizeClaimabilityChecked(bytes4 indexed hypeId, address indexed user, bool canClaim, string reason);
+    
+    // Novos eventos para funcionalidade de siglas dos times
+    event TeamAbbreviationsQueried(bytes4 indexed hypeId, string teamAAbbreviation, string teamBAbbreviation);
+    event MatchWithAbbreviationsRequested(bytes4 indexed hypeId, address indexed requester);
 }

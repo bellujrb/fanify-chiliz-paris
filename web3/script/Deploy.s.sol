@@ -38,7 +38,7 @@ contract DeployScript is Script {
         bytes4 testHypeId = 0x12341234;
         uint256 scheduledTime = block.timestamp + 3600;
         
-        oracle.scheduleMatch(testHypeId, scheduledTime);
+        oracle.scheduleMatch(testHypeId, scheduledTime, "PSG", "REAL");
         console.log("Test match scheduled with hypeId: ");
         console.logBytes4(testHypeId);
 

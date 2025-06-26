@@ -13,6 +13,8 @@ interface FunifyReadFunctionsProps {
   matchStats: any;
   claimStatus: any;
   contractStats: any;
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onGetOdds: () => void;
   onGetPrizePools: () => void;
@@ -30,6 +32,8 @@ export default function FunifyReadFunctions({
   matchStats,
   claimStatus,
   contractStats,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onGetOdds,
   onGetPrizePools,
@@ -161,6 +165,16 @@ export default function FunifyReadFunctions({
             <div>Total Bets: {contractStats.totalBets}</div>
             <div>Total House Profit: {contractStats.totalHouseProfit}</div>
             <div>Contract Owner: {contractStats.contractOwner?.slice(0, 10)}...</div>
+          </div>
+        </div>
+      )}
+
+      {(teamAAbbreviation || teamBAbbreviation) && (
+        <div className="p-4 bg-blue-50 rounded-lg">
+          <h3 className="font-semibold mb-2">Siglas dos Times:</h3>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+            <div>Time A: {teamAAbbreviation}</div>
+            <div>Time B: {teamBAbbreviation}</div>
           </div>
         </div>
       )}

@@ -21,33 +21,6 @@ contract Funify is FunifyPlaceBet {
         emit HouseProfitWithdrawn(hypeId, profit);
     }
 
-    // Nova função para obter informações completas de um match
-    function getCompleteMatchInfo(bytes4 hypeId) external view returns (
-        // Oracle data
-        uint256 oracleHypeA,
-        uint256 oracleHypeB,
-        uint8 oracleGoalsA,
-        uint8 oracleGoalsB,
-        uint256 oracleStart,
-        uint256 oracleEnd,
-        uint256 oracleScheduledTime,
-        Status oracleStatus,
-        // Funify data
-        uint256 funifyPoolA,
-        uint256 funifyPoolB,
-        uint256 funifyHouseProfit,
-        uint256 funifyHouseCut
-    ) {
-        // Oracle data
-        (oracleHypeA, oracleHypeB, oracleGoalsA, oracleGoalsB, oracleStart, oracleEnd, oracleScheduledTime, oracleStatus) = oracle.getMatch(hypeId);
-        
-        // Funify data
-        funifyPoolA = prizePoolA[hypeId];
-        funifyPoolB = prizePoolB[hypeId];
-        funifyHouseProfit = houseProfit[hypeId];
-        funifyHouseCut = ((funifyPoolA + funifyPoolB) * HOUSE_FEE) / 1e18;
-    }
-
     // Nova função para verificar se um usuário pode reclamar prêmio
     function canClaimPrize(bytes4 hypeId, address user) external view returns (bool canClaim, string memory reason) {
         // Verificar se o usuário fez uma aposta
@@ -62,7 +35,7 @@ contract Funify is FunifyPlaceBet {
         }
 
         // Verificar se não houve empate
-        (,, uint256 goalsA, uint256 goalsB,,,,) = oracle.matchHypes(hypeId);
+        (,, uint8 goalsA, uint8 goalsB,,,,,,) = oracle.getMatch(hypeId);
         if (goalsA == goalsB) {
             return (false, "Match ended in draw");
         }

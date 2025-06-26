@@ -7,12 +7,14 @@ import { Label } from "@/components/ui/label";
 import { getStatusText, getStatusColor } from "@/lib/utils";
 
 interface OracleReadFunctionsProps {
+  loading: boolean;
+  account: string;
   hypeId: string;
-  scheduledTime: string;
   matchData: any;
   hypeIds: string[];
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
-  onScheduledTimeChange: (value: string) => void;
   onGetMatchData: () => void;
   onGetHype: () => void;
   onGetMatch: () => void;
@@ -21,12 +23,14 @@ interface OracleReadFunctionsProps {
 }
 
 export default function OracleReadFunctions({
+  loading,
+  account,
   hypeId,
-  scheduledTime,
   matchData,
   hypeIds,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
-  onScheduledTimeChange,
   onGetMatchData,
   onGetHype,
   onGetMatch,
@@ -44,15 +48,6 @@ export default function OracleReadFunctions({
             placeholder="0x12345678"
             value={hypeId}
             onChange={(e) => onHypeIdChange(e.target.value)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label>Horário Agendado (timestamp)</Label>
-          <Input
-            type="number"
-            placeholder="1735689600"
-            value={scheduledTime}
-            onChange={(e) => onScheduledTimeChange(e.target.value)}
           />
         </div>
       </div>
@@ -147,6 +142,12 @@ export default function OracleReadFunctions({
                 {getStatusText(matchData.status)}
               </span>
             </div>
+            {(matchData.teamAAbbreviation || matchData.teamBAbbreviation) && (
+              <>
+                <div>Time A: {matchData.teamAAbbreviation}</div>
+                <div>Time B: {matchData.teamBAbbreviation}</div>
+              </>
+            )}
           </div>
         </div>
       )}

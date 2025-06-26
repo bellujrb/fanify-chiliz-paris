@@ -84,6 +84,8 @@ export default function ContractInteractionPage() {
   const [contractStats, setContractStats] = useState<any>(null);
   const [allowance, setAllowance] = useState<string>("0");
   const [hypeIds, setHypeIds] = useState<string[]>([]);
+  const [teamAAbbreviation, setTeamAAbbreviation] = useState<string>("");
+  const [teamBAbbreviation, setTeamBAbbreviation] = useState<string>("");
 
   // Conectar carteira
   const connectWallet = async () => {
@@ -397,61 +399,33 @@ export default function ContractInteractionPage() {
     }
   };
 
-  // Funções do Oracle Refatorado
+  // Função para buscar dados do match
   const getMatchData = async () => {
-    if (!hypeId) {
-      return;
-    }
-
+    if (!hypeId) return;
     try {
       const oracleContract = getContract({
         address: deployedContracts.Oracle.address as `0x${string}`,
         abi: deployedContracts.Oracle.abi,
         client: publicClient,
       });
-
-      console.log("DEBUG: Chamando getMatch para hypeId:", hypeId);
-      
-      let data;
-      try {
-        // Tentar usar a função getMatch primeiro
-        data = await oracleContract.read.getMatch([hypeId as `0x${string}`]);
-        console.log("DEBUG: getMatch funcionou, dados:", data);
-      } catch (getMatchError) {
-        console.log("DEBUG: getMatch falhou, tentando matchHypes:", getMatchError);
-        // Fallback para matchHypes se getMatch não existir
-        data = await oracleContract.read.matchHypes([hypeId as `0x${string}`]);
-        console.log("DEBUG: matchHypes funcionou, dados:", data);
-      }
-      
-      console.log("DEBUG: Dados retornados pelo contrato:", data);
-      
-      // Interpretar os dados corretamente baseado na estrutura do contrato
-      const [hypeA, hypeB, goalsA, goalsB, start, end, scheduledTime, status] = data;
-      
-      console.log("DEBUG: Dados interpretados:", {
-        hypeA: hypeA.toString(),
-        hypeB: hypeB.toString(),
-        goalsA: goalsA.toString(),
-        goalsB: goalsB.toString(),
-        start: start.toString(),
-        end: end.toString(),
-        scheduledTime: scheduledTime.toString(),
-        status: status.toString(),
-      });
-      
+      const data = await oracleContract.read.getMatch([
+        hypeId as `0x${string}`,
+      ]);
       setMatchData({
-        hypeA: hypeA.toString(),
-        hypeB: hypeB.toString(),
-        goalsA: goalsA.toString(),
-        goalsB: goalsB.toString(),
-        start: start > 0 ? new Date(Number(start) * 1000).toLocaleString() : "Não iniciado",
-        end: end > 0 ? new Date(Number(end) * 1000).toLocaleString() : "Não definido",
-        scheduledTime: scheduledTime > 0 ? new Date(Number(scheduledTime) * 1000).toLocaleString() : "Não agendado",
-        status: status.toString(),
+        hypeA: data[0].toString(),
+        hypeB: data[1].toString(),
+        goalsA: data[2].toString(),
+        goalsB: data[3].toString(),
+        start: data[4].toString(),
+        end: data[5].toString(),
+        scheduledTime: data[6].toString(),
+        status: data[7],
+        teamAAbbreviation: data[8],
+        teamBAbbreviation: data[9],
       });
-
-      console.log("[Sucesso] Dados do Match Carregados");
+      setTeamAAbbreviation(data[8]);
+      setTeamBAbbreviation(data[9]);
+      console.log("[Sucesso] Dados do match carregados:", data);
     } catch (error) {
       console.error("Erro ao buscar dados do match:", error);
     }
@@ -528,7 +502,7 @@ export default function ContractInteractionPage() {
 
   // Etapa 0: Criar Jogo
   const scheduleMatch = async () => {
-    if (!account || !hypeId || !scheduledTime) {
+    if (!account || !hypeId || !scheduledTime || !teamAAbbreviation || !teamBAbbreviation) {
       return;
     }
 
@@ -551,13 +525,13 @@ export default function ContractInteractionPage() {
       });
 
       const hash = await oracleContract.write.scheduleMatch(
-        [hypeId as `0x${string}`, BigInt(scheduledTime)],
+        [hypeId as `0x${string}`, BigInt(scheduledTime), teamAAbbreviation, teamBAbbreviation],
         {
           account: account as `0x${string}`,
         }
       );
 
-      console.log("[Sucesso] Match Criado!");
+      console.log("[Sucesso] Match Criado com siglas dos times!");
 
       await updateBalances(account);
     } catch (error) {
@@ -1285,6 +1259,8 @@ export default function ContractInteractionPage() {
               contractStats={contractStats}
               allowance={allowance}
               hypeIds={hypeIds}
+              teamAAbbreviation={teamAAbbreviation}
+              teamBAbbreviation={teamBAbbreviation}
               onHypeIdChange={setHypeId}
               onScheduledTimeChange={setScheduledTime}
               onHypeAChange={setHypeA}
@@ -1324,6 +1300,8 @@ export default function ContractInteractionPage() {
               onGetContractStats={getContractStats}
               onApproveHypeToken={approveHypeToken}
               onGetAllHypeIds={getAllHypeIds}
+              onTeamAAbbreviationChange={setTeamAAbbreviation}
+              onTeamBAbbreviationChange={setTeamBAbbreviation}
             />
           </>
         )}

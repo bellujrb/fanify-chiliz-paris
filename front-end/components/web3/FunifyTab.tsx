@@ -20,6 +20,8 @@ interface FunifyTabProps {
   claimStatus: any;
   contractStats: any;
   allowance: string;
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onBetAmountChange: (value: string) => void;
   onTeamAChange: (value: boolean) => void;
@@ -47,6 +49,8 @@ export default function FunifyTab({
   claimStatus,
   contractStats,
   allowance,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onBetAmountChange,
   onTeamAChange,
@@ -77,6 +81,8 @@ export default function FunifyTab({
           matchStats={matchStats}
           claimStatus={claimStatus}
           contractStats={contractStats}
+          teamAAbbreviation={teamAAbbreviation}
+          teamBAbbreviation={teamBAbbreviation}
           onHypeIdChange={onHypeIdChange}
           onGetOdds={onGetOdds}
           onGetPrizePools={onGetPrizePools}

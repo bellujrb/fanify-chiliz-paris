@@ -18,6 +18,8 @@ contract Oracle {
         uint256 end;
         uint256 scheduledTime;  // Horário agendado para o jogo
         Status status;
+        string teamAAbbreviation; // Sigla do Time A (ex: "PSG", "REAL")
+        string teamBAbbreviation; // Sigla do Time B (ex: "BAR", "JUV")
     }
 
     mapping(bytes4 hypeId => MatchHype) public matchHypes;
@@ -30,12 +32,15 @@ contract Oracle {
     event MatchClosed(bytes4 indexed hypeId);
     event ScoreUpdated(bytes4 indexed hypeId, uint8 goalsA, uint8 goalsB);
     event MatchFinished(bytes4 indexed hypeId, uint8 goalsA, uint8 goalsB);
+    event TeamAbbreviationsSet(bytes4 indexed hypeId, string teamAAbbreviation, string teamBAbbreviation);
 
     // 1. Criar um Jogo (hype, status.scheduled)
-    function scheduleMatch(bytes4 hypeId, uint256 scheduledTime) public {
+    function scheduleMatch(bytes4 hypeId, uint256 scheduledTime, string memory teamAAbbreviation, string memory teamBAbbreviation) public {
         require(matchHypes[hypeId].start == 0, "Match already exists");
         // AQUI - VALIDAÇÃO DE TEMPO COMENTADA PARA TESTES
         // require(scheduledTime > block.timestamp, "Scheduled time must be in the future");
+        require(bytes(teamAAbbreviation).length > 0, "Team A abbreviation cannot be empty");
+        require(bytes(teamBAbbreviation).length > 0, "Team B abbreviation cannot be empty");
         
         matchHypes[hypeId] = MatchHype({
             start: 0,
@@ -45,12 +50,15 @@ contract Oracle {
             HypeB: 0,
             goalsA: 0,
             goalsB: 0,
-            status: Status.Scheduled
+            status: Status.Scheduled,
+            teamAAbbreviation: teamAAbbreviation,
+            teamBAbbreviation: teamBAbbreviation
         });
 
         hypeIds.push(hypeId); // Adiciona o hypeId à lista
 
         emit MatchScheduled(hypeId, scheduledTime);
+        emit TeamAbbreviationsSet(hypeId, teamAAbbreviation, teamBAbbreviation);
     }
 
     // 2. Alimentar esse jogo com hype (hype A, hype B)
@@ -72,6 +80,7 @@ contract Oracle {
         require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Scheduled, "Match must be scheduled");
         require(matchHype.HypeA > 0 && matchHype.HypeB > 0, "Hype must be set before opening");
+        require(bytes(matchHype.teamAAbbreviation).length > 0 && bytes(matchHype.teamBAbbreviation).length > 0, "Team abbreviations must be set before opening");
         // require(block.timestamp >= matchHype.scheduledTime - 120 minutes, "Too early to open bets");
 
         matchHype.status = Status.Open;
@@ -127,7 +136,9 @@ contract Oracle {
         uint256 start,
         uint256 end,
         uint256 scheduledTime,
-        Status status
+        Status status,
+        string memory teamAAbbreviation,
+        string memory teamBAbbreviation
     ) {
         MatchHype memory matchHype = matchHypes[hypeId];
         require(matchHype.scheduledTime != 0, "Match not found");
@@ -140,7 +151,9 @@ contract Oracle {
             matchHype.start,
             matchHype.end,
             matchHype.scheduledTime,
-            matchHype.status
+            matchHype.status,
+            matchHype.teamAAbbreviation,
+            matchHype.teamBAbbreviation
         );
     }
 

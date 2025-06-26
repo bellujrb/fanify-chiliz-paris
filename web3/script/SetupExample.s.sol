@@ -47,10 +47,20 @@ contract SetupExampleScript is Script {
 
         // 3. Criar uma partida no Oracle
         bytes4 matchId = bytes4(keccak256("MATCH_001"));
-        oracle.openMatch(matchId, 100, 80); // HypeA: 100, HypeB: 80
+        
+        // Schedule match
+        uint256 scheduledTime = block.timestamp + 1 hours;
+        oracle.scheduleMatch(matchId, scheduledTime, "PSG", "REAL");
+        
+        // Update hype
+        oracle.updateHype(matchId, 70, 30); // HypeA: 70, HypeB: 30
+        
+        // Open match for betting
+        oracle.openToBets(matchId);
 
         console.log("Created match with ID:", vm.toString(matchId));
-        console.log("Match hype values - Team A: 100, Team B: 80");
+        console.log("Match hype values - Team A: 70, Team B: 30");
+        console.log("Team abbreviations - Team A: PSG, Team B: REAL");
 
         // 4. Verificar odds da partida
         (uint256 oddsA, uint256 oddsB) = funify.getOdds(matchId);

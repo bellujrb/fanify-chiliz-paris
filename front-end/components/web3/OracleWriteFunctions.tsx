@@ -15,6 +15,8 @@ interface OracleWriteFunctionsProps {
   hypeB: string;
   goalsA: string;
   goalsB: string;
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -27,6 +29,8 @@ interface OracleWriteFunctionsProps {
   onCloseBets: () => void;
   onUpdateScore: () => void;
   onFinishMatch: () => void;
+  onTeamAAbbreviationChange: (value: string) => void;
+  onTeamBAbbreviationChange: (value: string) => void;
 }
 
 export default function OracleWriteFunctions({
@@ -38,6 +42,8 @@ export default function OracleWriteFunctions({
   hypeB,
   goalsA,
   goalsB,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -50,6 +56,8 @@ export default function OracleWriteFunctions({
   onCloseBets,
   onUpdateScore,
   onFinishMatch,
+  onTeamAAbbreviationChange,
+  onTeamBAbbreviationChange,
 }: OracleWriteFunctionsProps) {
   // Função para converter data para timestamp
   const handleDateChange = (dateString: string) => {
@@ -87,11 +95,15 @@ export default function OracleWriteFunctions({
 
   return (
     <div className="space-y-6">
-      <h3 className="font-semibold">Funções de Escrita - Etapas do Oracle (0-5)</h3>
-      
+      <h3 className="font-semibold">
+        Funções de Escrita - Etapas do Oracle (0-5)
+      </h3>
+
       {/* Etapa 1: Criar Jogo */}
       <div className="p-4 border rounded-lg bg-blue-50">
-        <h4 className="font-medium mb-3 text-blue-800">0. Criar Jogo (Scheduled)</h4>
+        <h4 className="font-medium mb-3 text-blue-800">
+          0. Criar Jogo (Scheduled)
+        </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Hype ID (0x...)</Label>
@@ -111,14 +123,40 @@ export default function OracleWriteFunctions({
             />
             {scheduledTime && (
               <p className="text-xs text-gray-600">
-                Timestamp: {scheduledTime} ({new Date(Number(scheduledTime) * 1000).toLocaleString()})
+                Timestamp: {scheduledTime} (
+                {new Date(Number(scheduledTime) * 1000).toLocaleString()})
               </p>
             )}
           </div>
         </div>
-        <Button 
-          onClick={onScheduleMatch} 
-          disabled={loading || !account || !hypeId || !scheduledTime}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="space-y-2">
+            <Label>Sigla Time A</Label>
+            <Input
+              placeholder="PSG"
+              value={teamAAbbreviation}
+              onChange={(e) => onTeamAAbbreviationChange(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Sigla Time B</Label>
+            <Input
+              placeholder="REAL"
+              value={teamBAbbreviation}
+              onChange={(e) => onTeamBAbbreviationChange(e.target.value)}
+            />
+          </div>
+        </div>
+        <Button
+          onClick={onScheduleMatch}
+          disabled={
+            loading ||
+            !account ||
+            !hypeId ||
+            !scheduledTime ||
+            !teamAAbbreviation ||
+            !teamBAbbreviation
+          }
           className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white"
         >
           {loading ? "Agendando..." : "0. Agendar Match"}
@@ -127,13 +165,17 @@ export default function OracleWriteFunctions({
 
       {/* Etapa 2: Alimentar com Hype */}
       <div className="p-4 border rounded-lg bg-yellow-50">
-        <h4 className="font-medium mb-3 text-yellow-800">1. Alimentar com Hype</h4>
-        
+        <h4 className="font-medium mb-3 text-yellow-800">
+          1. Alimentar com Hype
+        </h4>
+
         {/* Slider para Hype A */}
         <div className="space-y-4 mb-6">
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <Label className="text-yellow-800 font-medium">Hype Time A: {hypeA}%</Label>
+              <Label className="text-yellow-800 font-medium">
+                Hype Time A: {hypeA}%
+              </Label>
               <span className="text-sm text-yellow-700 bg-yellow-200 px-2 py-1 rounded">
                 {hypeA}%
               </span>
@@ -153,7 +195,9 @@ export default function OracleWriteFunctions({
         <div className="space-y-4 mb-6">
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <Label className="text-yellow-800 font-medium">Hype Time B: {hypeB}%</Label>
+              <Label className="text-yellow-800 font-medium">
+                Hype Time B: {hypeB}%
+              </Label>
               <span className="text-sm text-yellow-700 bg-yellow-200 px-2 py-1 rounded">
                 {hypeB}%
               </span>
@@ -173,7 +217,13 @@ export default function OracleWriteFunctions({
         <div className="mb-4 p-3 bg-yellow-100 rounded-lg">
           <div className="flex justify-between items-center">
             <span className="font-medium text-yellow-800">Total:</span>
-            <span className={`font-bold ${Number(hypeA) + Number(hypeB) === 100 ? 'text-green-600' : 'text-red-600'}`}>
+            <span
+              className={`font-bold ${
+                Number(hypeA) + Number(hypeB) === 100
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
               {Number(hypeA) + Number(hypeB)}%
             </span>
           </div>
@@ -184,9 +234,16 @@ export default function OracleWriteFunctions({
           )}
         </div>
 
-        <Button 
-          onClick={onUpdateHype} 
-          disabled={loading || !account || !hypeId || !hypeA || !hypeB || Number(hypeA) + Number(hypeB) !== 100}
+        <Button
+          onClick={onUpdateHype}
+          disabled={
+            loading ||
+            !account ||
+            !hypeId ||
+            !hypeA ||
+            !hypeB ||
+            Number(hypeA) + Number(hypeB) !== 100
+          }
           className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
         >
           {loading ? "Atualizando..." : "1. Atualizar Hype"}
@@ -195,9 +252,11 @@ export default function OracleWriteFunctions({
 
       {/* Etapa 3: Abrir para Apostas */}
       <div className="p-4 border rounded-lg bg-green-50">
-        <h4 className="font-medium mb-3 text-green-800">2. Abrir para Apostas (Open)</h4>
-        <Button 
-          onClick={onOpenToBets} 
+        <h4 className="font-medium mb-3 text-green-800">
+          2. Abrir para Apostas (Open)
+        </h4>
+        <Button
+          onClick={onOpenToBets}
           disabled={loading || !account || !hypeId}
           className="w-full bg-green-600 hover:bg-green-700 text-white"
         >
@@ -207,9 +266,11 @@ export default function OracleWriteFunctions({
 
       {/* Etapa 4: Fechar Apostas */}
       <div className="p-4 border rounded-lg bg-orange-50">
-        <h4 className="font-medium mb-3 text-orange-800">3. Fechar Apostas (Closed)</h4>
-        <Button 
-          onClick={onCloseBets} 
+        <h4 className="font-medium mb-3 text-orange-800">
+          3. Fechar Apostas (Closed)
+        </h4>
+        <Button
+          onClick={onCloseBets}
           disabled={loading || !account || !hypeId}
           className="w-full bg-orange-600 hover:bg-orange-700 text-white"
         >
@@ -219,7 +280,9 @@ export default function OracleWriteFunctions({
 
       {/* Etapa 5: Atualizar Placar */}
       <div className="p-4 border rounded-lg bg-purple-50">
-        <h4 className="font-medium mb-3 text-purple-800">4. Atualizar Placar</h4>
+        <h4 className="font-medium mb-3 text-purple-800">
+          4. Atualizar Placar
+        </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Gols Time A</Label>
@@ -240,8 +303,8 @@ export default function OracleWriteFunctions({
             />
           </div>
         </div>
-        <Button 
-          onClick={onUpdateScore} 
+        <Button
+          onClick={onUpdateScore}
           disabled={loading || !account || !hypeId || !goalsA || !goalsB}
           className="w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white"
         >
@@ -251,9 +314,11 @@ export default function OracleWriteFunctions({
 
       {/* Etapa 6: Finalizar Jogo */}
       <div className="p-4 border rounded-lg bg-red-50">
-        <h4 className="font-medium mb-3 text-red-800">5. Finalizar Jogo (Finished)</h4>
-        <Button 
-          onClick={onFinishMatch} 
+        <h4 className="font-medium mb-3 text-red-800">
+          5. Finalizar Jogo (Finished)
+        </h4>
+        <Button
+          onClick={onFinishMatch}
           disabled={loading || !account || !hypeId}
           className="w-full bg-red-600 hover:bg-red-700 text-white"
         >
@@ -262,4 +327,4 @@ export default function OracleWriteFunctions({
       </div>
     </div>
   );
-} 
+}

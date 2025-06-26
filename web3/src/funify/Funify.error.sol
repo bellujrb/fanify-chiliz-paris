@@ -23,4 +23,9 @@ abstract contract FunifyError {
     string public constant PrizeAlreadyClaimed = "E016";
     string public constant InvalidUserAddress = "E017";
     string public constant OracleCallFailed = "E018";
+    
+    // Novos códigos de erro para funcionalidade de siglas dos times
+    string public constant TeamAbbreviationsNotSet = "E019";
+    string public constant InvalidTeamAbbreviation = "E020";
+    string public constant TeamAbbreviationTooLong = "E021";
 }

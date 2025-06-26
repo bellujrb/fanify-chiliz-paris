@@ -32,6 +32,8 @@ interface ContractTabsProps {
   contractStats: any;
   allowance: string;
   hypeIds: string[];
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -71,6 +73,8 @@ interface ContractTabsProps {
   onGetContractStats: () => void;
   onApproveHypeToken: () => void;
   onGetAllHypeIds: () => void;
+  onTeamAAbbreviationChange: (value: string) => void;
+  onTeamBAbbreviationChange: (value: string) => void;
 }
 
 export default function ContractTabs({
@@ -99,6 +103,8 @@ export default function ContractTabs({
   contractStats,
   allowance,
   hypeIds,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -138,6 +144,8 @@ export default function ContractTabs({
   onGetContractStats,
   onApproveHypeToken,
   onGetAllHypeIds,
+  onTeamAAbbreviationChange,
+  onTeamBAbbreviationChange,
 }: ContractTabsProps) {
   return (
     <Tabs defaultValue="hypeToken" className="space-y-6">
@@ -183,6 +191,8 @@ export default function ContractTabs({
           goalsB={goalsB}
           matchData={matchData}
           hypeIds={hypeIds}
+          teamAAbbreviation={teamAAbbreviation}
+          teamBAbbreviation={teamBAbbreviation}
           onHypeIdChange={onHypeIdChange}
           onScheduledTimeChange={onScheduledTimeChange}
           onHypeAChange={onHypeAChange}
@@ -200,6 +210,8 @@ export default function ContractTabs({
           onUpdateScore={onUpdateScore}
           onFinishMatch={onFinishMatch}
           onGetAllHypeIds={onGetAllHypeIds}
+          onTeamAAbbreviationChange={onTeamAAbbreviationChange}
+          onTeamBAbbreviationChange={onTeamBAbbreviationChange}
         />
       </TabsContent>
 
@@ -217,6 +229,8 @@ export default function ContractTabs({
           claimStatus={claimStatus}
           contractStats={contractStats}
           allowance={allowance}
+          teamAAbbreviation={teamAAbbreviation}
+          teamBAbbreviation={teamBAbbreviation}
           onHypeIdChange={onHypeIdChange}
           onBetAmountChange={onBetAmountChange}
           onTeamAChange={onTeamAChange}

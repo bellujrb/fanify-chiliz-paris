@@ -18,6 +18,8 @@ interface OracleTabProps {
   goalsB: string;
   matchData: any;
   hypeIds: string[];
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -35,6 +37,8 @@ interface OracleTabProps {
   onUpdateScore: () => void;
   onFinishMatch: () => void;
   onGetAllHypeIds: () => void;
+  onTeamAAbbreviationChange: (value: string) => void;
+  onTeamBAbbreviationChange: (value: string) => void;
 }
 
 export default function OracleTab({
@@ -48,6 +52,8 @@ export default function OracleTab({
   goalsB,
   matchData,
   hypeIds,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -65,6 +71,8 @@ export default function OracleTab({
   onUpdateScore,
   onFinishMatch,
   onGetAllHypeIds,
+  onTeamAAbbreviationChange,
+  onTeamBAbbreviationChange,
 }: OracleTabProps) {
   return (
     <Card>
@@ -76,12 +84,14 @@ export default function OracleTab({
       </CardHeader>
       <CardContent className="space-y-6">
         <OracleReadFunctions
+          loading={loading}
+          account={account}
           hypeId={hypeId}
-          scheduledTime={scheduledTime}
           matchData={matchData}
           hypeIds={hypeIds}
+          teamAAbbreviation={teamAAbbreviation}
+          teamBAbbreviation={teamBAbbreviation}
           onHypeIdChange={onHypeIdChange}
-          onScheduledTimeChange={onScheduledTimeChange}
           onGetMatchData={onGetMatchData}
           onGetHype={onGetHype}
           onGetMatch={onGetMatch}
@@ -112,6 +122,10 @@ export default function OracleTab({
           onCloseBets={onCloseBets}
           onUpdateScore={onUpdateScore}
           onFinishMatch={onFinishMatch}
+          teamAAbbreviation={teamAAbbreviation}
+          teamBAbbreviation={teamBAbbreviation}
+          onTeamAAbbreviationChange={onTeamAAbbreviationChange}
+          onTeamBAbbreviationChange={onTeamBAbbreviationChange}
         />
       </CardContent>
     </Card>

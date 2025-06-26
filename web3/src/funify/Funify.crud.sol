@@ -33,7 +33,9 @@ abstract contract FunifyCrud is FunifySec {
         uint256 start,
         uint256 end,
         uint256 scheduledTime,
-        Status status
+        Status status,
+        string memory teamAAbbreviation,
+        string memory teamBAbbreviation
     ) {
         return oracle.getMatch(hypeId);
     }
@@ -52,8 +54,26 @@ abstract contract FunifyCrud is FunifySec {
         uint256 start,
         uint256 end,
         uint256 scheduledTime,
-        Status status
+        Status status,
+        string memory teamAAbbreviation,
+        string memory teamBAbbreviation
     ) {
-        return oracle.matchHypes(hypeId);
+        return oracle.getMatch(hypeId);
+    }
+
+    // Função para obter informações completas do jogo incluindo siglas dos times
+    function getMatchWithAbbreviations(bytes4 hypeId) external view returns (
+        uint256 HypeA,
+        uint256 HypeB,
+        uint8 goalsA,
+        uint8 goalsB,
+        uint256 start,
+        uint256 end,
+        uint256 scheduledTime,
+        Status status,
+        string memory teamAAbbreviation,
+        string memory teamBAbbreviation
+    ) {
+        return oracle.getMatch(hypeId);
     }
 }

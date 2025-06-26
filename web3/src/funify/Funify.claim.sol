@@ -36,7 +36,7 @@ abstract contract FunifyClaim is FunifyCrud {
 
     function _calculatePrize(bytes4 hypeId, Bet storage bet) internal view returns (uint256) {
         (uint256 hypeA, uint256 hypeB,) = oracle.getHype(hypeId);
-        (,, uint8 goalsA, uint8 goalsB,,,,) = oracle.getMatch(hypeId);
+        (,, uint8 goalsA, uint8 goalsB,,,,,,) = oracle.getMatch(hypeId);
         bool teamAWon = goalsA > goalsB;
 
         uint256 odds = _getOdds(hypeA, hypeB, bet.teamA);
