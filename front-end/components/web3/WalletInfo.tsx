@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 interface WalletInfoProps {
   account: string;
@@ -21,9 +22,11 @@ export default function WalletInfo({ account, balance, hypeTokenBalance, onConne
       </CardHeader>
       <CardContent>
         {!account ? (
-          <Button onClick={onConnect} className="w-full">
-            Conectar Carteira
-          </Button>
+          <ConnectButton
+            showBalance={false}
+            accountStatus="avatar"
+            chainStatus="icon"
+          />
         ) : (
           <div className="space-y-4">
             <div className="flex items-center justify-between">

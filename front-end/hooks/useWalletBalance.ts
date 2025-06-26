@@ -1,63 +1,71 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getBalance } from 'viem/actions';
 import { formatEther } from 'viem';
-import { useWallet } from '@/contexts/WalletContext';
+import { getBalance, readContract } from 'viem/actions';
+import { useAccount, useWalletClient, usePublicClient } from 'wagmi';
+import deployedContracts from '@/lib/deployedContracts';
 
 export const useWalletBalance = () => {
-  const { walletClient, address, isConnected } = useWallet();
+  const { address, isConnected } = useAccount();
+  useWalletClient();
+  const publicClient = usePublicClient();
   const [balance, setBalance] = useState<string>('0');
+  const [hypeBalance, setHypeBalance] = useState<string>('0');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchBalances = async () => {
+    if (!publicClient || !address || !isConnected) {
+      setBalance('0');
+      setHypeBalance('0');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Fetch native token balance (CHZ/ETH)
+      const balanceWei = await getBalance(publicClient, { address });
+      const balanceEth = formatEther(balanceWei);
+      setBalance(balanceEth);
+
+      // Fetch HYPE token balance
+      const hypeBalanceWei = await readContract(publicClient, {
+        address: deployedContracts.HypeToken.address as `0x${string}`,
+        abi: deployedContracts.HypeToken.abi,
+        functionName: 'balanceOf',
+        args: [address],
+      });
+      
+      const hypeBalanceFormatted = formatEther(hypeBalanceWei as bigint);
+      setHypeBalance(hypeBalanceFormatted);
+
+    } catch (err: any) {
+      console.error('Error fetching balances:', err);
+      setError(err.message || 'Failed to fetch balances');
+      setBalance('0');
+      setHypeBalance('0');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchBalance = async () => {
-      if (!walletClient || !address || !isConnected) {
-        setBalance('0');
-        return;
-      }
-
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const balanceWei = await getBalance(walletClient, { address });
-        const balanceEth = formatEther(balanceWei);
-        setBalance(balanceEth);
-      } catch (err: any) {
-        console.error('Error fetching balance:', err);
-        setError(err.message || 'Failed to fetch balance');
-        setBalance('0');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchBalance();
+    fetchBalances();
 
     // Set up interval to refresh balance every 30 seconds
-    const interval = setInterval(fetchBalance, 30000);
+    const interval = setInterval(fetchBalances, 30000);
 
     return () => clearInterval(interval);
-  }, [walletClient, address, isConnected]);
+  }, [publicClient, address, isConnected]);
 
   return {
     balance,
+    hypeBalance,
     isLoading,
     error,
-    refetch: () => {
-      if (walletClient && address && isConnected) {
-        getBalance(walletClient, { address })
-          .then((balanceWei: bigint) => {
-            const balanceEth = formatEther(balanceWei);
-            setBalance(balanceEth);
-          })
-          .catch((err: any) => {
-            console.error('Error refetching balance:', err);
-            setError(err.message || 'Failed to fetch balance');
-          });
-      }
-    }
+    refetch: fetchBalances
   };
 }; 

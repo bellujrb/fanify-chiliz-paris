@@ -23,12 +23,6 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
-// Configuração do cliente de carteira
-const walletClient = createWalletClient({
-  chain: anvil,
-  transport: custom(window.ethereum as any),
-});
-
 // Adicionar mapeamento de erros Funify
 const FUNIFY_ERROR_MESSAGES: Record<string, string> = {
   E000: 'A partida já foi finalizada.',
@@ -182,6 +176,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     console.log("DEBUG: Loading definido como true");
 
@@ -233,6 +237,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const hypeTokenContract = getContract({
@@ -263,6 +277,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const hypeTokenContract = getContract({
@@ -292,6 +316,16 @@ export default function ContractInteractionPage() {
     if (!account || !transferTo || !transferAmount) {
       return;
     }
+
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
 
     setLoading(true);
     try {
@@ -498,6 +532,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const oracleContract = getContract({
@@ -533,6 +577,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const oracleContract = getContract({
@@ -563,6 +617,16 @@ export default function ContractInteractionPage() {
     if (!account || !hypeId) {
       return;
     }
+
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
 
     setLoading(true);
     try {
@@ -595,6 +659,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const oracleContract = getContract({
@@ -626,6 +700,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const oracleContract = getContract({
@@ -656,6 +740,16 @@ export default function ContractInteractionPage() {
     if (!account || !hypeId) {
       return;
     }
+
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
 
     setLoading(true);
     try {
@@ -739,6 +833,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const funifyContract = getContract({
@@ -773,6 +877,16 @@ export default function ContractInteractionPage() {
     if (!account || !hypeId) {
       return;
     }
+
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
 
     setLoading(true);
     try {
@@ -939,6 +1053,16 @@ export default function ContractInteractionPage() {
       return;
     }
 
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
+
     setLoading(true);
     try {
       const hypeTokenContract = getContract({
@@ -972,6 +1096,16 @@ export default function ContractInteractionPage() {
       console.log("DEBUG: Account ou betAmount não fornecidos");
       return;
     }
+
+    if (typeof window === 'undefined' || !window.ethereum) {
+      console.log("DEBUG: Wallet não disponível");
+      return;
+    }
+
+    const walletClient = createWalletClient({
+      chain: anvil,
+      transport: custom(window.ethereum as any),
+    });
 
     setLoading(true);
     try {
