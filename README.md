@@ -120,33 +120,202 @@ fanify-chiliz-paris
 
 #### `fanify-chiliz-paris`
 
+- `back-end`
+    - Back-end Application
 - `front-end`
     - Frontend Application
-- `blockchain`
+- `web3`
     - Blockchain Application
 - `README.md`
     - Documentation Project
 
 ---
 
-## 🛠 Tech Stack Front-end
+<details>
+  <summary>🛠 Front-end Tech Stack</summary>
 
 ### Design Patterns
-- **Component Pattern**: Clear separation of responsibilities with a component-based structure (`/components`).
-- **Modal Pattern**: Used for dialogs and modals, as seen with `WalletConnectionModal.tsx` and components in `/components/ui/dialog.tsx`.
-- **Layout Pattern**: Utilizes Next.js App Router for layouts (`/app/layout.tsx`).
+- **Component Pattern**: Reusable component structure, organized under `/components`.
+- **Modal/Dialog Pattern**: Use of modals and dialogs, such as `WalletConnectionModal.tsx` and components in `/components/ui/dialog.tsx`.
+- **Layout Pattern**: Utilizes Next.js App Router for global and specific layouts (`/app/layout.tsx`).
+- **Hooks Pattern**: Custom hooks for reusable logic, like `useSmartContractGames`, `useWalletBalance`, `use-toast`.
+- **Separation of Concerns**: Clear separation between business logic (`/hooks`, `/lib`), presentation (`/components`), and routing/pages (`/app`).
 
 ### External Packages
-- **Core**: `next`, `react`, `react-dom`, `typescript`
-- **UI**: `@radix-ui/*`, `framer-motion`, `lucide-react`, `tailwindcss`, `class-variance-authority`, `clsx`
-- **Forms**: `react-hook-form`, `@hookform/resolvers`, `zod`
-- **Theming**: `next-themes`
-- **Notifications**: `sonner`
-- **Web3**: `ethers`
+
+#### Core
+- `next`
+- `react`
+- `react-dom`
+- `typescript`
+
+#### UI & Styling
+- `@radix-ui/react-*` (accordion, alert-dialog, aspect-ratio, avatar, checkbox, collapsible, context-menu, dialog, dropdown-menu, hover-card, icons, label, menubar, navigation-menu, popover, progress, radio-group, scroll-area, select, separator, slider, slot, switch, tabs, toast, toggle, toggle-group, tooltip)
+- `tailwindcss`
+- `tailwindcss-animate`
+- `tailwind-merge`
+- `class-variance-authority`
+- `clsx`
+- `lucide-react`
+- `framer-motion`
+- `cmdk`
+- `vaul`
+- `embla-carousel-react`
+- `recharts`
+- `react-resizable-panels`
+- `input-otp`
+- `react-day-picker`
+- `date-fns`
+
+#### Forms & Validation
+- `react-hook-form`
+- `@hookform/resolvers`
+- `zod`
+
+#### Theming
+- `next-themes`
+
+#### Notifications
+- `sonner`
+
+#### Web3 & Wallets
+- `ethers`
+- `wagmi`
+- `@rainbow-me/rainbowkit`
+- `@reown/walletkit`
+- `@walletconnect/core`
+- `viem`
+
+#### Data Fetching & State
+- `@tanstack/react-query`
+- React hooks and custom hooks (no Redux/MobX)
+
+#### Utilities
+- Utility functions in `/lib/utils.ts`
+- `caniuse-lite`
+- `encoding`
+- `autoprefixer`
+- `postcss`
+
+#### Types
+- `@types/node`
+- `@types/react`
+- `@types/react-dom`
+
+#### Linting & Dev Tools
+- `eslint`
+- `eslint-config-next`
+- `pino-pretty`
 
 ### Architecture
-- Next.js 14+ with App Router.
-- Component-based framework with a clear project structure: `/app`, `/components`, `/hooks`, `/lib`.
+- **Next.js 14+** with App Router (`/app`), leveraging layouts, server components, and nested routes.
+- **Component-based**: Clear organization in `/components`, with subfolders for specific domains (e.g., `/components/trading`, `/components/admin`).
+- **Hooks**: Business logic and Web3 integration isolated in custom hooks (`/hooks`).
+- **Type Safety**: Extensive use of TypeScript and global types in `/types`.
+- **Styling**: Tailwind CSS with custom configuration (`tailwind.config.ts`), plus Radix UI components.
+- **Assets**: Static images and files in `/public`.
+- **Providers**: Global contexts and providers in `/providers` (e.g., `Web3Providers.tsx`).
+
+### Other Conventions
+- **Atomic Design**: UI components organized atomically (e.g., `/components/ui/`).
+- **Accessibility**: Use of accessible components from Radix UI.
+- **Responsiveness**: Responsive layouts with Tailwind CSS.
+- **Import Best Practices**: Use of aliases (`@/components`, `@/hooks`, etc.) for easier imports.
+
+</details>
+
+<details>
+  <summary>🛠 Backend Tech Stack</summary>
+
+### Design Patterns
+- **MVC Pattern**: Clear separation using Models (`/models`), Routes (`/routes`), and Controllers/Services (`/services`).
+- **Service Layer**: Business logic and blockchain integration are abstracted into service files (e.g., `/services/blockchain.js`).
+- **Routing Pattern**: RESTful API routes organized in `/routes` (e.g., `games.js`, `tweets.js`).
+
+### External Packages
+
+#### Core
+- `express`
+
+#### Blockchain/Web3
+- `ethers`
+
+#### Utilities
+- `dotenv` (for environment variable management)
+
+#### Dev Tools
+- `nodemon` (for development auto-reload)
+
+### Architecture
+- **Express.js** server (`server.js`) as the main entry point.
+- **REST API**: Endpoints defined in `/routes` for different resources (e.g., games, tweets).
+- **Models**: Data models in `/models` (e.g., `Game.js`, `Tweet.js`).
+- **Services**: Business logic and blockchain interaction in `/services`.
+- **Config/Lib**: Shared configuration and deployed contract addresses in `/lib`.
+
+### Other Conventions
+- **Environment Variables**: Managed via `.env` and loaded with `dotenv`.
+- **Separation of Concerns**: Logic split between routes, services, and models for maintainability.
+- **Modular Structure**: Each domain (games, tweets, blockchain) has its own route, model, and service as needed.
+
+</details>
+
+<details>
+  <summary>🛠 Web3/Smart Contracts Tech Stack</summary>
+
+### Design Patterns
+- **Modular Contract Structure**: Smart contracts are split by responsibility (e.g., `Funify.sol`, `HypeToken.sol`, `Oracle.sol`, and modularized files in `funify/`).
+- **Script Pattern**: Deployment and utility scripts are separated in `/script` and as shell scripts for different networks.
+- **Testing Pattern**: Test contracts and scenarios are organized under `/test`.
+
+### Tooling & External Packages
+
+#### Smart Contract Development
+- **Foundry**:  
+  - Used for compiling, testing, and deploying smart contracts (`foundry.toml`, `forge-std` in `/lib`).
+- **Solady**:  
+  - Utility and base contracts for Solidity, included as a submodule in `/lib/solady`.
+- **Remappings**:  
+  - Custom import remappings managed in `remappings.txt`.
+
+#### Scripting & Automation
+- **Python**:  
+  - Deployment and simulation scripts (`deploy.py`, `simulator.py`).
+- **Shell Scripts**:  
+  - Network-specific deployment scripts (`local.deploy.sh`, `mainnet.deploy.sh`, `testnet.deploy.sh`).
+
+#### Testing
+- **Foundry Test Suite**:  
+  - Solidity-based tests in `/test` and scenario-based tests in `/test/scenarios/`.
+
+#### Utilities & Config
+- **Broadcasts**:  
+  - Deployment logs and artifacts in `/broadcast`.
+- **Cache/Out**:  
+  - Build artifacts and cache for Foundry.
+- **.gitmodules**:  
+  - Manages external submodules (e.g., Solady, forge-std).
+
+### Architecture
+- **Contracts**:  
+  - Main contracts in `/src` (e.g., `Funify.sol`, `HypeToken.sol`, `Oracle.sol`).
+  - Modularized contract logic in `/src/funify/`.
+- **Scripts**:  
+  - Deployment and utility scripts in `/script` and as Python/shell scripts at the root.
+- **Testing**:  
+  - Unit and scenario tests in `/test`.
+- **Libs**:  
+  - External libraries and standards in `/lib` (e.g., `forge-std`, `solady`).
+
+### Other Conventions
+- **Network Agnostic**:  
+  - Deployment scripts and remappings support multiple networks (local, testnet, mainnet).
+- **Open Source Standards**:  
+  - Uses widely adopted libraries (Solady, forge-std) for reliability and security.
+- **Documentation**:  
+  - Project and contract documentation in `README.md` files.
+
+</details>
 
 ---
 
