@@ -176,4 +176,12 @@ contract Oracle {
     function getTotalMatches() public view returns (uint256) {
         return hypeIds.length;
     }
+
+    function getMatchStatus(bytes4 hypeId) public view returns (Status) {
+        return matchHypes[hypeId].status;
+    }
+
+    function getMatchGoals(bytes4 hypeId) public view returns (uint8 goalsA, uint8 goalsB) {
+        return (matchHypes[hypeId].goalsA, matchHypes[hypeId].goalsB);
+    }   
 }

@@ -41,26 +41,4 @@ abstract contract FunifyPlaceBet is FunifySec {
 
         emit BetPlaced(hypeId, msg.sender, teamA, amount);
     }
-
-    // Nova função para obter informações do bet de um usuário
-    function getUserBet(bytes4 hypeId, address user) external view returns (uint256 amount, bool teamA) {
-        Bet storage bet = bets[hypeId][user];
-        if (bet.amount == 0) {
-            revert(NoBetOnMatch);
-        }
-        return (bet.amount, bet.teamA);
-    }
-
-    // Nova função para obter estatísticas do match
-    function getMatchStats(bytes4 hypeId) external view returns (
-        uint256 totalBetsA,
-        uint256 totalBetsB,
-        uint256 totalPool,
-        uint256 houseCut
-    ) {
-        totalBetsA = prizePoolA[hypeId];
-        totalBetsB = prizePoolB[hypeId];
-        totalPool = totalBetsA + totalBetsB;
-        houseCut = (totalPool * HOUSE_FEE) / 1e18;
-    }
 }

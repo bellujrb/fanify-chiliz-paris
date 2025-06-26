@@ -22,7 +22,7 @@ abstract contract FunifySec is FunifyStorage {
     }
 
     modifier onlyMatchFinished(bytes4 hypeId) {
-        (,, Status status) = oracle.getHype(hypeId);
+        Status status = oracle.getMatchStatus(hypeId);
         if (status != Status.Finished) {
             revert(MatchNotFinished);
         }
@@ -30,7 +30,7 @@ abstract contract FunifySec is FunifyStorage {
     }
 
     modifier onlyNoDraw(bytes4 hypeId) {
-        (,, uint8 goalsA, uint8 goalsB,,,,,,) = oracle.getMatch(hypeId);
+        (uint8 goalsA, uint8 goalsB) = oracle.getMatchGoals(hypeId);
         if (goalsA == goalsB) {
             revert(MatchEndedInDraw);
         }
@@ -39,7 +39,7 @@ abstract contract FunifySec is FunifyStorage {
 
     modifier onlyUserWon(bytes4 hypeId) {
         Bet storage bet = bets[hypeId][msg.sender];
-        (,, uint8 goalsA, uint8 goalsB,,,,,,) = oracle.getMatch(hypeId);
+        (uint8 goalsA, uint8 goalsB) = oracle.getMatchGoals(hypeId);
         bool teamAWon = goalsA > goalsB;
         bool userBetOnTeamA = bet.teamA;
 
@@ -53,10 +53,10 @@ abstract contract FunifySec is FunifyStorage {
     }
 
     modifier onlyValidPlaceBet(bytes4 hypeId, uint256 amount) {
-        if (!oracle.matchExists(hypeId)) {
+        if (oracle.matchExists(hypeId) == false) {
             revert(NoBetOnMatch);
         }
-        (,, Status status) = oracle.getHype(hypeId);
+        Status status = oracle.getMatchStatus(hypeId);
         if (status != Status.Open) {
             revert(MatchNotOpen);
         }

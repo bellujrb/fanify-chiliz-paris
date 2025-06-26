@@ -87,29 +87,4 @@ contract HypeToken is ERC20 {
         _mint(to, amount);
         emit TokensMinted(to, amount, msg.sender);
     }
-
-    function transferOwnership(address newOwner) external onlyOwner {
-        require(newOwner != address(0), "New owner cannot be zero address");
-        require(newOwner != owner, "New owner must be different");
-        
-        address oldOwner = owner;
-        owner = newOwner;
-        
-        emit OwnershipTransferred(oldOwner, newOwner);
-    }
-
-    function renounceOwnership() external onlyOwner {
-        address oldOwner = owner;
-        owner = address(0);
-        emit OwnershipTransferred(oldOwner, address(0));
-    }
-
-    // Emergency function to withdraw ETH if needed
-    function emergencyWithdraw() external onlyOwner nonReentrant {
-        uint256 balance = address(this).balance;
-        require(balance > 0, "No ETH to withdraw");
-        
-        (bool success, ) = payable(owner).call{value: balance}("");
-        require(success, "ETH transfer failed");
-    }
 }

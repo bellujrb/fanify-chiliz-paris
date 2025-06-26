@@ -34,19 +34,19 @@ abstract contract FunifyClaim is FunifyCrud {
         emit PrizesDistributed(hypeId, msg.sender, userPrize);
     }
 
-    function _calculatePrize(bytes4 hypeId, Bet storage bet) internal view returns (uint256) {
-        (uint256 hypeA, uint256 hypeB,) = oracle.getHype(hypeId);
-        (,, uint8 goalsA, uint8 goalsB,,,,,,) = oracle.getMatch(hypeId);
-        bool teamAWon = goalsA > goalsB;
+        function _calculatePrize(bytes4 hypeId, Bet storage bet) internal view returns (uint256) {
+            (uint256 hypeA, uint256 hypeB,) = oracle.getHype(hypeId);
+            (,, uint8 goalsA, uint8 goalsB,,,,,,) = oracle.getMatch(hypeId);
+            bool teamAWon = goalsA > goalsB;
 
-        uint256 odds = _getOdds(hypeA, hypeB, bet.teamA);
-        uint256 totalPool = prizePoolA[hypeId] + prizePoolB[hypeId];
-        uint256 houseCut = (totalPool * HOUSE_FEE) / 1e18;
-        uint256 prizePool = totalPool - houseCut;
+            uint256 odds = _getOdds(hypeA, hypeB, bet.teamA);
+            uint256 totalPool = prizePoolA[hypeId] + prizePoolB[hypeId];
+            uint256 houseCut = (totalPool * HOUSE_FEE) / 1e18;
+            uint256 prizePool = totalPool - houseCut;
 
-        uint256 totalProporcao = _getTotalProporcao(teamAWon, prizePoolA[hypeId], prizePoolB[hypeId], odds);
-        return (bet.amount * odds * prizePool) / totalProporcao;
-    }
+            uint256 totalProporcao = _getTotalProporcao(teamAWon, prizePoolA[hypeId], prizePoolB[hypeId], odds);
+            return (bet.amount * odds * prizePool) / totalProporcao;
+        }
 
     function _updateHouseProfit(bytes4 hypeId) internal {
         if (houseProfit[hypeId] == 0) {
