@@ -1,7 +1,7 @@
 
 const deployedContracts = {
     "HypeToken": {
-        "address": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+        "address": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
         "abi": [
             {
                 "type": "constructor",
@@ -520,7 +520,7 @@ const deployedContracts = {
         ]
     },
     "Oracle": {
-        "address": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+        "address": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
         "abi": [
             {
                 "type": "function",
@@ -640,6 +640,16 @@ const deployedContracts = {
                         "name": "status",
                         "type": "uint8",
                         "internalType": "enum Status"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
                     }
                 ],
                 "stateMutability": "view"
@@ -745,6 +755,16 @@ const deployedContracts = {
                         "name": "status",
                         "type": "uint8",
                         "internalType": "enum Status"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
                     }
                 ],
                 "stateMutability": "view"
@@ -775,6 +795,16 @@ const deployedContracts = {
                         "name": "scheduledTime",
                         "type": "uint256",
                         "internalType": "uint256"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
                     }
                 ],
                 "outputs": [],
@@ -957,11 +987,36 @@ const deployedContracts = {
                     }
                 ],
                 "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "TeamAbbreviationsSet",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "indexed": false,
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "indexed": false,
+                        "internalType": "string"
+                    }
+                ],
+                "anonymous": false
             }
         ]
     },
     "Funify": {
-        "address": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
+        "address": "0x0165878a594ca255338adfa4d48449f69242eb8f",
         "abi": [
             {
                 "type": "constructor",
@@ -1034,6 +1089,19 @@ const deployedContracts = {
             {
                 "type": "function",
                 "name": "InvalidMatchStatus",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidTeamAbbreviation",
                 "inputs": [],
                 "outputs": [
                     {
@@ -1202,6 +1270,32 @@ const deployedContracts = {
             },
             {
                 "type": "function",
+                "name": "TeamAbbreviationTooLong",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "TeamAbbreviationsNotSet",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
                 "name": "TokenTransferFailed",
                 "inputs": [],
                 "outputs": [
@@ -1312,80 +1406,6 @@ const deployedContracts = {
             },
             {
                 "type": "function",
-                "name": "getCompleteMatchInfo",
-                "inputs": [
-                    {
-                        "name": "hypeId",
-                        "type": "bytes4",
-                        "internalType": "bytes4"
-                    }
-                ],
-                "outputs": [
-                    {
-                        "name": "oracleHypeA",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "oracleHypeB",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "oracleGoalsA",
-                        "type": "uint8",
-                        "internalType": "uint8"
-                    },
-                    {
-                        "name": "oracleGoalsB",
-                        "type": "uint8",
-                        "internalType": "uint8"
-                    },
-                    {
-                        "name": "oracleStart",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "oracleEnd",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "oracleScheduledTime",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "oracleStatus",
-                        "type": "uint8",
-                        "internalType": "enum Status"
-                    },
-                    {
-                        "name": "funifyPoolA",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "funifyPoolB",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "funifyHouseProfit",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    },
-                    {
-                        "name": "funifyHouseCut",
-                        "type": "uint256",
-                        "internalType": "uint256"
-                    }
-                ],
-                "stateMutability": "view"
-            },
-            {
-                "type": "function",
                 "name": "getContractStats",
                 "inputs": [],
                 "outputs": [
@@ -1472,6 +1492,16 @@ const deployedContracts = {
                         "name": "status",
                         "type": "uint8",
                         "internalType": "enum Status"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
                     }
                 ],
                 "stateMutability": "view"
@@ -1526,6 +1556,16 @@ const deployedContracts = {
                         "name": "status",
                         "type": "uint8",
                         "internalType": "enum Status"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
                     }
                 ],
                 "stateMutability": "view"
@@ -1560,6 +1600,70 @@ const deployedContracts = {
                         "name": "houseCut",
                         "type": "uint256",
                         "internalType": "uint256"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getMatchWithAbbreviations",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "HypeA",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "HypeB",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "goalsA",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "goalsB",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "start",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "end",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "scheduledTime",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "status",
+                        "type": "uint8",
+                        "internalType": "enum Status"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
                     }
                 ],
                 "stateMutability": "view"
@@ -1899,6 +2003,25 @@ const deployedContracts = {
             },
             {
                 "type": "event",
+                "name": "MatchWithAbbreviationsRequested",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "requester",
+                        "type": "address",
+                        "indexed": true,
+                        "internalType": "address"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
                 "name": "PrizeClaimabilityChecked",
                 "inputs": [
                     {
@@ -1949,6 +2072,31 @@ const deployedContracts = {
                         "type": "uint256",
                         "indexed": false,
                         "internalType": "uint256"
+                    }
+                ],
+                "anonymous": false
+            },
+            {
+                "type": "event",
+                "name": "TeamAbbreviationsQueried",
+                "inputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "indexed": true,
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "teamAAbbreviation",
+                        "type": "string",
+                        "indexed": false,
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "teamBAbbreviation",
+                        "type": "string",
+                        "indexed": false,
+                        "internalType": "string"
                     }
                 ],
                 "anonymous": false
