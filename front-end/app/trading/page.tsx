@@ -109,36 +109,37 @@ export default function TradingApp() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {currentGame ? (
-        <>
-          <TradingHeader
-            selectedGame={selectedGame}
-            onGameSelect={setSelectedGame}
-          />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <NavigationTabs
-              activeSection={activeSection}
-              onSectionChange={setActiveSection}
-            />
-            {(activeSection === 'staking' || activeSection === 'rewards') && !isConnected ? (
+      <TradingHeader
+        selectedGame={selectedGame}
+        onGameSelect={setSelectedGame}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <NavigationTabs
+          activeSection={activeSection}
+          onSectionChange={setActiveSection}
+        />
+        {(activeSection === 'staking' || activeSection === 'rewards') && !isConnected ? (
+          <div className="mb-6 flex items-center justify-center">
+            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-xl shadow text-center flex items-center space-x-3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-yellow-500">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2.25m0 2.25h.008v.008H12v-.008zm.75-8.25a.75.75 0 00-1.5 0v.75a.75.75 0 001.5 0v-.75zm-6 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm12 0a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-9.53 4.28a.75.75 0 00-1.06 1.06l.53.53a.75.75 0 001.06-1.06l-.53-.53zm10.06 0a.75.75 0 00-1.06 1.06l.53.53a.75.75 0 001.06-1.06l-.53-.53zM12 19.5a.75.75 0 00.75-.75v-.75a.75.75 0 00-1.5 0v.75a.75.75 0 00.75.75z" />
+              </svg>
+              <span className="font-medium">Connect your wallet to access this section.</span>
+            </div>
+          </div>
+        ) : (
+          <>
+            {games.length === 0 && (
               <div className="mb-6 flex items-center justify-center">
-                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-xl shadow text-center flex items-center space-x-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-yellow-500">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2.25m0 2.25h.008v.008H12v-.008zm.75-8.25a.75.75 0 00-1.5 0v.75a.75.75 0 001.5 0v-.75zm-6 6a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm12 0a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm-9.53 4.28a.75.75 0 00-1.06 1.06l.53.53a.75.75 0 001.06-1.06l-.53-.53zm10.06 0a.75.75 0 00-1.06 1.06l.53.53a.75.75 0 001.06-1.06l-.53-.53zM12 19.5a.75.75 0 00.75-.75v-.75a.75.75 0 00-1.5 0v.75a.75.75 0 00.75.75z" />
-                  </svg>
-                  <span className="font-medium">Conecte sua wallet para acessar esta seção.</span>
+                <div className="bg-gray-100 border border-gray-200 text-gray-500 px-6 py-4 rounded-xl shadow text-center flex items-center space-x-3">
+                  <span className="font-medium">No games available.</span>
                 </div>
               </div>
-            ) : (
-              renderContent()
             )}
-          </div>
-        </>
-      ) : (
-        <div className="flex items-center justify-center h-96">
-          <div className="text-gray-500 text-lg">No games available.</div>
-        </div>
-      )}
+            {renderContent()}
+          </>
+        )}
+      </div>
     </div>
   );
 }
