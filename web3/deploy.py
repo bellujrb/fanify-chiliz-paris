@@ -130,48 +130,7 @@ def updateABI():
 
 
 
-def get_metadata():
-    print_step("Processando metadados de build")
-
-    print("Procurando arquivos de build info...")
-    BUILD_INFO = glob.glob("out/build-info/*.json")
-    if not BUILD_INFO:
-        print_error("Nenhum arquivo de build info encontrado!")
-        return
-
-    BUILD_INFO = BUILD_INFO[0]
-    print(f"Usando arquivo de build: {BUILD_INFO}")
-
-    with open(BUILD_INFO) as build_info:
-        json_file = load(build_info)
-        contracts_data = json_file["output"]["contracts"]
-        print(
-            f"Total de contratos encontrados: {sum(len(v) for v in contracts_data.values())}"
-        )
-
-        print("Filtrando contratos relevantes...")
-        filtered_contracts = {
-            contract_path: {
-                name: contracts_data[contract_path][name]
-                for name in contracts_data[contract_path]
-                if name in CONTRACTS
-            }
-            for contract_path in contracts_data
-            if any(name in contracts_data[contract_path] for name in CONTRACTS)
-        }
-
-        print(
-            f"Contratos após filtro: {sum(len(v) for v in filtered_contracts.values())}"
-        )
-        json_file["output"]["contracts"] = filtered_contracts
-
-    print("Salvando metadados filtrados...")
-    with open(BUILD_INFO, "w") as build_info:
-        json.dump(json_file, build_info, indent=4)
-    print_success("Metadados atualizados com sucesso")
-
 
 print_step("Iniciando processo de atualização de contratos")
 updateABI()
-get_metadata()
 print_success("Processo concluído com sucesso!")

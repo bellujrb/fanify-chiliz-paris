@@ -32,12 +32,11 @@ contract DeployScript is Script {
         Funify funify = new Funify(address(hypeToken), address(oracle));
         console.log("Funify deployed at:", address(funify));
 
-
         // Schedule test match
         console.log("Scheduling test match...");
         bytes4 testHypeId = 0x12341234;
         uint256 scheduledTime = block.timestamp + 3600;
-        
+
         oracle.scheduleMatch(testHypeId, scheduledTime, "PSG", "REAL");
         console.log("Test match scheduled with hypeId: ");
         console.logBytes4(testHypeId);

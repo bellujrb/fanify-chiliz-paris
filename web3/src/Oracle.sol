@@ -2,10 +2,11 @@
 pragma solidity ^0.8.28;
 
 enum Status {
-    Scheduled,  // 0. Jogo criado e agendado
-    Open,       // 1. Aberto para apostas
-    Closed,     // 2. Fechado para apostas (jogo em andamento)
-    Finished    // 3. Jogo finalizado
+    Scheduled, // 0. Jogo criado e agendado
+    Open, // 1. Aberto para apostas
+    Closed, // 2. Fechado para apostas (jogo em andamento)
+    Finished // 3. Jogo finalizado
+
 }
 
 contract Oracle {
@@ -16,7 +17,7 @@ contract Oracle {
         uint8 goalsB;
         uint256 start;
         uint256 end;
-        uint256 scheduledTime;  // Horário agendado para o jogo
+        uint256 scheduledTime; // Horário agendado para o jogo
         Status status;
         string teamAAbbreviation; // Sigla do Time A (ex: "PSG", "REAL")
         string teamBAbbreviation; // Sigla do Time B (ex: "BAR", "JUV")
@@ -35,13 +36,18 @@ contract Oracle {
     event TeamAbbreviationsSet(bytes4 indexed hypeId, string teamAAbbreviation, string teamBAbbreviation);
 
     // 1. Criar um Jogo (hype, status.scheduled)
-    function scheduleMatch(bytes4 hypeId, uint256 scheduledTime, string memory teamAAbbreviation, string memory teamBAbbreviation) public {
+    function scheduleMatch(
+        bytes4 hypeId,
+        uint256 scheduledTime,
+        string memory teamAAbbreviation,
+        string memory teamBAbbreviation
+    ) public {
         require(matchHypes[hypeId].start == 0, "Match already exists");
         // AQUI - VALIDAÇÃO DE TEMPO COMENTADA PARA TESTES
         // require(scheduledTime > block.timestamp, "Scheduled time must be in the future");
         require(bytes(teamAAbbreviation).length > 0, "Team A abbreviation cannot be empty");
         require(bytes(teamBAbbreviation).length > 0, "Team B abbreviation cannot be empty");
-        
+
         matchHypes[hypeId] = MatchHype({
             start: 0,
             end: 0,
@@ -80,7 +86,10 @@ contract Oracle {
         require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Scheduled, "Match must be scheduled");
         require(matchHype.HypeA > 0 && matchHype.HypeB > 0, "Hype must be set before opening");
-        require(bytes(matchHype.teamAAbbreviation).length > 0 && bytes(matchHype.teamBAbbreviation).length > 0, "Team abbreviations must be set before opening");
+        require(
+            bytes(matchHype.teamAAbbreviation).length > 0 && bytes(matchHype.teamBAbbreviation).length > 0,
+            "Team abbreviations must be set before opening"
+        );
         // require(block.timestamp >= matchHype.scheduledTime - 120 minutes, "Too early to open bets");
 
         matchHype.status = Status.Open;
@@ -125,21 +134,25 @@ contract Oracle {
     }
 
     // Função para obter informações completas do jogo
-    function getMatch(bytes4 hypeId) public view returns (
-        uint256 HypeA,
-        uint256 HypeB,
-        uint8 goalsA,
-        uint8 goalsB,
-        uint256 start,
-        uint256 end,
-        uint256 scheduledTime,
-        Status status,
-        string memory teamAAbbreviation,
-        string memory teamBAbbreviation
-    ) {
+    function getMatch(bytes4 hypeId)
+        public
+        view
+        returns (
+            uint256 HypeA,
+            uint256 HypeB,
+            uint8 goalsA,
+            uint8 goalsB,
+            uint256 start,
+            uint256 end,
+            uint256 scheduledTime,
+            Status status,
+            string memory teamAAbbreviation,
+            string memory teamBAbbreviation
+        )
+    {
         MatchHype memory matchHype = matchHypes[hypeId];
         require(matchHype.scheduledTime != 0, "Match not found");
-        
+
         return (
             matchHype.HypeA,
             matchHype.HypeB,
@@ -182,5 +195,5 @@ contract Oracle {
 
     function getMatchGoals(bytes4 hypeId) public view returns (uint8 goalsA, uint8 goalsB) {
         return (matchHypes[hypeId].goalsA, matchHypes[hypeId].goalsB);
-    }   
+    }
 }

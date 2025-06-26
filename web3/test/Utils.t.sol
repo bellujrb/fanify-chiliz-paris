@@ -40,6 +40,4 @@ contract Utils is Test {
     function bytes2uint(bytes32 b) public pure returns (uint256 result) {
         result = uint256(b);
     }
-
-    function test_utils_just_for_pass_in_converage() public {}
 }
