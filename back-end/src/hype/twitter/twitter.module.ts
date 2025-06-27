@@ -3,9 +3,10 @@ import { TwitterService } from './twitter.service';
 import { TwitterController } from './twitter.controller';
 import { SupabaseProvider } from '../../lib/supabase.provider';
 import { ConfigModule } from '../../config/config.module';
+import { HypeModule } from '../hype.module';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [ConfigModule, forwardRef(() => HypeModule)],
   providers: [TwitterService, SupabaseProvider],
   controllers: [TwitterController],
   exports: [TwitterService],

@@ -58,4 +58,12 @@ export class TwitterService {
       throw error;
     }
   }
+
+  async getAllTweets(): Promise<Tweet[]> {
+    const { data, error } = await this.supabase.from('tweets').select('*').order('created_at', { ascending: false });
+    if (error) {
+      throw new Error(`Failed to fetch tweets: ${error.message}`);
+    }
+    return data || [];
+  }
 }

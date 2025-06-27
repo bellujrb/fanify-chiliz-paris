@@ -16,5 +16,6 @@ import { OracleService } from './oracle/oracle.service';
   ],
   controllers: [HypeController],
   providers: [HypeService, TwitterService, OracleService, SupabaseProvider],
+  exports: [HypeService],
 })
 export class HypeModule {}

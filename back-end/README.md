@@ -37,12 +37,10 @@ A aplicação utiliza:
 
 **Retorna:**
 ```
-{
-    hypes: [
-        {hypeA: 80.12, hypeB: 20.82, timestamp: 1723213003},
-        ...
-    ]
-}
+[
+    {hypeA: 80.12, hypeB: 20.82, timestamp: 1723213003},
+    ...
+]
 ```
 
 ### Buscar posts do Twitter e análise de hype
@@ -62,7 +60,7 @@ A aplicação utiliza:
 ### Adicionar post manual e analisar sentimento
 `POST /add-post/:hype-id`
 
-**Input:**
+**Payload:**
 ```
 {
     text: "meu texto a favor do PSG"
