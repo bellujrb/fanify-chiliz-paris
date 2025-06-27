@@ -32,20 +32,6 @@ contract DeployScript is Script {
         Funify funify = new Funify(address(hypeToken), address(oracle));
         console.log("[8] Funify deployed at:", address(funify));
 
-        // Schedule test match
-        console.log("[9] Scheduling test match...");
-        bytes4 testHypeId = 0x12341234;
-        uint256 scheduledTime = block.timestamp + 3600;
-
-        oracle.scheduleMatch(testHypeId, scheduledTime, "PSG", "MIA", "#Chiliz_PSGxMIA_20250629");
-        // Exemplo: 75.87% para A, 24.13% para B
-        oracle.updateHype(testHypeId, 7587, 2413);
-        console.log("[10] Test match scheduled with hypeId: ");
-        console.logBytes4(testHypeId);
-
-        console.log("[11] Open match to receive bets");
-        oracle.openToBets(0x12341234);
-
         vm.stopBroadcast();
     }
 }

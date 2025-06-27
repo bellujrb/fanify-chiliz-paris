@@ -56,13 +56,82 @@
       },
       "additionalContracts": [],
       "isFixedGasLimit": false
+    },
+    {
+      "hash": null,
+      "transactionType": "CALL",
+      "contractName": "Oracle",
+      "contractAddress": "0xdedcde27ac9398f8274accf4c0ff8bccd79a3634",
+      "function": "scheduleMatch(bytes4,uint256,string,string,string)",
+      "arguments": [
+        "0x12341234",
+        "1751060954",
+        "PSG",
+        "MIA",
+        "#Chiliz_PSGxMIA_20250629"
+      ],
+      "transaction": {
+        "from": "0x5a6bb86ab5986b5b8cad04f3732da96989969300",
+        "to": "0xdedcde27ac9398f8274accf4c0ff8bccd79a3634",
+        "gas": "0x3e46e",
+        "value": "0x0",
+        "input": "0xc2ff1477123412340000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000685f11da00000000000000000000000000000000000000000000000000000000000000a000000000000000000000000000000000000000000000000000000000000000e000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000000000000000000000003505347000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000034d494100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018234368696c697a5f505347784d49415f32303235303632390000000000000000",
+        "nonce": "0x16",
+        "chainId": "0x15b32"
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    },
+    {
+      "hash": null,
+      "transactionType": "CALL",
+      "contractName": "Oracle",
+      "contractAddress": "0xdedcde27ac9398f8274accf4c0ff8bccd79a3634",
+      "function": "updateHype(bytes4,uint256,uint256)",
+      "arguments": [
+        "0x12341234",
+        "7587",
+        "2413"
+      ],
+      "transaction": {
+        "from": "0x5a6bb86ab5986b5b8cad04f3732da96989969300",
+        "to": "0xdedcde27ac9398f8274accf4c0ff8bccd79a3634",
+        "gas": "0x19db5",
+        "value": "0x0",
+        "input": "0x62f2b06912341234000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001da3000000000000000000000000000000000000000000000000000000000000096d",
+        "nonce": "0x17",
+        "chainId": "0x15b32"
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    },
+    {
+      "hash": null,
+      "transactionType": "CALL",
+      "contractName": "Oracle",
+      "contractAddress": "0xdedcde27ac9398f8274accf4c0ff8bccd79a3634",
+      "function": "openToBets(bytes4)",
+      "arguments": [
+        "0x12341234"
+      ],
+      "transaction": {
+        "from": "0x5a6bb86ab5986b5b8cad04f3732da96989969300",
+        "to": "0xdedcde27ac9398f8274accf4c0ff8bccd79a3634",
+        "gas": "0x2413d",
+        "value": "0x0",
+        "input": "0x79f037aa1234123400000000000000000000000000000000000000000000000000000000",
+        "nonce": "0x18",
+        "chainId": "0x15b32"
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
     }
   ],
   "receipts": [],
   "libraries": [],
   "pending": [],
   "returns": {},
-  "timestamp": 1751057976,
+  "timestamp": 1751057385,
   "chain": 88882,
   "commit": "3ebab79"
 }
