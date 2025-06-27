@@ -44,6 +44,8 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
   const [success, setSuccess] = useState<string | null>(null);
   const [odds, setOdds] = useState<{ oddsA: string; oddsB: string } | null>(null);
   const [oddsLoading, setOddsLoading] = useState(false);
+  const [hype, setHype] = useState<{ home: number; away: number } | null>(null);
+  const [hypeLoading, setHypeLoading] = useState(false);
 
   const publicClient = createPublicClient({ chain: spicy, transport: http() });
 
@@ -163,6 +165,36 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
     fetchOdds();
   }, [currentGame?.hypeId]);
 
+  // Fetch hype from blockchain
+  useEffect(() => {
+    const fetchHype = async () => {
+      setHypeLoading(true);
+      if (!currentGame?.hypeId) {
+        setHype(null);
+        setHypeLoading(false);
+        return;
+      }
+      try {
+        const oracleContract = getContract({
+          address: deployedContracts.Oracle.address as `0x${string}`,
+          abi: deployedContracts.Oracle.abi,
+          client: publicClient,
+        });
+        const data = await oracleContract.read.getHype([
+          currentGame.hypeId as `0x${string}`
+        ]);
+        // Remove two zeros and convert to percentage
+        const hypeA = Number(data[0]) / 100;
+        const hypeB = Number(data[1]) / 100;
+        setHype({ home: hypeA, away: hypeB });
+      } catch (err) {
+        setHype(null);
+      }
+      setHypeLoading(false);
+    };
+    fetchHype();
+  }, [currentGame?.hypeId]);
+
   const allowanceEnough = Number(allowance) >= Number(betAmount || 0);
   const isApproveAmountValid = !!approveAmount && !isNaN(Number(approveAmount)) && Number(approveAmount) > 0;
   const hasEnoughHype = isApproveAmountValid && Number(hypeBalance) >= Number(approveAmount);
@@ -192,7 +224,9 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
             <span className="text-2xl">{currentGame.homeTeam.logo}</span>
             <span className="font-bold text-gray-900">{currentGame.homeTeam.name}</span>
           </div>
-          <div className="text-4xl font-black text-brand-600 mb-2">{Math.round(currentGame.homeTeam.hype)}%</div>
+          <div className="text-4xl font-black text-brand-600 mb-2">
+            {hypeLoading ? '...' : hype ? `${Math.round(hype.home)}%` : '...'}
+          </div>
           <div className="text-sm text-gray-600 mb-4">Fan Hype</div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Odds:</span>
@@ -211,7 +245,9 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
             <span className="text-2xl">{currentGame.awayTeam.logo}</span>
             <span className="font-bold text-gray-900">{currentGame.awayTeam.name}</span>
           </div>
-          <div className="text-4xl font-black text-blue-600 mb-2">{Math.round(currentGame.awayTeam.hype)}%</div>
+          <div className="text-4xl font-black text-blue-600 mb-2">
+            {hypeLoading ? '...' : hype ? `${Math.round(hype.away)}%` : '...'}
+          </div>
           <div className="text-sm text-gray-600 mb-4">Fan Hype</div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Odds:</span>
@@ -232,17 +268,17 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
           <div className="h-full flex transition-all duration-1000">
             <div 
               className="bg-gradient-to-r from-brand-500 to-brand-600"
-              style={{ width: `${currentGame.homeTeam.hype}%` }}
+              style={{ width: `${hype ? hype.home : 0}%` }}
             ></div>
             <div 
               className="bg-gradient-to-r from-blue-500 to-blue-600"
-              style={{ width: `${currentGame.awayTeam.hype}%` }}
+              style={{ width: `${hype ? hype.away : 0}%` }}
             ></div>
           </div>
         </div>
         <div className="flex justify-between text-sm text-gray-600 mt-2">
-          <span>{currentGame.homeTeam.name}: {Math.round(currentGame.homeTeam.hype)}%</span>
-          <span>{currentGame.awayTeam.name}: {Math.round(currentGame.awayTeam.hype)}%</span>
+          <span>{currentGame.homeTeam.name}: {hypeLoading ? '...' : hype ? `${Math.round(hype.home)}%` : '...'}</span>
+          <span>{currentGame.awayTeam.name}: {hypeLoading ? '...' : hype ? `${Math.round(hype.away)}%` : '...'}</span>
         </div>
       </div>
 
