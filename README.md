@@ -26,9 +26,9 @@ Leveraging Chiliz’s fan-centric ecosystem, we ensure that each tokenized hype 
 
 📄 **Deployed Contracts:**  
 
-- 🪙 [HypeToken](https://testnet.routescan.io/address/0x0Be0D8CB83C120DD78312A8C713FcCf7Bf06A5d2/contract/88882/code)  
-- 📡 [Oracle](https://testnet.routescan.io/address/0x6B41840a29CbDB21fc6C2D5CeA142c394cDC1852/contract/88882/code)  
-- ⚽ [Funify](https://testnet.routescan.io/address/0x1b166fA673bfCc2cce622A786C351064b979f5Bb/contract/88882/code)
+- 🪙 [HypeToken](https://testnet.chiliscan.com/address/0x0Be0D8CB83C120DD78312A8C713FcCf7Bf06A5d2)
+- 📡 [Oracle](https://testnet.chiliscan.com/address/0x6B41840a29CbDB21fc6C2D5CeA142c394cDC1852)
+- ⚽ [Funify](https://testnet.chiliscan.com/address/0x1b166fA673bfCc2cce622A786C351064b979f5Bb)
 
 ✅ Actively in development · Live on **Chiliz Chain (Spicy Testnet)**  
 🔐 Powered by a dedicated **Oracle** that collects real-time goal data and a **fan emotion index** from social media and engagement metrics — both of which dynamically affect the logic and supply of **Hype Tokens**.
