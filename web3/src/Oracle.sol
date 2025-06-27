@@ -74,7 +74,7 @@ contract Oracle {
         MatchHype storage matchHype = matchHypes[hypeId];
         require(matchHype.scheduledTime != 0, "Match not found");
         require(matchHype.status == Status.Scheduled, "Match must be scheduled to update hype");
-        require(HypeA + HypeB == 100, "Total hype must equal 100");
+        require(HypeA + HypeB == 10000, "Total hype must equal 10000");
 
         matchHype.HypeA = HypeA;
         matchHype.HypeB = HypeB;

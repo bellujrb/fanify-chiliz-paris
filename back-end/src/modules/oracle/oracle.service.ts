@@ -61,13 +61,17 @@ export class OracleService {
     return hypeId;
   }
 
-  async updateHype(hypeId: string, score: number) {
+  async updateHype(hypeId: string, hypeA: number, hypeB: number) {
     const validHypeId = this.validateHypeId(hypeId);
-
+    // Garante que a soma é 10000
+    if (Math.round(hypeA + hypeB) !== 10000) {
+      console.error(`Invalid hype values: hypeA (${hypeA}) + hypeB (${hypeB}) != 10000`);
+      throw new Error('A soma de hypeA e hypeB deve ser 10000');
+    }
     const tx = await this.writeContract.write.updateHype([
       validHypeId as `0x${string}`,
-      Math.floor(score * 100), // Convert to integer percentage
-      0, // HypeB placeholder
+      Math.round(hypeA * 100), // Convertendo para inteiro
+      Math.round(hypeB * 100),
     ]);
     return tx;
   }

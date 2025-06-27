@@ -65,6 +65,7 @@ abstract contract FunifySec is FunifyStorage {
 
     function _getOdds(uint256 hypeA, uint256 hypeB, bool teamA) internal pure returns (uint256) {
         uint256 totalHype = hypeA + hypeB;
+        require(totalHype == 10000, "Total hype must be 10000");
         return teamA ? (1e18 * totalHype) / hypeA : (1e18 * totalHype) / hypeB;
     }
 

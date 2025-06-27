@@ -12,7 +12,6 @@ abstract contract FunifyCrud is FunifySec {
         if (hypeA + hypeB == 0) {
             revert(InvalidHypeValues);
         }
-
         oddsA = _getOdds(hypeA, hypeB, true);
         oddsB = _getOdds(hypeA, hypeB, false);
     }

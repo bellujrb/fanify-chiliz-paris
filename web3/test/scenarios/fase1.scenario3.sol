@@ -25,7 +25,7 @@ contract Fase1Cenario3Test is BaseSetup {
         oracle.scheduleMatch(0x12345678, scheduledTime, "AAA", "BBB", "#aaa_bbb");
 
         // Update hype (70% for Team A, 30% for Team B)
-        oracle.updateHype(0x12345678, 70, 30);
+        oracle.updateHype(0x12345678, 7000, 3000);
 
         // Open match for betting
         oracle.openToBets(0x12345678);

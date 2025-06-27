@@ -11,6 +11,7 @@ import {FunifyEvents} from "./funify.events.sol";
  * @dev Contrato base que define a estrutura de dados e constantes do sistema Funify
  *
  * Este contrato trabalha em conjunto com o Oracle refatorado que possui as seguintes etapas:
+ * - Hype agora é representado de 0 a 10000 (duas casas decimais)
  * 1. Scheduled - Jogo criado e agendado
  * 2. Open - Aberto para apostas
  * 3. Closed - Fechado para apostas (jogo em andamento)

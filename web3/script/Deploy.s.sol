@@ -38,6 +38,8 @@ contract DeployScript is Script {
         uint256 scheduledTime = block.timestamp + 3600;
 
         oracle.scheduleMatch(testHypeId, scheduledTime, "PSG", "REAL", "#psg_real");
+        // Exemplo: 80% para A, 20% para B
+        oracle.updateHype(testHypeId, 8000, 2000);
         console.log("Test match scheduled with hypeId: ");
         console.logBytes4(testHypeId);
 
