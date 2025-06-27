@@ -21,6 +21,7 @@ contract Oracle {
         Status status;
         string teamAAbbreviation; // Sigla do Time A (ex: "PSG", "REAL")
         string teamBAbbreviation; // Sigla do Time B (ex: "BAR", "JUV")
+        string hashtag; // NOVO CAMPO
     }
 
     mapping(bytes4 hypeId => MatchHype) public matchHypes;
@@ -39,13 +40,15 @@ contract Oracle {
         bytes4 hypeId,
         uint256 scheduledTime,
         string memory teamAAbbreviation,
-        string memory teamBAbbreviation
+        string memory teamBAbbreviation,
+        string memory hashtag // NOVO PARAM
     ) public {
         require(matchHypes[hypeId].start == 0, "Match already exists");
         // AQUI - VALIDAÇÃO DE TEMPO COMENTADA PARA TESTES
         // require(scheduledTime > block.timestamp, "Scheduled time must be in the future");
         require(bytes(teamAAbbreviation).length > 0, "Team A abbreviation cannot be empty");
         require(bytes(teamBAbbreviation).length > 0, "Team B abbreviation cannot be empty");
+        require(bytes(hashtag).length > 0, "Hashtag cannot be empty");
 
         matchHypes[hypeId] = MatchHype({
             start: 0,
@@ -57,7 +60,8 @@ contract Oracle {
             goalsB: 0,
             status: Status.Scheduled,
             teamAAbbreviation: teamAAbbreviation,
-            teamBAbbreviation: teamBAbbreviation
+            teamBAbbreviation: teamBAbbreviation,
+            hashtag: hashtag
         });
 
         hypeIds.push(hypeId); // Adiciona o hypeId à lista
@@ -145,7 +149,8 @@ contract Oracle {
             uint256 scheduledTime,
             Status status,
             string memory teamAAbbreviation,
-            string memory teamBAbbreviation
+            string memory teamBAbbreviation,
+            string memory hashtag // NOVO RETORNO
         )
     {
         MatchHype memory matchHype = matchHypes[hypeId];
@@ -161,7 +166,8 @@ contract Oracle {
             matchHype.scheduledTime,
             matchHype.status,
             matchHype.teamAAbbreviation,
-            matchHype.teamBAbbreviation
+            matchHype.teamBAbbreviation,
+            matchHype.hashtag // NOVO RETORNO
         );
     }
 

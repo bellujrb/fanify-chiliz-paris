@@ -1,7 +1,7 @@
 
 const deployedContracts = {
     "HypeToken": {
-        "address": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+        "address": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
         "abi": [
             {
                 "type": "constructor",
@@ -493,7 +493,7 @@ const deployedContracts = {
         ]
     },
     "Oracle": {
-        "address": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+        "address": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
         "abi": [
             {
                 "type": "function",
@@ -621,6 +621,11 @@ const deployedContracts = {
                     },
                     {
                         "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "hashtag",
                         "type": "string",
                         "internalType": "string"
                     }
@@ -781,6 +786,11 @@ const deployedContracts = {
                         "name": "teamBAbbreviation",
                         "type": "string",
                         "internalType": "string"
+                    },
+                    {
+                        "name": "hashtag",
+                        "type": "string",
+                        "internalType": "string"
                     }
                 ],
                 "stateMutability": "view"
@@ -819,6 +829,11 @@ const deployedContracts = {
                     },
                     {
                         "name": "teamBAbbreviation",
+                        "type": "string",
+                        "internalType": "string"
+                    },
+                    {
+                        "name": "hashtag",
                         "type": "string",
                         "internalType": "string"
                     }
@@ -1007,7 +1022,7 @@ const deployedContracts = {
         ]
     },
     "Funify": {
-        "address": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+        "address": "0x0165878a594ca255338adfa4d48449f69242eb8f",
         "abi": [
             {
                 "type": "constructor",

@@ -79,7 +79,7 @@ export class OracleService {
     const result: any = await this.readContract.read.matchHypes([
       validHypeId as `0x${string}`,
     ]);
-    // result: [HypeA, HypeB, goalsA, goalsB, start, end, scheduledTime, status, teamAAbbreviation, teamBAbbreviation]
+    // result: [HypeA, HypeB, goalsA, goalsB, start, end, scheduledTime, status, teamAAbbreviation, teamBAbbreviation, hashtag]
     return {
       hypeA: Number(result[0]) / 100,
       hypeB: Number(result[1]) / 100,
@@ -89,8 +89,20 @@ export class OracleService {
       end: Number(result[5]),
       scheduledTime: Number(result[6]),
       status: Number(result[7]),
-      timeA: result[8] || '',
-      timeB: result[9] || '',
+      teamA: result[8] || '',
+      teamB: result[9] || '',
+      hashtag: result[10] || '',
     };
+  }
+
+  async scheduleMatch(hypeId: string, scheduledTime: number, teamA: string, teamB: string, hashtag: string) {
+    const validHypeId = this.validateHypeId(hypeId);
+    return this.writeContract.write.scheduleMatch([
+      validHypeId as `0x${string}`,
+      scheduledTime,
+      teamA,
+      teamB,
+      hashtag
+    ]);
   }
 }

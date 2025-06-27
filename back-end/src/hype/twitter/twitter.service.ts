@@ -49,16 +49,6 @@ export class TwitterService {
     }
   }
 
-  async postTweet(text: string) {
-    try {
-      const { data } = await this.twitterClient.v2.tweet(text);
-      return data;
-    } catch (error) {
-      console.error("Error posting tweet:", error);
-      throw error;
-    }
-  }
-
   async getAllTweets(): Promise<Tweet[]> {
     const { data, error } = await this.supabase.from('tweets').select('*').order('created_at', { ascending: false });
     if (error) {
