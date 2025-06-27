@@ -1,6 +1,6 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { TwitterService } from './twitter/twitter.service';
-import { OracleService } from './oracle/oracle.service';
+import { TwitterService } from '../twitter/twitter.service';
+import { OracleService } from '../oracle/oracle.service';
 import Sentiment from 'sentiment';
 import { NotFoundException } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';

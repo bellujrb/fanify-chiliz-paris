@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { HypeModule } from './hype/hype.module';
+import { ConfigModule } from './config/config.module';
+import { HypeModule } from './modules/hype/hype.module';
+import { TwitterModule } from './modules/twitter/twitter.module';
+import { OracleModule } from './modules/oracle/oracle.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
+    ConfigModule,
     HypeModule,
+    TwitterModule,
+    OracleModule,
   ],
 })
 export class AppModule {}

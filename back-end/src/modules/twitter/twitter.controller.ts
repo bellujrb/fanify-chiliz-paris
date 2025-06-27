@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from '@nestjs/swagger';
 import { TwitterService } from './twitter.service';
-import { AddMockTweetDto } from './twitter.dto';
-import { HypeService } from '../hype.service';
+import { AddMockTweetDto } from './dtos/add-mock-tweet.dto';
+import { HypeService } from '../hype/hype.service';
 
 class CollectPostsResponseDto {
   new: number;
