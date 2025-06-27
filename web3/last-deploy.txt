@@ -1,0 +1,24 @@
+🔍 Consultando preços de gas na rede Chiliz Testnet...
+💰 Gas Price atual: 5000000000000 wei (5000.00 gwei)
+📊 Base Fee atual: 2500000000000 wei (2500.00 gwei)
+🚀 Gas Price para deploy: 6000000000000 wei (6000.00 gwei)
+⚡ Priority Gas Price: 3750000000000 wei (3750.00 gwei)
+
+📝 Digite os endereços dos contratos já deployados:
+Endereço do HypeToken: 0x0Be0D8CB83C120DD78312A8C713FcCf7Bf06A5d2
+Endereço do Oracle: 0x6B41840a29CbDB21fc6C2D5CeA142c394cDC1852
+
+🎯 Deployando Funify com forge create...
+================================================
+HypeToken: 0x0Be0D8CB83C120DD78312A8C713FcCf7Bf06A5d2
+Oracle: 0x6B41840a29CbDB21fc6C2D5CeA142c394cDC1852
+[⠒] Compiling...
+No files changed, compilation skipped
+Enter keystore password:
+Deployer: 0x5a6Bb86Ab5986B5b8CAd04F3732dA96989969300
+Deployed to: 0x1b166fA673bfCc2cce622A786C351064b979f5Bb
+Transaction hash: 0x8abd9908d91643a9a582295b05d52875d4c9e12dd56db4723d3750dbab523e38
+
+✅ Funify deployado!
+🎉 Todos os contratos foram deployados com sucesso!
+➜  web3 git:(main) ✗ 

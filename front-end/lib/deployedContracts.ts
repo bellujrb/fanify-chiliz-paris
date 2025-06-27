@@ -1406,7 +1406,7 @@ const deployedContracts = {
         ]
     },
     "Funify": {
-        "address": "0x427175AbE12BF0fd9A8ca903e9E822b65C68e112",
+        "address": "0x1b166fA673bfCc2cce622A786C351064b979f5Bb",
         "abi": [
             {
                 "type": "constructor",

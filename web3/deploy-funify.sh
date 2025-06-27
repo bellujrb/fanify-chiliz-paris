@@ -46,7 +46,7 @@ echo "Oracle: $ORACLE_ADDRESS"
 forge create src/funify/Funify.sol:Funify \
     --rpc-url "$RPC_URL" \
     --account sepolia \
-    --legacy \
+    --broadcast \
     --gas-price "$DEPLOY_GAS_PRICE" \
     --priority-gas-price "$PRIORITY_GAS_PRICE" \
     --verifier blockscout \

@@ -22,7 +22,7 @@ fi
 echo ""
 echo "🔧 [1/3] Verificando HypeToken..."
 forge verify-contract "$HYPETOKEN_ADDRESS" "src/HypeToken.sol:HypeToken" \
-    --verifier-url "https://api.routescan.io/v2/network/testnet/evm/88882/etherscan" \
+    --verifier-url "https://testnet.chiliscan.com/v2/network/testnet/evm/88882/etherscan" \
     --etherscan-api-key "verifyContract" \
     --num-of-optimizations 200 \
     --compiler-version "0.8.20"
@@ -30,7 +30,7 @@ forge verify-contract "$HYPETOKEN_ADDRESS" "src/HypeToken.sol:HypeToken" \
 echo ""
 echo "🔧 [2/3] Verificando Oracle..."
 forge verify-contract "$ORACLE_ADDRESS" "src/Oracle.sol:Oracle" \
-    --verifier-url "https://api.routescan.io/v2/network/testnet/evm/88882/etherscan" \
+    --verifier-url "https://testnet.chiliscan.com/v2/network/testnet/evm/88882/etherscan" \
     --etherscan-api-key "verifyContract" \
     --num-of-optimizations 200 \
     --compiler-version "0.8.20"
@@ -42,7 +42,7 @@ CONSTRUCTOR_ARGS=$(cast abi-encode "constructor(address,address)" "$HYPETOKEN_AD
 echo "📝 Constructor args: $CONSTRUCTOR_ARGS"
 
 forge verify-contract "$FUNIFY_ADDRESS" "src/funify/Funify.sol:Funify" \
-    --verifier-url "https://api.routescan.io/v2/network/testnet/evm/88882/etherscan" \
+    --verifier-url "https://testnet.chiliscan.com/v2/network/testnet/evm/88882/etherscan" \
     --etherscan-api-key "verifyContract" \
     --num-of-optimizations 200 \
     --compiler-version "0.8.20" \
