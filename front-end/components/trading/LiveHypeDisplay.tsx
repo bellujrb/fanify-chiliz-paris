@@ -46,6 +46,8 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
   const [oddsLoading, setOddsLoading] = useState(false);
   const [hype, setHype] = useState<{ home: number; away: number } | null>(null);
   const [hypeLoading, setHypeLoading] = useState(false);
+  const [matchInfo, setMatchInfo] = useState<{ status: number; goalsA: number; goalsB: number } | null>(null);
+  const [matchInfoLoading, setMatchInfoLoading] = useState(false);
 
   const publicClient = createPublicClient({ chain: spicy, transport: http() });
 
@@ -195,6 +197,37 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
     fetchHype();
   }, [currentGame?.hypeId]);
 
+  // Fetch match info (status, goals)
+  useEffect(() => {
+    const fetchMatchInfo = async () => {
+      setMatchInfoLoading(true);
+      if (!currentGame?.hypeId) {
+        setMatchInfo(null);
+        setMatchInfoLoading(false);
+        return;
+      }
+      try {
+        const oracleContract = getContract({
+          address: deployedContracts.Oracle.address as `0x${string}`,
+          abi: deployedContracts.Oracle.abi,
+          client: publicClient,
+        });
+        const data = await oracleContract.read.getMatch([
+          currentGame.hypeId as `0x${string}`
+        ]);
+        setMatchInfo({
+          status: Number(data[7]),
+          goalsA: Number(data[2]),
+          goalsB: Number(data[3]),
+        });
+      } catch (err) {
+        setMatchInfo(null);
+      }
+      setMatchInfoLoading(false);
+    };
+    fetchMatchInfo();
+  }, [currentGame?.hypeId]);
+
   const allowanceEnough = Number(allowance) >= Number(betAmount || 0);
   const isApproveAmountValid = !!approveAmount && !isNaN(Number(approveAmount)) && Number(approveAmount) > 0;
   const hasEnoughHype = isApproveAmountValid && Number(hypeBalance) >= Number(approveAmount);
@@ -205,6 +238,15 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
         <div>
           <h2 className="text-2xl font-black text-gray-900">Live Hype Trading</h2>
           <p className="text-gray-600">Real-time fan sentiment analysis</p>
+          {/* Game Status */}
+          <div className="mt-2 text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <span>Game Status:</span>
+            {matchInfoLoading ? '...' : matchInfo ? (
+              matchInfo.status === 0
+                ? 'Not started yet'
+                : `${matchInfo.goalsA}-${matchInfo.goalsB} • 67'` // TODO: Replace 67' with actual time if available
+            ) : '...'}
+          </div>
         </div>
         <div className="flex items-center space-x-2">
           <Button variant="ghost" size="sm">
