@@ -48,6 +48,8 @@ We have implemented a whitelist system to protect access to the **Admin Panel** 
 - The front-end code reads this variable and only displays the **Admin Panel** button if the user is connected with one of the whitelisted addresses.
 - If a user tries to access the `/admin` route directly without being on the whitelist, access can also be blocked (recommended for extra security).
 
+---
+
 ### 🔁 End-to-End DApp Flowchart
 
 ![DApp Flowchart](https://github.com/user-attachments/assets/702c19d9-dc39-4f37-90fd-d43de226ca42)
