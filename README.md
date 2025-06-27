@@ -32,6 +32,19 @@ Leveraging Chiliz’s fan-centric ecosystem, we ensure that each tokenized hype 
 ✅ Actively in development · Live on **Chiliz Chain (Spicy Testnet)**  
 🔐 Powered by a dedicated **Oracle** that collects real-time goal data and a **fan emotion index** from social media and engagement metrics — both of which dynamically affect the logic and supply of **Hype Tokens**.
 
+## Whitelist Mechanism for Admin Panel Access
+
+We have implemented a whitelist system to protect access to the **Admin Panel** button and route. Only wallets whose addresses are on the whitelist can view and access the admin panel.
+
+### How it works
+
+- The allowed addresses are defined in an environment variable in the front-end `.env` file:
+  ```env
+  NEXT_PUBLIC_ADMIN_WHITELIST=0x...
+  ```
+- The front-end code reads this variable and only displays the **Admin Panel** button if the user is connected with one of the whitelisted addresses.
+- If a user tries to access the `/admin` route directly without being on the whitelist, access can also be blocked (recommended for extra security).
+
 ### 🔁 End-to-End DApp Flowchart
 
 ![DApp Flowchart](https://github.com/user-attachments/assets/702c19d9-dc39-4f37-90fd-d43de226ca42)
