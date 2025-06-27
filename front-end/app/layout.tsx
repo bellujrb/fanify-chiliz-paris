@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Web3Providers from '@/providers/Web3Providers';
+import FootballCursor from '@/components/ui/FootballCursor';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <FootballCursor />
         <Web3Providers>
           {children}
         </Web3Providers>
