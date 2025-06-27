@@ -1,23 +1,50 @@
 {
-  "name": "fanify-chiliz-api",
+  "name": "fanify-chiliz-paris",
   "version": "1.0.0",
-  "description": "API for PSG vs Miami game hype tracking",
-  "main": "server.js",
+  "description": "API para análise de hype de jogos usando Twitter e Oracle",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "build": "nest build",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.5.0",
-    "swagger-jsdoc": "^6.2.7",
-    "swagger-ui-express": "^5.0.0",
-    "node-cron": "^3.0.3",
-    "dotenv": "^16.3.1",
-    "axios": "^1.4.0",
-    "viem": "^1.0.16"
+    "@nestjs/common": "^11.0.5",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.0.5",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.1.3",
+    "@nestjs/schedule": "^6.0.0",
+    "@nestjs/swagger": "^11.2.0",
+    "@supabase/supabase-js": "^2.39.7",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.0",
+    "@types/supertest": "^6.0.2",
+    "dotenv": "^16.6.0",
+    "joi": "^17.12.2",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
+    "sentiment": "^5.0.2",
+    "ts-jest": "^29.1.1",
+    "twitter-api-v2": "^1.24.0",
+    "typescript": "^5.3.3",
+    "viem": "^2.31.4"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "@nestjs/cli": "^11.0.7",
+    "@nestjs/schematics": "^11.0.5",
+    "@nestjs/testing": "^11.0.5",
+    "@types/express": "^4.17.21",
+    "@types/supertest": "^6.0.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.5",
+    "supertest": "^6.3.3",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0"
   }
 }

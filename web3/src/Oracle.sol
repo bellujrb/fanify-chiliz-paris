@@ -33,7 +33,6 @@ contract Oracle {
     event MatchClosed(bytes4 indexed hypeId);
     event ScoreUpdated(bytes4 indexed hypeId, uint8 goalsA, uint8 goalsB);
     event MatchFinished(bytes4 indexed hypeId, uint8 goalsA, uint8 goalsB);
-    event TeamAbbreviationsSet(bytes4 indexed hypeId, string teamAAbbreviation, string teamBAbbreviation);
 
     // 1. Criar um Jogo (hype, status.scheduled)
     function scheduleMatch(
@@ -64,7 +63,6 @@ contract Oracle {
         hypeIds.push(hypeId); // Adiciona o hypeId à lista
 
         emit MatchScheduled(hypeId, scheduledTime);
-        emit TeamAbbreviationsSet(hypeId, teamAAbbreviation, teamBAbbreviation);
     }
 
     // 2. Alimentar esse jogo com hype (hype A, hype B)

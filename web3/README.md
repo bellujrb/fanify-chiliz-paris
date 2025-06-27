@@ -81,3 +81,17 @@ cast wallet import ff80 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478
 - [ ] frontend fazer unstake
 - [ ] backend salvar hype no oracle
 - [ ] backend salvar resultado no oracle
+
+
+[26/06/25, 17:18:37] Bellu hackadev: icionar no smart contract:
+•⁠  ⁠quem (eu usuario) apostou em x jogo
+•⁠  ⁠⁠quantos (eu usuario) apostou de hype em x jogo
+[26/06/25, 17:19:45] Bellu hackadev: pegar e atualizar oraculo com back end
+[26/06/25, 18:22:03] Bellu hackadev: deploy na rede da chiliz e atualizar rede no front
+[26/06/25, 18:30:13] Bellu hackadev: Fazer uma tela de ilustração do mercado segundario
+[26/06/25, 18:34:05] Lucas Bispo de Oliveira: •⁠  ⁠servir hype atual
+•⁠  ⁠⁠servir serie temporal de hype
+•⁠  ⁠⁠adicionar um twiter via post
+•⁠  ⁠⁠busca post do twitter
+•⁠  ⁠⁠analise de sentimento do post
+•⁠  ⁠⁠salvar periodico no oracle

@@ -29,7 +29,7 @@ CHAIN_ID = int(os.getenv('CHAIN_ID'))
 CONTRACT_SCRIPT_NAME = "Deploy.s.sol"
 TRANSACTIONS_PATH = f"broadcast/{CONTRACT_SCRIPT_NAME}/{CHAIN_ID}/run-latest.json"
 TARGET_DIR_FRONTEND = "../front-end/lib/deployedContracts.ts"
-TARGET_DIR_BACKEND = "../back-end/lib/deployedContracts.ts"
+TARGET_DIR_BACKEND = "../back-end/src/lib/deployedContracts.ts"
 
 CONTRACTS = []
 

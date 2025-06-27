@@ -1003,31 +1003,6 @@ const deployedContracts = {
                     }
                 ],
                 "anonymous": false
-            },
-            {
-                "type": "event",
-                "name": "TeamAbbreviationsSet",
-                "inputs": [
-                    {
-                        "name": "hypeId",
-                        "type": "bytes4",
-                        "indexed": true,
-                        "internalType": "bytes4"
-                    },
-                    {
-                        "name": "teamAAbbreviation",
-                        "type": "string",
-                        "indexed": false,
-                        "internalType": "string"
-                    },
-                    {
-                        "name": "teamBAbbreviation",
-                        "type": "string",
-                        "indexed": false,
-                        "internalType": "string"
-                    }
-                ],
-                "anonymous": false
             }
         ]
     },
