@@ -1,6 +1,6 @@
 # Fanify: The new generation of fan engagement with Blockchain and Twitter
 
-> _TEAM Fanify: Chiliz Hackathon 
+> _TEAM Fanify: https://fanify.vercel.app/
 
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![Platform](https://img.shields.io/badge/Platform-Web-blue)
@@ -22,11 +22,19 @@ Leveraging Chiliz’s fan-centric ecosystem, we ensure that each tokenized hype 
 
 --- 
 
-### 🔗 Smart Contract on Chiliz Testnet
+### 🔗 Smart Contracts on Chiliz Testnet
 
-📄 [`Contract address coming soon`](https://chiliz.com)  
-✅ In development · To be deployed on Chiliz Chain (Testnet) 
-🔐 Powered by a dedicated Oracle, which gathers real-time match goal data and a fan emotion index from social media and engagement metrics—both of which dynamically affect the supply and logic of hype tokens.
+📄 **Deployed Contracts:**  
+- 🪙 [HypeToken](https://spicy-explorer.chiliz.com/address/0xe5d5d20b1b3757bee7bf7d61a5004106e4d32139)  
+- 📡 [Oracle](https://spicy-explorer.chiliz.com/address/0x034faeae891f47a2714eb1e4bfba7525a606dcc5)  
+- ⚽ [Funify](https://spicy-explorer.chiliz.com/address/0xdb51e8f0ceae0d0743e3135fcb1f0f077b0f3d04)
+
+✅ Actively in development · Live on **Chiliz Chain (Spicy Testnet)**  
+🔐 Powered by a dedicated **Oracle** that collects real-time goal data and a **fan emotion index** from social media and engagement metrics — both of which dynamically affect the logic and supply of **Hype Tokens**.
+
+### 🔁 End-to-End DApp Flowchart
+
+![DApp Flowchart](https://github.com/user-attachments/assets/702c19d9-dc39-4f37-90fd-d43de226ca42)
 
 ---
 
