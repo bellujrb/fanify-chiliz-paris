@@ -5,7 +5,8 @@ import {
   TrendingUp,
   Coins,
   Trophy,
-  Gift
+  Gift,
+  Nfc
 } from 'lucide-react';
 
 interface NavigationTabsProps {
@@ -31,17 +32,23 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({
       color: 'text-purple-600',
     },
     {
+      id: 'rewards',
+      label: 'Rewards Hub',
+      icon: Gift,
+      color: 'text-pink-600',
+    },
+    {
+      id: 'nft-market',
+      label: 'Market Secondary',
+      icon: Nfc,
+      color: 'text-green-600',
+    },
+    {
       id: 'leaderboard',
       label: 'Leaderboard',
       icon: Trophy,
       color: 'text-yellow-600',
     },
-    {
-      id: 'rewards',
-      label: 'Rewards Hub',
-      icon: Gift,
-      color: 'text-pink-600',
-    }
   ];
 
   return (

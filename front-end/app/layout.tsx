@@ -2,7 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Web3Providers from '@/providers/Web3Providers';
-import FootballCursor from '@/components/ui/FootballCursor';
+import FootballCursor from '@/components/ui/footbal-cursor';
 
 const inter = Inter({ subsets: ['latin'] });
 
