@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import HypeTokenTab from "./HypeTokenTab";
 import OracleTab from "./OracleTab";
 import FunifyTab from "./FunifyTab";
+import BackendTab from "./BackendTab";
 
 interface ContractTabsProps {
   loading: boolean;
@@ -153,10 +154,11 @@ export default function ContractTabs({
 }: ContractTabsProps) {
   return (
     <Tabs defaultValue="hypeToken" className="space-y-6">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="hypeToken">HypeToken</TabsTrigger>
         <TabsTrigger value="oracle">Oracle</TabsTrigger>
         <TabsTrigger value="funify">Funify</TabsTrigger>
+        <TabsTrigger value="backend">Backend</TabsTrigger>
       </TabsList>
 
       <TabsContent value="hypeToken">
@@ -248,6 +250,10 @@ export default function ContractTabs({
           onGetContractStats={onGetContractStats}
           onApproveHypeToken={onApproveHypeToken}
         />
+      </TabsContent>
+
+      <TabsContent value="backend">
+        <BackendTab hypeId={hypeId} onHypeIdChange={onHypeIdChange} />
       </TabsContent>
     </Tabs>
   );

@@ -3,10 +3,13 @@ import { ConfigService } from "../../config/config.service";
 import { TwitterApi } from "twitter-api-v2";
 import { Tweet, TweetField, TweetSearchParams } from "./types";
 import { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseRepository } from '../../lib/supabase.repository';
+import { Twit } from './entities/twit.entity';
 
 @Injectable()
 export class TwitterService {
   private twitterClient: TwitterApi;
+  private readonly repository: SupabaseRepository;
 
   constructor(
     private readonly configService: ConfigService,
@@ -18,6 +21,7 @@ export class TwitterService {
       accessToken: this.configService.twitterAccessToken,
       accessSecret: this.configService.twitterAccessSecret,
     });
+    this.repository = new SupabaseRepository(this.supabase);
   }
 
   async getTweets(hashtag: string): Promise<Tweet[]> {
@@ -42,18 +46,11 @@ export class TwitterService {
     }
   }
 
-  async saveTweetToSupabase(tweet: Tweet) {
-    const { error } = await this.supabase.from('tweets').insert([tweet]);
-    if (error) {
-      throw new Error(`Failed to save tweet: ${error.message}`);
-    }
+  async saveTweetToSupabase(tweet: Twit) {
+    await this.repository.insertTwit(tweet);
   }
 
-  async getAllTweets(): Promise<Tweet[]> {
-    const { data, error } = await this.supabase.from('tweets').select('*').order('created_at', { ascending: false });
-    if (error) {
-      throw new Error(`Failed to fetch tweets: ${error.message}`);
-    }
-    return data || [];
+  async getAllTweets(): Promise<Twit[]> {
+    return this.repository.getTwitsByMatch(''); // Busca todos se hype_id vazio
   }
 }
