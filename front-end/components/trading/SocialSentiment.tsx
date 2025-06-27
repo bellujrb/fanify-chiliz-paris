@@ -22,11 +22,11 @@ const SocialSentiment: React.FC<SocialSentimentProps> = ({ currentGame }) => {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-gray-600">Pro-{currentGame.homeTeam.name}</span>
-          <span className="font-bold text-red-600">{Math.round(currentGame.homeTeam.hype)}%</span>
+          <span className="font-bold text-brand-600">{Math.round(currentGame.homeTeam.hype)}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div 
-            className="bg-red-500 h-2 rounded-full transition-all duration-1000"
+            className="bg-brand-500 h-2 rounded-full transition-all duration-1000"
             style={{ width: `${currentGame.homeTeam.hype}%` }}
           ></div>
         </div>

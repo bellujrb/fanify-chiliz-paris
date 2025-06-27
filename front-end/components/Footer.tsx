@@ -28,25 +28,25 @@ const Footer = () => {
             <div className="flex space-x-4">
               <a 
                 href="#" 
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-500 hover:text-white transition-all duration-300"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all duration-300"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a 
                 href="#" 
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-500 hover:text-white transition-all duration-300"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all duration-300"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a 
                 href="#" 
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-500 hover:text-white transition-all duration-300"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all duration-300"
               >
                 <Youtube className="w-5 h-5" />
               </a>
               <a 
                 href="#" 
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-500 hover:text-white transition-all duration-300"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all duration-300"
               >
                 <Globe className="w-5 h-5" />
               </a>
@@ -58,22 +58,22 @@ const Footer = () => {
             <h3 className="font-bold text-white mb-6">Product</h3>
             <ul className="space-y-4">
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   Fan Tokens
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   NFT Marketplace
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   Leaderboards
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   Mobile App
                 </a>
               </li>
@@ -85,22 +85,22 @@ const Footer = () => {
             <h3 className="font-bold text-white mb-6">Company</h3>
             <ul className="space-y-4">
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   Careers
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   Press Kit
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-red-400 transition-colors duration-200">
+                <a href="#" className="text-gray-300 hover:text-brand-400 transition-colors duration-200">
                   Contact
                 </a>
               </li>
@@ -139,9 +139,9 @@ const Footer = () => {
             
             {/* Legal Links */}
             <div className="flex items-center space-x-6 text-sm text-gray-400 mb-4 md:mb-0">
-              <a href="#" className="hover:text-red-400 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-red-400 transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-red-400 transition-colors">Cookie Policy</a>
+              <a href="#" className="hover:text-brand-400 transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-brand-400 transition-colors">Terms of Service</a>
+              <a href="#" className="hover:text-brand-400 transition-colors">Cookie Policy</a>
             </div>
             
             {/* Powered by Chiliz */}

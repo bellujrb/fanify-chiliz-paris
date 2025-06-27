@@ -9,6 +9,7 @@ import TradingSection from '@/components/trading/TradingSection';
 import StakingSection from '@/components/trading/StakingSection';
 import LeaderboardSection from '@/components/trading/LeaderboardSection';
 import RewardsSection from '@/components/trading/RewardsSection';
+import NFTMarketPreview from '@/components/trading/NFTMarketPreview';
 import { useAccount } from 'wagmi';
 import { useSmartContractGames } from '@/hooks/useSmartContractGames';
 
@@ -108,6 +109,8 @@ export default function TradingApp() {
         return <LeaderboardSection />;
       case 'rewards':
         return <RewardsSection />;
+      case 'nft-market':
+        return <NFTMarketPreview />;
       default:
         return null;
     }

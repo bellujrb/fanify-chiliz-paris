@@ -11,15 +11,15 @@ export default function HeroSection() {
       {/* Background Elements */}
       <div className="absolute inset-0">
         {/* Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-red-50 via-white to-red-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-brand-50"></div>
         
         {/* Geometric Shapes */}
-        <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-red-500/10 to-red-600/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-red-400/8 to-red-500/4 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-brand-500/10 to-brand-600/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-brand-400/8 to-brand-500/4 rounded-full blur-3xl"></div>
         
         {/* Subtle Pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ef4444' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e9316b' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }}></div>
       </div>
 
@@ -28,16 +28,16 @@ export default function HeroSection() {
           {/* Left Content */}
           <div className="space-y-8">
             {/* Badge */}
-            <div className="inline-flex items-center px-4 py-2 bg-red-50 border border-red-200 rounded-full">
-              <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></div>
-              <span className="text-red-600 text-sm font-semibold">POWERED BY CHILIZ CHAIN</span>
+            <div className="inline-flex items-center px-4 py-2 bg-brand-50 border border-brand-200 rounded-full">
+              <div className="w-2 h-2 bg-brand-500 rounded-full mr-2 animate-pulse"></div>
+              <span className="text-brand-600 text-sm font-semibold">POWERED BY CHILIZ CHAIN</span>
             </div>
 
             {/* Main Heading */}
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-6xl font-black leading-tight text-gray-900">
                 <div className="mb-2">The Future of Fan Engagement</div>
-                <div className="text-red-500 mb-2">with Blockchain and Twitter</div>
+                <div className="text-brand-500 mb-2">with Blockchain and Twitter</div>
               </h1>
             </div>
 
@@ -52,7 +52,7 @@ export default function HeroSection() {
               <Link href="/trading">
                 <Button
                   size="lg"
-                  className="group bg-red-500 hover:bg-red-600 text-white px-8 py-4 text-lg font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+                  className="group bg-brand-500 hover:bg-brand-600 text-white px-8 py-4 text-lg font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
                 >
                   <Zap className="w-5 h-5 mr-2" />
                   Launch App
@@ -102,14 +102,14 @@ export default function HeroSection() {
                   />
                   
                   {/* Subtle Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-red-500/5 via-transparent to-transparent rounded-full blur-3xl -z-10 scale-125"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-500/5 via-transparent to-transparent rounded-full blur-3xl -z-10 scale-125"></div>
                 </div>
               </div>
 
               {/* Floating Cards - Chiliz Style - Z-INDEX FIXED */}
               <div className="absolute top-20 right-8 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 animate-float z-20">
                 <div className="flex items-center space-x-3">
-                  <div className="w-20 h-10 bg-red-500 rounded-xl flex items-center justify-center">
+                  <div className="w-20 h-10 bg-brand-500 rounded-xl flex items-center justify-center">
                     <span className="text-white font-bold text-sm">$HYPEPSG</span>
                   </div>
                   <div>
@@ -156,9 +156,9 @@ export default function HeroSection() {
               </div>
 
               {/* Decorative Elements */}
-              <div className="absolute top-32 right-32 w-4 h-4 bg-red-500 rounded-full opacity-20 animate-pulse z-20"></div>
-              <div className="absolute bottom-40 left-32 w-3 h-3 bg-red-400 rounded-full opacity-30 animate-pulse z-20" style={{animationDelay: '1s'}}></div>
-              <div className="absolute top-1/2 right-20 w-2 h-2 bg-red-300 rounded-full opacity-40 animate-pulse z-20" style={{animationDelay: '2s'}}></div>
+              <div className="absolute top-32 right-32 w-4 h-4 bg-brand-500 rounded-full opacity-20 animate-pulse z-20"></div>
+              <div className="absolute bottom-40 left-32 w-3 h-3 bg-brand-400 rounded-full opacity-30 animate-pulse z-20" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-1/2 right-20 w-2 h-2 bg-brand-300 rounded-full opacity-40 animate-pulse z-20" style={{animationDelay: '2s'}}></div>
             </div>
           </div>
         </div>

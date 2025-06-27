@@ -158,7 +158,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
             <label className="block text-sm font-medium mb-1">Team B (Abbreviation)</label>
             <Input value={teamB} onChange={e => setTeamB(e.target.value)} placeholder="RMA" required />
           </div>
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {error && <div className="text-brand-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">Game created successfully!</div>}
           <DialogFooter>
             <Button type="submit" disabled={loading} className="w-full">

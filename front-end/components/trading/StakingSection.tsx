@@ -299,7 +299,7 @@ const StakingSection: React.FC = () => {
             onClick={() => setActiveTab('unstake')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-sm font-medium transition-colors ${
               activeTab === 'unstake'
-                ? 'bg-white text-red-600 shadow-sm'
+                ? 'bg-white text-brand-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -419,7 +419,7 @@ const StakingSection: React.FC = () => {
           ) : (
             <>
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center text-white">
+                <div className="w-12 h-12 bg-gradient-to-r from-brand-500 to-brand-600 rounded-xl flex items-center justify-center text-white">
                   <ArrowDown className="w-6 h-6" />
                 </div>
                 <div>
@@ -475,10 +475,10 @@ const StakingSection: React.FC = () => {
                 </div>
 
                 {unstakeAmount && (
-                  <div className="bg-gradient-to-r from-red-50 to-pink-50 p-4 rounded-xl border border-red-200">
+                  <div className="bg-gradient-to-r from-brand-50 to-pink-50 p-4 rounded-xl border border-brand-200">
                     <div className="flex items-center space-x-2 mb-3">
-                      <ArrowUpDown className="w-4 h-4 text-red-600" />
-                      <span className="font-semibold text-red-800">Unstaking Preview</span>
+                      <ArrowUpDown className="w-4 h-4 text-brand-600" />
+                      <span className="font-semibold text-brand-800">Unstaking Preview</span>
                     </div>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
@@ -487,7 +487,7 @@ const StakingSection: React.FC = () => {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-700">CHZ Received:</span>
-                        <span className="font-semibold text-red-600">{(parseFloat(unstakeAmount) / 1000 || 0).toFixed(3)} CHZ</span>
+                        <span className="font-semibold text-brand-600">{(parseFloat(unstakeAmount) / 1000 || 0).toFixed(3)} CHZ</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-700">Remaining Staked:</span>
@@ -500,7 +500,7 @@ const StakingSection: React.FC = () => {
                 )}
 
                 <Button
-                  className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3"
+                  className="w-full bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-bold py-3"
                   onClick={handleUnstake}
                   disabled={loading || !unstakeAmount || !isConnected}
                 >
@@ -548,7 +548,7 @@ const StakingSection: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-start space-x-3">
-                <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-red-600 text-xs font-bold mt-0.5">3</div>
+                <div className="w-6 h-6 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 text-xs font-bold mt-0.5">3</div>
                 <div>
                   <div className="font-medium text-gray-900">Unstake Anytime</div>
                   <div className="text-gray-600">Convert HYPE back to CHZ whenever you want</div>

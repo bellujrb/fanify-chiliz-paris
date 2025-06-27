@@ -103,8 +103,8 @@ export default function Header() {
                                     href={subItem.href}
                                     className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                                   >
-                                    <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors">
-                                      <subItem.icon className="w-5 h-5 text-red-600" />
+                                    <div className="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center group-hover:bg-brand-100 transition-colors">
+                                      <subItem.icon className="w-5 h-5 text-brand-600" />
                                     </div>
                                     <div>
                                       <h4 className="font-medium text-gray-900 mb-1">
@@ -131,7 +131,7 @@ export default function Header() {
           {/* Launch App Button */}
           <div className="flex items-center space-x-4">
             <Link href="/trading">
-              <Button className="bg-red-500 hover:bg-red-600 text-white border-0 font-semibold px-6 py-2 rounded-xl transition-all duration-300">
+              <Button className="bg-brand-500 hover:bg-brand-600 text-white border-0 font-semibold px-6 py-2 rounded-xl transition-all duration-300">
                 Launch App
               </Button>
             </Link>

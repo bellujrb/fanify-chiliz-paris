@@ -187,16 +187,16 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
 
       {/* Hype Percentages & Odds */}
       <div className="grid grid-cols-2 gap-6 mb-6">
-        <div className="bg-gradient-to-r from-red-50 to-pink-50 p-6 rounded-2xl border border-red-200/50">
+        <div className="bg-gradient-to-r from-brand-50 to-pink-50 p-6 rounded-2xl border border-brand-200/50">
           <div className="flex items-center space-x-3 mb-3">
             <span className="text-2xl">{currentGame.homeTeam.logo}</span>
             <span className="font-bold text-gray-900">{currentGame.homeTeam.name}</span>
           </div>
-          <div className="text-4xl font-black text-red-600 mb-2">{Math.round(currentGame.homeTeam.hype)}%</div>
+          <div className="text-4xl font-black text-brand-600 mb-2">{Math.round(currentGame.homeTeam.hype)}%</div>
           <div className="text-sm text-gray-600 mb-4">Fan Hype</div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Odds:</span>
-            <span className="text-lg font-bold text-red-600">
+            <span className="text-lg font-bold text-brand-600">
               {oddsLoading
                 ? '...'
                 : odds?.oddsA
@@ -231,7 +231,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
         <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
           <div className="h-full flex transition-all duration-1000">
             <div 
-              className="bg-gradient-to-r from-red-500 to-red-600"
+              className="bg-gradient-to-r from-brand-500 to-brand-600"
               style={{ width: `${currentGame.homeTeam.hype}%` }}
             ></div>
             <div 
@@ -289,9 +289,9 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
           </Button>
           <div className="text-sm">
             <span className="text-yellow-700 font-medium">Approved:</span>
-            <span className={`ml-1 ${allowanceEnough ? 'text-green-600' : 'text-red-600'}`}>{allowance} HYPE</span>
+            <span className={`ml-1 ${allowanceEnough ? 'text-green-600' : 'text-brand-600'}`}>{allowance} HYPE</span>
             {betAmount && !allowanceEnough && (
-              <span className="text-red-600 ml-2 text-xs">⚠️ Insufficient</span>
+              <span className="text-brand-600 ml-2 text-xs">⚠️ Insufficient</span>
             )}
             {betAmount && allowanceEnough && (
               <span className="text-green-600 ml-2 text-xs">✅ Sufficient</span>
@@ -303,7 +303,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
       {/* Trading Buttons - only enabled if allowance is enough */}
       <div className="grid grid-cols-2 gap-4">
         <Button
-          className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 rounded-xl"
+          className="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl"
           onClick={() => handleBet(true)}
           disabled={loadingBet === 'A' || !allowanceEnough || !betAmount || !account}
         >
@@ -322,7 +322,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
 
       {/* Feedback */}
       {(error || success) && (
-        <div className={`mt-4 p-3 rounded-lg text-sm ${error ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>{error || success}</div>
+        <div className={`mt-4 p-3 rounded-lg text-sm ${error ? 'bg-brand-50 text-brand-700' : 'bg-green-50 text-green-700'}`}>{error || success}</div>
       )}
     </div>
   );

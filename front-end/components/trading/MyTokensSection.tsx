@@ -67,7 +67,7 @@ const MyTokensSection: React.FC = () => {
       case 'winning':
         return 'from-green-500 to-emerald-600';
       case 'losing':
-        return 'from-red-500 to-red-600';
+        return 'from-brand-500 to-brand-600';
       default:
         return 'from-gray-400 to-gray-500';
     }
@@ -94,7 +94,7 @@ const MyTokensSection: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-red-600 rounded-xl flex items-center justify-center text-white">
+          <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-brand-600 rounded-xl flex items-center justify-center text-white">
             <Trophy className="w-5 h-5" />
           </div>
           <div>
@@ -107,7 +107,7 @@ const MyTokensSection: React.FC = () => {
         <div className="text-right">
           <div className="text-2xl font-bold text-gray-900">{totalInvested} HYPE</div>
           <div className={`text-sm font-semibold ${
-            totalProfit >= 0 ? 'text-green-600' : 'text-red-600'
+            totalProfit >= 0 ? 'text-green-600' : 'text-brand-600'
           }`}>
             {totalProfit >= 0 ? '+' : ''}{totalProfit.toFixed(1)} ({Number(totalProfitPercent) >= 0 ? '+' : ''}{totalProfitPercent}%)
           </div>
@@ -131,7 +131,7 @@ const MyTokensSection: React.FC = () => {
                     <div className={`px-2 py-1 rounded-full text-xs font-medium ${
                       bet.status === 'winning' 
                         ? 'bg-green-100 text-green-600' 
-                        : 'bg-red-100 text-red-600'
+                        : 'bg-brand-100 text-brand-600'
                     }`}>
                       {bet.gameStatus}
                     </div>
@@ -166,7 +166,7 @@ const MyTokensSection: React.FC = () => {
                   <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-semibold ${
                     bet.profit >= 0 
                       ? 'bg-green-100 text-green-600' 
-                      : 'bg-red-100 text-red-600'
+                      : 'bg-brand-100 text-brand-600'
                   }`}>
                     {getStatusIcon(bet.status)}
                     <span>{bet.profitPercent}</span>
@@ -214,7 +214,7 @@ const MyTokensSection: React.FC = () => {
           </div>
           <div className="text-center">
             <div className={`text-2xl font-bold ${
-              totalProfit >= 0 ? 'text-green-600' : 'text-red-600'
+              totalProfit >= 0 ? 'text-green-600' : 'text-brand-600'
             }`}>
               {totalProfit >= 0 ? '+' : ''}{totalProfit.toFixed(1)}
             </div>

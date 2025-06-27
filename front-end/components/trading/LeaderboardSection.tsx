@@ -19,7 +19,7 @@ const LeaderboardSection: React.FC = () => {
       
       {/* Simple Development Notice */}
       <div className="bg-white rounded-2xl p-12 shadow-lg border border-gray-200 text-center max-w-2xl mx-auto">
-        <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-red-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+        <div className="w-20 h-20 bg-gradient-to-r from-brand-500 to-brand-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
           <Trophy className="w-10 h-10 text-white" />
         </div>
         
@@ -31,7 +31,7 @@ const LeaderboardSection: React.FC = () => {
 
         <Button 
           onClick={() => window.location.href = '#trading'}
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold px-8 py-3 rounded-xl"
+          className="bg-brand-500 hover:bg-brand-600 text-white font-semibold px-8 py-3 rounded-xl"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Trading
