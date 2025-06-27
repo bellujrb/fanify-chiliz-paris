@@ -32,6 +32,8 @@ Leveraging Chiliz’s fan-centric ecosystem, we ensure that each tokenized hype 
 ✅ Actively in development · Live on **Chiliz Chain (Spicy Testnet)**  
 🔐 Powered by a dedicated **Oracle** that collects real-time goal data and a **fan emotion index** from social media and engagement metrics — both of which dynamically affect the logic and supply of **Hype Tokens**.
 
+---
+
 ## Whitelist Mechanism for Admin Panel Access
 
 We have implemented a whitelist system to protect access to the **Admin Panel** button and route. Only wallets whose addresses are on the whitelist can view and access the admin panel.
