@@ -35,7 +35,7 @@ const HypeChart: React.FC<HypeChartProps> = ({ chartData, currentGame }) => {
         {chartData.map((point, index) => (
           <div key={index} className="flex-1 flex flex-col space-y-1">
             <div 
-              className="bg-gradient-to-t from-red-500 to-red-400 rounded-t transition-all duration-500"
+              className="bg-gradient-to-t from-brand-500 to-brand-400 rounded-t transition-all duration-500"
               style={{ 
                 height: `${(point.psg / 100) * 160}px`,
                 minHeight: '20px'
@@ -56,7 +56,7 @@ const HypeChart: React.FC<HypeChartProps> = ({ chartData, currentGame }) => {
       {/* Legend */}
       <div className="flex items-center justify-center space-x-6">
         <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-red-500 rounded"></div>
+          <div className="w-3 h-3 bg-brand-500 rounded"></div>
           <span className="text-sm text-gray-600">{currentGame.homeTeam.name}</span>
         </div>
         <div className="flex items-center space-x-2">

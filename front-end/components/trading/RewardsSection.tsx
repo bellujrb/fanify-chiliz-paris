@@ -79,8 +79,8 @@ const RewardsSection: React.FC = () => {
             onClick={() => setActiveTab('claim')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
               activeTab === 'claim'
-                ? 'bg-red-500 text-white shadow-lg'
-                : 'text-gray-600 hover:text-red-600'
+                ? 'bg-brand-500 text-white shadow-lg'
+                : 'text-gray-600 hover:text-brand-600'
             }`}
           >
             <Gift className="w-4 h-4" />
@@ -112,7 +112,7 @@ const RewardsSection: React.FC = () => {
                 className={`
                   w-full flex items-center justify-center gap-2 font-bold text-lg py-4 rounded-xl shadow-lg transition-all
                   ${canClaim
-                    ? 'bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:scale-105 hover:brightness-110 text-white animate-pulse'
+                    ? 'bg-gradient-to-r from-pink-500 via-brand-500 to-yellow-500 hover:scale-105 hover:brightness-110 text-white animate-pulse'
                     : 'bg-gray-300 text-gray-400 cursor-not-allowed'}
                 `}
               >
@@ -134,7 +134,7 @@ const RewardsSection: React.FC = () => {
                 )}
               </Button>
               {claimSuccess && <div className="mt-4 text-green-600">{claimSuccess}</div>}
-              {claimError && <div className="mt-4 text-red-600">{claimError}</div>}
+              {claimError && <div className="mt-4 text-brand-600">{claimError}</div>}
               {!canClaim && !claiming && (
                 <div className="mt-2 text-sm text-gray-500">{claimReason || 'You cannot claim this prize yet.'}</div>
               )}
@@ -151,7 +151,7 @@ const RewardsSection: React.FC = () => {
             games.map((game) => (
               <div key={game.hypeId} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-lg">
+                  <div className="w-10 h-10 bg-gradient-to-r from-brand-500 to-brand-600 rounded-xl flex items-center justify-center text-white text-xl shadow-lg">
                     {game.teamA[0]}
                   </div>
                   <div>

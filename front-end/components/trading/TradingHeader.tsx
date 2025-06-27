@@ -71,18 +71,18 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
             </div>
 
             {/* HYPE Balance */}
-            <div className="flex items-center space-x-2 bg-red-50 px-3 py-2 rounded-xl border border-red-200">
-              <Zap className="w-4 h-4 text-red-600" />
+            <div className="flex items-center space-x-2 bg-brand-50 px-3 py-2 rounded-xl border border-brand-200">
+              <Zap className="w-4 h-4 text-brand-600" />
               <div className="text-sm">
                 {isLoading ? (
                   <div className="flex items-center space-x-1">
-                    <div className="w-3 h-3 bg-red-300 rounded-full animate-pulse"></div>
-                    <span className="text-red-500">Loading...</span>
+                    <div className="w-3 h-3 bg-brand-300 rounded-full animate-pulse"></div>
+                    <span className="text-brand-500">Loading...</span>
                   </div>
                 ) : (
                   <>
-                    <span className="font-semibold text-red-600">{formatBalance(hypeBalance)}</span>
-                    <span className="text-red-500 ml-1">HYPE</span>
+                    <span className="font-semibold text-brand-600">{formatBalance(hypeBalance)}</span>
+                    <span className="text-brand-500 ml-1">HYPE</span>
                   </>
                 )}
               </div>
@@ -93,7 +93,7 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
                   <Link href="/admin">
                     <Button
                       variant="outline"
-                      className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-semibold"
+                      className="w-full border-brand-200 text-brand-600 hover:bg-brand-50 hover:border-brand-300 font-semibold"
                     >
                       <Shield className="w-4 h-4 mr-2" />
                       Admin Panel

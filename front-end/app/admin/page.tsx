@@ -171,7 +171,7 @@ export default function AdminPage() {
               <div className="h-6 w-px bg-gray-300"></div>
               <div className="flex items-center space-x-3">
                 <span className="text-2xl font-black text-gray-900">Fanify</span>
-                <div className="text-xs text-white font-medium bg-red-500 px-2 py-1 rounded flex items-center gap-1">
+                <div className="text-xs text-white font-medium bg-brand-500 px-2 py-1 rounded flex items-center gap-1">
                   <Shield className="w-4 h-4 mr-1" /> Admin
                 </div>
               </div>

@@ -19,7 +19,7 @@ const AdminNavigationTabs: React.FC<AdminNavigationTabsProps> = ({
       id: 'games',
       label: 'Match',
       icon: Gamepad2,
-      color: 'text-red-600',
+      color: 'text-brand-600',
     },
     {
       id: 'system',
@@ -40,8 +40,8 @@ const AdminNavigationTabs: React.FC<AdminNavigationTabsProps> = ({
               onClick={() => onSectionChange(section.id)}
               className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 flex-1 justify-center ${
                 activeSection === section.id
-                  ? 'bg-red-500 text-white shadow-lg'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-red-600'
+                  ? 'bg-brand-500 text-white shadow-lg'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-brand-600'
               }`}
             >
               <IconComponent className="w-5 h-5" />

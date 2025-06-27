@@ -33,7 +33,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full justify-between bg-white border border-gray-200 hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow-md p-4 h-auto"
+            className="w-full justify-between bg-white border border-gray-200 hover:border-brand-300 transition-all duration-200 shadow-sm hover:shadow-md p-4 h-auto"
           >
             <div className="flex items-center space-x-3">
               <span className="text-gray-600">Select Game:</span>
@@ -78,7 +78,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
                   <div key={game.hypeId} className="flex items-center justify-between border-b last:border-b-0 hover:bg-gray-50 transition-all">
                     <button
                       onClick={() => onGameSelect(game.hypeId)}
-                      className={`flex-1 text-left p-4 ${game.hypeId === selectedGame ? 'bg-red-50/50 font-bold' : ''}`}
+                      className={`flex-1 text-left p-4 ${game.hypeId === selectedGame ? 'bg-brand-50/50 font-bold' : ''}`}
                     >
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-gray-900">{game.teamA}</span>

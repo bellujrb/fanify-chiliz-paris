@@ -108,7 +108,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full justify-between bg-white border border-gray-200 hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow-md p-4 h-auto"
+            className="w-full justify-between bg-white border border-gray-200 hover:border-brand-300 transition-all duration-200 shadow-sm hover:shadow-md p-4 h-auto"
           >
             <div className="flex items-center space-x-3">
               <span className="text-gray-600">Select Game:</span>
@@ -153,7 +153,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
                   <div key={game.hypeId} className="flex items-center justify-between border-b last:border-b-0 hover:bg-gray-50 transition-all">
                     <button
                       onClick={() => onGameSelect(game.hypeId)}
-                      className={`flex-1 text-left p-4 ${game.hypeId === selectedGame ? 'bg-red-50/50 font-bold' : ''}`}
+                      className={`flex-1 text-left p-4 ${game.hypeId === selectedGame ? 'bg-brand-50/50 font-bold' : ''}`}
                     >
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-gray-900">{game.teamA}</span>
@@ -229,7 +229,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
             <div className="text-gray-500">End:<span className="ml-2 text-gray-900 font-semibold">{matchData.end}</span></div>
             <div className="text-gray-500">Scheduled:<span className="ml-2 text-gray-900 font-semibold">{matchData.scheduledTime ? new Date(Number(matchData.scheduledTime) * 1000).toLocaleString('en-US') : '-'}</span></div>
             <div className="text-gray-500 flex items-center">Status:
-              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${matchData.status === 0 ? 'bg-blue-100 text-blue-700' : matchData.status === 1 ? 'bg-green-100 text-green-700' : matchData.status === 2 ? 'bg-yellow-100 text-yellow-700' : matchData.status === 3 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'}`}>
+              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${matchData.status === 0 ? 'bg-blue-100 text-blue-700' : matchData.status === 1 ? 'bg-green-100 text-green-700' : matchData.status === 2 ? 'bg-yellow-100 text-yellow-700' : matchData.status === 3 ? 'bg-brand-100 text-brand-700' : 'bg-gray-100 text-gray-700'}`}>
                 {typeof matchData.status === 'number' ? (['Scheduled','Open','Closed','Finished'][matchData.status] || matchData.status) : String(matchData.status)}
               </span>
             </div>

@@ -27,7 +27,7 @@ const TokenBalance: React.FC<TokenBalanceProps> = ({ userTokens }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Live':
-        return 'text-red-500';
+        return 'text-brand-500';
       case 'Starting Soon':
         return 'text-blue-500';
       case 'Finished':
@@ -67,12 +67,12 @@ const TokenBalance: React.FC<TokenBalanceProps> = ({ userTokens }) => {
             <div className="text-xs text-gray-600">Chosen team</div>
           </div>
 
-          <div className="bg-gradient-to-r from-red-50 to-pink-50 p-4 rounded-xl border border-red-200/50">
+          <div className="bg-gradient-to-r from-brand-50 to-pink-50 p-4 rounded-xl border border-brand-200/50">
             <div className="flex items-center space-x-2 mb-2">
               <span className="text-lg">🔴</span>
               <span className="text-sm font-medium text-gray-700">Hypes deposited</span>
             </div>
-            <div className="text-2xl font-bold text-red-600">{userTokens.HYPE_PSG}</div>
+            <div className="text-2xl font-bold text-brand-600">{userTokens.HYPE_PSG}</div>
             <div className="text-xs text-gray-600">Tokens</div>
           </div>
 

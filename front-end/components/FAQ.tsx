@@ -78,12 +78,12 @@ const FAQ = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 bg-red-50 border border-red-200 rounded-full mb-8">
-            <HelpCircle className="w-4 h-4 mr-2 text-red-600" />
-            <span className="text-red-600 text-sm font-semibold">SUPPORT</span>
+          <div className="inline-flex items-center px-4 py-2 bg-brand-50 border border-brand-200 rounded-full mb-8">
+            <HelpCircle className="w-4 h-4 mr-2 text-brand-600" />
+            <span className="text-brand-600 text-sm font-semibold">SUPPORT</span>
           </div>
           <h2 className="text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-6">
-            Frequently Asked <span className="text-red-500">Questions</span>
+            Frequently Asked <span className="text-brand-500">Questions</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Everything you need to know about Fanify and how we're revolutionizing 
@@ -102,10 +102,10 @@ const FAQ = () => {
                 onClick={() => toggleItem(item.id)}
                 className="w-full text-left p-6 rounded-2xl flex justify-between items-center transition-colors group"
               >
-                <h3 className="text-lg font-bold text-gray-900 pr-4 group-hover:text-red-600 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 pr-4 group-hover:text-brand-600 transition-colors">
                   {item.question}
                 </h3>
-                <div className={`flex-shrink-0 w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center transition-transform duration-300 ${
+                <div className={`flex-shrink-0 w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center transition-transform duration-300 ${
                   openItem === item.id ? 'rotate-45' : ''
                 }`}>
                   {openItem === item.id ? (
@@ -140,7 +140,7 @@ const FAQ = () => {
               Our team is here to help you get started with Fanify
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-3 bg-red-500 text-white rounded-2xl font-bold hover:bg-red-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+              <button className="px-8 py-3 bg-brand-500 text-white rounded-2xl font-bold hover:bg-brand-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                 Contact Support
               </button>
               <button className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold hover:bg-gray-50 hover:border-gray-400 transition-all duration-300">

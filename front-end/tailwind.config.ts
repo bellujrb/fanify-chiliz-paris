@@ -60,6 +60,19 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        brand: {
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f9a8d4',
+          400: '#f472b6',
+          500: '#e9316b',
+          600: '#d61f69',
+          700: '#b91c5c',
+          800: '#9d174d',
+          900: '#831843',
+          950: '#500724',
+        },
       },
       keyframes: {
         'accordion-down': {

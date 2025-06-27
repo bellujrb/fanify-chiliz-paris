@@ -22,7 +22,7 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({
       id: 'trading',
       label: 'Live Trading',
       icon: TrendingUp,
-      color: 'text-red-600',
+      color: 'text-brand-600',
     },
     {
       id: 'staking',
@@ -55,8 +55,8 @@ const NavigationTabs: React.FC<NavigationTabsProps> = ({
               onClick={() => onSectionChange(section.id)}
               className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 flex-1 justify-center ${
                 activeSection === section.id
-                  ? 'bg-red-500 text-white shadow-lg'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-red-600'
+                  ? 'bg-brand-500 text-white shadow-lg'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-brand-600'
               }`}
             >
               <IconComponent className="w-5 h-5" />
