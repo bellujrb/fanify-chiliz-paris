@@ -1,6 +1,6 @@
 # Fanify: The new generation of fan engagement with Blockchain and Twitter
 
-> _TEAM Fanify: Chiliz Hackathon 
+> _TEAM Fanify: https://fanify.vercel.app/
 
 ![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 ![Platform](https://img.shields.io/badge/Platform-Web-blue)
