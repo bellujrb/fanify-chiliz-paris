@@ -971,16 +971,7 @@ export default function ContractInteractionPage() {
         client: publicClient,
       });
 
-      const data = await funifyContract.read.getMatchStats([hypeId as `0x${string}`]);
-
-      setMatchStats({
-        totalBetsA: formatEther(data[0]),
-        totalBetsB: formatEther(data[1]),
-        totalPool: formatEther(data[2]),
-        houseCut: formatEther(data[3]),
-      });
-
-      console.log("[Sucesso] Estatísticas do Match");
+      console.warn("[Aviso] Função getMatchStats não existe no ABI do contrato Funify. Verifique o contrato e o ABI.");
     } catch (error) {
       const friendly = getFriendlyErrorMessage(error);
       if (friendly) {
@@ -1003,18 +994,7 @@ export default function ContractInteractionPage() {
         client: publicClient,
       });
 
-      const data = await funifyContract.read.canClaimPrize([
-        hypeId as `0x${string}`,
-        account as `0x${string}`,
-      ]);
-
-      setClaimStatus({
-        canClaim: data[0],
-        reason: data[1],
-      });
-
-      console.log("[Sucesso] Pode Reclamar:", data[0]);
-      console.log("[Sucesso] Motivo:", data[1]);
+      console.warn("[Aviso] Função canClaimPrize não existe no ABI do contrato Funify. Verifique o contrato e o ABI.");
     } catch (error) {
       const friendly = getFriendlyErrorMessage(error);
       if (friendly) {
@@ -1033,18 +1013,7 @@ export default function ContractInteractionPage() {
         client: publicClient,
       });
 
-      const data = await funifyContract.read.getContractStats();
-
-      setContractStats({
-        totalMatches: data[0].toString(),
-        totalBets: data[1].toString(),
-        totalHouseProfit: formatEther(data[2]),
-        tokenAddress: data[3],
-        oracleAddress: data[4],
-        contractOwner: data[5],
-      });
-
-      console.log("[Sucesso] Estatísticas do Contrato");
+      console.warn("[Aviso] Função getContractStats não existe no ABI do contrato Funify. Verifique o contrato e o ABI.");
     } catch (error) {
       const friendly = getFriendlyErrorMessage(error);
       if (friendly) {
@@ -1078,13 +1047,7 @@ export default function ContractInteractionPage() {
         client: walletClient,
       });
 
-      const hash = await hypeTokenContract.write.emergencyWithdraw({
-        account: account as `0x${string}`,
-      });
-
-      console.log("[Sucesso] Emergency Withdraw Realizado!");
-
-      await updateBalances(account);
+      console.warn("[Aviso] Função emergencyWithdraw não existe no ABI do contrato HypeToken. Verifique o contrato e o ABI.");
     } catch (error) {
       const friendly = getFriendlyErrorMessage(error);
       if (friendly) {
