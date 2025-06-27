@@ -10,7 +10,7 @@ import SystemSection from '@/components/admin/SystemSection';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import CreateGameModal from '@/components/admin/CreateGameModal';
 import { createWalletClient, custom, getContract } from "viem";
-import { anvil } from "viem/chains";
+import { spicy } from "viem/chains";
 import deployedContracts from "@/lib/deployedContracts";
 import { useAccount } from "wagmi";
 
@@ -33,7 +33,7 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const walletClient = createWalletClient({
-        chain: anvil,
+        chain: spicy,
         transport: custom(window.ethereum as any),
       });
       const oracleContract = getContract({
@@ -65,7 +65,7 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const walletClient = createWalletClient({
-        chain: anvil,
+        chain: spicy,
         transport: custom(window.ethereum as any),
       });
       const oracleContract = getContract({
@@ -97,7 +97,7 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const walletClient = createWalletClient({
-        chain: anvil,
+        chain: spicy,
         transport: custom(window.ethereum as any),
       });
       const oracleContract = getContract({

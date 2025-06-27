@@ -10,7 +10,7 @@ import {
   custom,
   getContract,
 } from "viem";
-import { anvil } from "viem/chains";
+import { spicy } from "viem/chains";
 import deployedContracts from "@/lib/deployedContracts";
 import { getStatusText } from "@/lib/utils";
 import WalletInfo from "@/components/web3/WalletInfo";
@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 
 // Configuração do cliente público
 const publicClient = createPublicClient({
-  chain: anvil,
+  chain: spicy,
   transport: http(),
 });
 
@@ -185,7 +185,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -246,7 +246,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -286,7 +286,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -326,7 +326,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -543,7 +543,7 @@ export default function ContractInteractionPage() {
       return;
     }
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
     setLoading(true);
@@ -590,7 +590,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -631,7 +631,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -672,7 +672,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -713,7 +713,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -754,7 +754,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -846,7 +846,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -891,7 +891,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -1066,7 +1066,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 
@@ -1110,7 +1110,7 @@ export default function ContractInteractionPage() {
     }
 
     const walletClient = createWalletClient({
-      chain: anvil,
+      chain: spicy,
       transport: custom(window.ethereum as any),
     });
 

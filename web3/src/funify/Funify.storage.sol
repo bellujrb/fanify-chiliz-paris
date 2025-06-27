@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.20;
 
 import {Oracle} from "../Oracle.sol";
 import {HypeToken} from "../HypeToken.sol";

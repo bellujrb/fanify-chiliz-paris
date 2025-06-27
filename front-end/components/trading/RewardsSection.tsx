@@ -15,11 +15,11 @@ import {
 import GameSelector from './GameSelector';
 import { useAccount } from 'wagmi';
 import { createPublicClient, createWalletClient, http, custom, getContract, formatEther } from 'viem';
-import { anvil } from 'viem/chains';
+import { spicy } from 'viem/chains';
 import deployedContracts from '@/lib/deployedContracts';
 import { useSmartContractGames } from '@/hooks/useSmartContractGames';
 
-const publicClient = createPublicClient({ chain: anvil, transport: http() });
+const publicClient = createPublicClient({ chain: spicy, transport: http() });
 
 const RewardsSection: React.FC = () => {
   const { address: account, isConnected } = useAccount();
@@ -41,7 +41,7 @@ const RewardsSection: React.FC = () => {
     try {
       if (!account || !selectedGame) throw new Error('Select a game');
       if (typeof window === 'undefined' || !window.ethereum) throw new Error('Wallet not available');
-      const walletClient = createWalletClient({ chain: anvil, transport: custom(window.ethereum as any) });
+      const walletClient = createWalletClient({ chain: spicy, transport: custom(window.ethereum as any) });
       const funifyContract = getContract({
         address: deployedContracts.Funify.address as `0x${string}`,
         abi: deployedContracts.Funify.abi,

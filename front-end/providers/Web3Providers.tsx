@@ -13,27 +13,8 @@ import {
 import { WagmiProvider, createConfig } from 'wagmi';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { http } from 'viem';
+import { spicy } from 'viem/chains';
 import React from "react";
-
-// Chiliz Chain customizada
-const chilizChain = {
-  id: 88882,
-  name: 'Chiliz Spicy',
-  network: 'chiliz-spicy',
-  nativeCurrency: {
-    name: 'Chiliz',
-    symbol: 'CHZ',
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: { http: ['https://spicy-rpc.chiliz.com'] },
-    public: { http: ['https://spicy-rpc.chiliz.com'] },
-  },
-  blockExplorers: {
-    default: { name: 'Chiliz Explorer', url: 'https://testnet.chiliscan.com/' },
-  },
-  testnet: true,
-};
 
 // Anvil Local Chain para testes
 const anvilChain = {
@@ -74,10 +55,10 @@ const connectors = connectorsForWallets(
 
 const config = createConfig({
   connectors,
-  chains: [anvilChain, chilizChain],
+  chains: [anvilChain, spicy],
   transports: {
     [anvilChain.id]: http('http://localhost:8545'),
-    [chilizChain.id]: http('https://spicy-rpc.chiliz.com'),
+    [spicy.id]: http('https://spicy-rpc.chiliz.com'),
   },
 });
 

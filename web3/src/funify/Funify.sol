@@ -1,5 +1,5 @@
-// SPDX-License-License-Identifier: MIT
-pragma solidity ^0.8.28;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 
 import {FunifyPlaceBet} from "./Funify.placebet.sol";
 

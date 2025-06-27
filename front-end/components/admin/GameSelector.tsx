@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { useSmartContractGames } from '@/hooks/useSmartContractGames';
 import TeamsHypeChart from './TeamsHypeChart';
 import { createPublicClient, http, getContract } from 'viem';
-import { anvil } from 'viem/chains';
+import { spicy } from 'viem/chains';
 import deployedContracts from '@/lib/deployedContracts';
 
 
@@ -53,7 +53,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({
       }
       try {
         const publicClient = createPublicClient({
-          chain: anvil,
+          chain: spicy,
           transport: http(),
         });
         const oracleContract = getContract({

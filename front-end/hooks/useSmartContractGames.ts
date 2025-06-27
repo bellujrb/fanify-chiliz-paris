@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createPublicClient, http, getContract } from 'viem';
-import { anvil } from 'viem/chains';
+import { spicy } from 'viem/chains';
 import deployedContracts from '@/lib/deployedContracts';
 import { getStatusText } from '@/lib/utils';
 
@@ -22,7 +22,7 @@ export function useSmartContractGames() {
       setLoading(true);
       try {
         const publicClient = createPublicClient({
-          chain: anvil,
+          chain: spicy,
           transport: http(),
         });
         const oracleContract = getContract({

@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Calendar } from 'lucide-react';
 import { createWalletClient, createPublicClient, custom, http, getContract } from 'viem';
-import { anvil } from 'viem/chains';
+import { spicy } from 'viem/chains';
 import deployedContracts from '@/lib/deployedContracts';
 
 interface CreateGameModalProps {
@@ -62,7 +62,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
       
       console.log('DEBUG: Criando wallet client...');
       const walletClient = createWalletClient({
-        chain: anvil,
+        chain: spicy,
         transport: custom(window.ethereum as any),
       });
       

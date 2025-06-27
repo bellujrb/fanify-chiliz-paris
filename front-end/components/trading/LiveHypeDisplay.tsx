@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useAccount } from "wagmi";
 import { createWalletClient, custom, getContract, formatEther, parseEther, createPublicClient, http } from 'viem';
-import { anvil } from 'viem/chains';
+import { spicy } from 'viem/chains';
 import deployedContracts from '@/lib/deployedContracts';
 import { useWalletBalance } from '@/hooks/useWalletBalance';
 
@@ -45,7 +45,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
   const [odds, setOdds] = useState<{ oddsA: string; oddsB: string } | null>(null);
   const [oddsLoading, setOddsLoading] = useState(false);
 
-  const publicClient = createPublicClient({ chain: anvil, transport: http() });
+  const publicClient = createPublicClient({ chain: spicy, transport: http() });
 
   // Fetch allowance
   useEffect(() => {
@@ -55,7 +55,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
         return;
       }
       try {
-        const publicClient = createWalletClient({ chain: anvil, transport: custom(window.ethereum as any) });
+        const publicClient = createWalletClient({ chain: spicy, transport: custom(window.ethereum as any) });
         const hypeTokenContract = getContract({
           address: deployedContracts.HypeToken.address as `0x${string}`,
           abi: deployedContracts.HypeToken.abi,
@@ -80,7 +80,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
     setLoadingApprove(true);
     try {
       if (!account || !approveAmount) throw new Error('Connect wallet and enter approve amount.');
-      const walletClient = createWalletClient({ chain: anvil, transport: custom(window.ethereum as any) });
+      const walletClient = createWalletClient({ chain: spicy, transport: custom(window.ethereum as any) });
       const hypeTokenContract = getContract({
         address: deployedContracts.HypeToken.address as `0x${string}`,
         abi: deployedContracts.HypeToken.abi,
@@ -92,7 +92,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
       ], { account: account as `0x${string}` });
       setSuccess('Tokens approved!');
       // Refetch allowance immediately after approve
-      const publicClient = createWalletClient({ chain: anvil, transport: custom(window.ethereum as any) });
+      const publicClient = createWalletClient({ chain: spicy, transport: custom(window.ethereum as any) });
       const allowanceValue = await getContract({
         address: deployedContracts.HypeToken.address as `0x${string}`,
         abi: deployedContracts.HypeToken.abi,
@@ -116,7 +116,7 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
     try {
       if (!account || !betAmount) throw new Error('Connect wallet and enter amount.');
       if (!currentGame || !currentGame.hypeId) throw new Error('Select a game first.');
-      const walletClient = createWalletClient({ chain: anvil, transport: custom(window.ethereum as any) });
+      const walletClient = createWalletClient({ chain: spicy, transport: custom(window.ethereum as any) });
       const funifyContract = getContract({
         address: deployedContracts.Funify.address as `0x${string}`,
         abi: deployedContracts.Funify.abi,

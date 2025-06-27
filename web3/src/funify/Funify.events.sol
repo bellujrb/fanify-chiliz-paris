@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.20;
 
 abstract contract FunifyEvents {
     event BetPlaced(bytes4 indexed hypeId, address indexed user, bool teamA, uint256 amount);
