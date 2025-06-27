@@ -1,7 +1,7 @@
 
 const deployedContracts = {
     "HypeToken": {
-        "address": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+        "address": "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
         "abi": [
             {
                 "type": "constructor",
@@ -493,8 +493,299 @@ const deployedContracts = {
         ]
     },
     "Oracle": {
-        "address": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+        "address": "0x0165878a594ca255338adfa4d48449f69242eb8f",
         "abi": [
+            {
+                "type": "constructor",
+                "inputs": [],
+                "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
+                "name": "InsufficientPrizePool",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidBetAmount",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidHypeValues",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidMatchStatus",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidTeamAbbreviation",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "InvalidUserAddress",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "MatchAlreadyFinished",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "MatchEndedInDraw",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "MatchNotFinished",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "MatchNotFound",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "MatchNotOpen",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "NoBetOnMatch",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "NoProfitToWithdraw",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "NotOwner",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "OnlyOwner",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "OracleCallFailed",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "PrizeAlreadyClaimed",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "TeamAbbreviationTooLong",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "TeamAbbreviationsNotSet",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "TokenTransferFailed",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "UserAlreadyBet",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "UserDidNotWin",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
             {
                 "type": "function",
                 "name": "closeBets",
@@ -628,6 +919,87 @@ const deployedContracts = {
                         "name": "hashtag",
                         "type": "string",
                         "internalType": "string"
+                    }
+                ],
+                "stateMutability": "view"
+            },
+            {
+                "type": "function",
+                "name": "getMatchByHashtag",
+                "inputs": [
+                    {
+                        "name": "hashtag",
+                        "type": "string",
+                        "internalType": "string"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "hypeId",
+                        "type": "bytes4",
+                        "internalType": "bytes4"
+                    },
+                    {
+                        "name": "matchHype",
+                        "type": "tuple",
+                        "internalType": "struct Oracle.MatchHype",
+                        "components": [
+                            {
+                                "name": "HypeA",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "HypeB",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "goalsA",
+                                "type": "uint8",
+                                "internalType": "uint8"
+                            },
+                            {
+                                "name": "goalsB",
+                                "type": "uint8",
+                                "internalType": "uint8"
+                            },
+                            {
+                                "name": "start",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "end",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "scheduledTime",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "status",
+                                "type": "uint8",
+                                "internalType": "enum Status"
+                            },
+                            {
+                                "name": "teamAAbbreviation",
+                                "type": "string",
+                                "internalType": "string"
+                            },
+                            {
+                                "name": "teamBAbbreviation",
+                                "type": "string",
+                                "internalType": "string"
+                            },
+                            {
+                                "name": "hashtag",
+                                "type": "string",
+                                "internalType": "string"
+                            }
+                        ]
                     }
                 ],
                 "stateMutability": "view"
@@ -807,6 +1179,19 @@ const deployedContracts = {
                 ],
                 "outputs": [],
                 "stateMutability": "nonpayable"
+            },
+            {
+                "type": "function",
+                "name": "owner",
+                "inputs": [],
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address",
+                        "internalType": "address"
+                    }
+                ],
+                "stateMutability": "view"
             },
             {
                 "type": "function",
@@ -1022,7 +1407,7 @@ const deployedContracts = {
         ]
     },
     "Funify": {
-        "address": "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+        "address": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
         "abi": [
             {
                 "type": "constructor",

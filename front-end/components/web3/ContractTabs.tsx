@@ -32,6 +32,9 @@ interface ContractTabsProps {
   contractStats: any;
   allowance: string;
   hypeIds: string[];
+  hashtag: string;
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -71,6 +74,9 @@ interface ContractTabsProps {
   onGetContractStats: () => void;
   onApproveHypeToken: () => void;
   onGetAllHypeIds: () => void;
+  onHashtagChange: (value: string) => void;
+  onTeamAAbbreviationChange: (value: string) => void;
+  onTeamBAbbreviationChange: (value: string) => void;
 }
 
 export default function ContractTabs({
@@ -99,6 +105,9 @@ export default function ContractTabs({
   contractStats,
   allowance,
   hypeIds,
+  hashtag,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -138,6 +147,9 @@ export default function ContractTabs({
   onGetContractStats,
   onApproveHypeToken,
   onGetAllHypeIds,
+  onHashtagChange,
+  onTeamAAbbreviationChange,
+  onTeamBAbbreviationChange,
 }: ContractTabsProps) {
   return (
     <Tabs defaultValue="hypeToken" className="space-y-6">
@@ -200,6 +212,12 @@ export default function ContractTabs({
           onUpdateScore={onUpdateScore}
           onFinishMatch={onFinishMatch}
           onGetAllHypeIds={onGetAllHypeIds}
+          hashtag={hashtag}
+          teamAAbbreviation={teamAAbbreviation}
+          teamBAbbreviation={teamBAbbreviation}
+          onHashtagChange={onHashtagChange}
+          onTeamAAbbreviationChange={onTeamAAbbreviationChange}
+          onTeamBAbbreviationChange={onTeamBAbbreviationChange}
         />
       </TabsContent>
 

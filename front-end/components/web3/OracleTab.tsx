@@ -18,6 +18,9 @@ interface OracleTabProps {
   goalsB: string;
   matchData: any;
   hypeIds: string[];
+  hashtag: string;
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
@@ -35,6 +38,9 @@ interface OracleTabProps {
   onUpdateScore: () => void;
   onFinishMatch: () => void;
   onGetAllHypeIds: () => void;
+  onHashtagChange: (value: string) => void;
+  onTeamAAbbreviationChange: (value: string) => void;
+  onTeamBAbbreviationChange: (value: string) => void;
 }
 
 export default function OracleTab({
@@ -48,6 +54,9 @@ export default function OracleTab({
   goalsB,
   matchData,
   hypeIds,
+  hashtag,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
@@ -65,6 +74,9 @@ export default function OracleTab({
   onUpdateScore,
   onFinishMatch,
   onGetAllHypeIds,
+  onHashtagChange,
+  onTeamAAbbreviationChange,
+  onTeamBAbbreviationChange,
 }: OracleTabProps) {
   return (
     <Card>
@@ -100,12 +112,18 @@ export default function OracleTab({
           hypeB={hypeB}
           goalsA={goalsA}
           goalsB={goalsB}
+          hashtag={hashtag}
+          teamAAbbreviation={teamAAbbreviation}
+          teamBAbbreviation={teamBAbbreviation}
           onHypeIdChange={onHypeIdChange}
           onScheduledTimeChange={onScheduledTimeChange}
           onHypeAChange={onHypeAChange}
           onHypeBChange={onHypeBChange}
           onGoalsAChange={onGoalsAChange}
           onGoalsBChange={onGoalsBChange}
+          onHashtagChange={onHashtagChange}
+          onTeamAAbbreviationChange={onTeamAAbbreviationChange}
+          onTeamBAbbreviationChange={onTeamBAbbreviationChange}
           onScheduleMatch={onScheduleMatch}
           onUpdateHype={onUpdateHype}
           onOpenToBets={onOpenToBets}

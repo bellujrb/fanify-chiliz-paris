@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
+import {FunifyError} from "./funify/Funify.error.sol";
+
 enum Status {
     Scheduled, // 0. Jogo criado e agendado
     Open, // 1. Aberto para apostas
@@ -9,7 +11,9 @@ enum Status {
 
 }
 
-contract Oracle {
+contract Oracle is FunifyError {
+    address public immutable owner;
+
     struct MatchHype {
         uint256 HypeA;
         uint256 HypeB;
@@ -35,6 +39,17 @@ contract Oracle {
     event ScoreUpdated(bytes4 indexed hypeId, uint8 goalsA, uint8 goalsB);
     event MatchFinished(bytes4 indexed hypeId, uint8 goalsA, uint8 goalsB);
 
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        if (msg.sender != owner) {
+            revert(NotOwner);
+        }
+        _;
+    }
+
     // 1. Criar um Jogo (hype, status.scheduled)
     function scheduleMatch(
         bytes4 hypeId,
@@ -42,13 +57,12 @@ contract Oracle {
         string memory teamAAbbreviation,
         string memory teamBAbbreviation,
         string memory hashtag // NOVO PARAM
-    ) public {
-        require(matchHypes[hypeId].start == 0, "Match already exists");
-        // AQUI - VALIDAÇÃO DE TEMPO COMENTADA PARA TESTES
+    ) public onlyOwner {
+        if (matchHypes[hypeId].start != 0) revert(MatchAlreadyFinished);
         // require(scheduledTime > block.timestamp, "Scheduled time must be in the future");
-        require(bytes(teamAAbbreviation).length > 0, "Team A abbreviation cannot be empty");
-        require(bytes(teamBAbbreviation).length > 0, "Team B abbreviation cannot be empty");
-        require(bytes(hashtag).length > 0, "Hashtag cannot be empty");
+        if (bytes(teamAAbbreviation).length == 0) revert(InvalidTeamAbbreviation);
+        if (bytes(teamBAbbreviation).length == 0) revert(InvalidTeamAbbreviation);
+        if (bytes(hashtag).length == 0) revert(OracleCallFailed);
 
         matchHypes[hypeId] = MatchHype({
             start: 0,
@@ -70,11 +84,11 @@ contract Oracle {
     }
 
     // 2. Alimentar esse jogo com hype (hype A, hype B)
-    function updateHype(bytes4 hypeId, uint256 HypeA, uint256 HypeB) public {
+    function updateHype(bytes4 hypeId, uint256 HypeA, uint256 HypeB) public onlyOwner {
         MatchHype storage matchHype = matchHypes[hypeId];
-        require(matchHype.scheduledTime != 0, "Match not found");
-        require(matchHype.status == Status.Scheduled, "Match must be scheduled to update hype");
-        require(HypeA + HypeB == 10000, "Total hype must equal 10000");
+        if (matchHype.scheduledTime == 0) revert(MatchNotFound);
+        if (matchHype.status != Status.Scheduled) revert(InvalidMatchStatus);
+        if (HypeA + HypeB != 10000) revert(InvalidHypeValues);
 
         matchHype.HypeA = HypeA;
         matchHype.HypeB = HypeB;
@@ -83,15 +97,12 @@ contract Oracle {
     }
 
     // 3. Abrir o jogo para apostas (status.open)
-    function openToBets(bytes4 hypeId) public {
+    function openToBets(bytes4 hypeId) public onlyOwner {
         MatchHype storage matchHype = matchHypes[hypeId];
-        require(matchHype.scheduledTime != 0, "Match not found");
-        require(matchHype.status == Status.Scheduled, "Match must be scheduled");
-        require(matchHype.HypeA > 0 && matchHype.HypeB > 0, "Hype must be set before opening");
-        require(
-            bytes(matchHype.teamAAbbreviation).length > 0 && bytes(matchHype.teamBAbbreviation).length > 0,
-            "Team abbreviations must be set before opening"
-        );
+        if (matchHype.scheduledTime == 0) revert(MatchNotFound);
+        if (matchHype.status != Status.Scheduled) revert(InvalidMatchStatus);
+        if (matchHype.HypeA == 0 || matchHype.HypeB == 0) revert(InvalidHypeValues);
+        if (bytes(matchHype.teamAAbbreviation).length == 0 || bytes(matchHype.teamBAbbreviation).length == 0) revert(TeamAbbreviationsNotSet);
         // require(block.timestamp >= matchHype.scheduledTime - 120 minutes, "Too early to open bets");
 
         matchHype.status = Status.Open;
@@ -102,9 +113,9 @@ contract Oracle {
     }
 
     // 4. Iniciar o jogo e fechar para apostas (status.closed)
-    function closeBets(bytes4 hypeId) public {
+    function closeBets(bytes4 hypeId) public onlyOwner {
         MatchHype storage matchHype = matchHypes[hypeId];
-        require(matchHype.status == Status.Open, "Match must be open to close bets");
+        if (matchHype.status != Status.Open) revert(InvalidMatchStatus);
 
         matchHype.status = Status.Closed;
         matchHype.end = block.timestamp;
@@ -113,10 +124,10 @@ contract Oracle {
     }
 
     // 5. Atualizar o placar do jogo (golA, golB)
-    function updateScore(bytes4 hypeId, uint8 goalsA, uint8 goalsB) public {
+    function updateScore(bytes4 hypeId, uint8 goalsA, uint8 goalsB) public onlyOwner {
         MatchHype storage matchHype = matchHypes[hypeId];
-        require(matchHype.scheduledTime != 0, "Match not found");
-        require(matchHype.status == Status.Closed, "Match must be closed to update score");
+        if (matchHype.scheduledTime == 0) revert(MatchNotFound);
+        if (matchHype.status != Status.Closed) revert(InvalidMatchStatus);
 
         matchHype.goalsA = goalsA;
         matchHype.goalsB = goalsB;
@@ -125,10 +136,10 @@ contract Oracle {
     }
 
     // 6. Finalizar o jogo e liberar apostas (status.finished)
-    function finishMatch(bytes4 hypeId) public {
+    function finishMatch(bytes4 hypeId) public onlyOwner {
         MatchHype storage matchHype = matchHypes[hypeId];
-        require(matchHype.scheduledTime != 0, "Match not found");
-        require(matchHype.status == Status.Closed, "Match must be closed to finish");
+        if (matchHype.scheduledTime == 0) revert(MatchNotFound);
+        if (matchHype.status != Status.Closed) revert(InvalidMatchStatus);
 
         matchHype.status = Status.Finished;
 
@@ -199,5 +210,16 @@ contract Oracle {
 
     function getMatchGoals(bytes4 hypeId) public view returns (uint8 goalsA, uint8 goalsB) {
         return (matchHypes[hypeId].goalsA, matchHypes[hypeId].goalsB);
+    }
+
+    // Função para buscar jogo por hashtag
+    function getMatchByHashtag(string memory hashtag) public view returns (bytes4 hypeId, MatchHype memory matchHype) {
+        for (uint256 i = 0; i < hypeIds.length; i++) {
+            MatchHype memory m = matchHypes[hypeIds[i]];
+            if (keccak256(bytes(m.hashtag)) == keccak256(bytes(hashtag))) {
+                return (hypeIds[i], m);
+            }
+        }
+        revert(MatchNotFound);
     }
 }

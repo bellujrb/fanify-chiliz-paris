@@ -84,6 +84,9 @@ export default function ContractInteractionPage() {
   const [contractStats, setContractStats] = useState<any>(null);
   const [allowance, setAllowance] = useState<string>("0");
   const [hypeIds, setHypeIds] = useState<string[]>([]);
+  const [hashtag, setHashtag] = useState<string>("");
+  const [teamAAbbreviation, setTeamAAbbreviation] = useState<string>("");
+  const [teamBAbbreviation, setTeamBAbbreviation] = useState<string>("");
 
   // Conectar carteira
   const connectWallet = async () => {
@@ -421,13 +424,11 @@ export default function ContractInteractionPage() {
         console.log("DEBUG: getMatch falhou, tentando matchHypes:", getMatchError);
         // Fallback para matchHypes se getMatch não existir
         data = await oracleContract.read.matchHypes([hypeId as `0x${string}`]);
-        console.log("DEBUG: matchHypes funcionou, dados:", data);
+        console.log("DEBUG: matchHypes funcionou");
       }
       
-      console.log("DEBUG: Dados retornados pelo contrato:", data);
-      
       // Interpretar os dados corretamente baseado na estrutura do contrato
-      const [hypeA, hypeB, goalsA, goalsB, start, end, scheduledTime, status] = data;
+      const [hypeA, hypeB, goalsA, goalsB, start, end, scheduledTime, status, nameA, nameB, hashtag] = data;
       
       console.log("DEBUG: Dados interpretados:", {
         hypeA: hypeA.toString(),
@@ -438,6 +439,9 @@ export default function ContractInteractionPage() {
         end: end.toString(),
         scheduledTime: scheduledTime.toString(),
         status: status.toString(),
+        hashtag: hashtag.toString(),
+        nameA: nameA.toString(),
+        nameB: nameB.toString()
       });
       
       setMatchData({
@@ -449,6 +453,9 @@ export default function ContractInteractionPage() {
         end: end > 0 ? new Date(Number(end) * 1000).toLocaleString() : "Não definido",
         scheduledTime: scheduledTime > 0 ? new Date(Number(scheduledTime) * 1000).toLocaleString() : "Não agendado",
         status: status.toString(),
+        hashtag: hashtag.toString(),
+        nameA: nameA.toString(),
+        nameB: nameB.toString()
       });
 
       console.log("[Sucesso] Dados do Match Carregados");
@@ -528,20 +535,17 @@ export default function ContractInteractionPage() {
 
   // Etapa 0: Criar Jogo
   const scheduleMatch = async () => {
-    if (!account || !hypeId || !scheduledTime) {
+    if (!account || !hypeId || !scheduledTime || !teamAAbbreviation || !teamBAbbreviation || !hashtag) {
       return;
     }
-
     if (typeof window === 'undefined' || !window.ethereum) {
       console.log("DEBUG: Wallet não disponível");
       return;
     }
-
     const walletClient = createWalletClient({
       chain: anvil,
       transport: custom(window.ethereum as any),
     });
-
     setLoading(true);
     try {
       const oracleContract = getContract({
@@ -549,16 +553,19 @@ export default function ContractInteractionPage() {
         abi: deployedContracts.Oracle.abi,
         client: walletClient,
       });
-
       const hash = await oracleContract.write.scheduleMatch(
-        [hypeId as `0x${string}`, BigInt(scheduledTime)],
+        [
+          hypeId as `0x${string}`,
+          BigInt(scheduledTime),
+          teamAAbbreviation,
+          teamBAbbreviation,
+          hashtag
+        ],
         {
           account: account as `0x${string}`,
         }
       );
-
       console.log("[Sucesso] Match Criado!");
-
       await updateBalances(account);
     } catch (error) {
       console.error("Erro ao criar match:", error);
@@ -931,7 +938,7 @@ export default function ContractInteractionPage() {
         client: publicClient,
       });
 
-      const data = await funifyContract.read.getUserBet([
+      const data = await funifyContract.read.bets([
         hypeId as `0x${string}`,
         account as `0x${string}`,
       ]);
@@ -1324,6 +1331,12 @@ export default function ContractInteractionPage() {
               onGetContractStats={getContractStats}
               onApproveHypeToken={approveHypeToken}
               onGetAllHypeIds={getAllHypeIds}
+              hashtag={hashtag}
+              teamAAbbreviation={teamAAbbreviation}
+              teamBAbbreviation={teamBAbbreviation}
+              onHashtagChange={setHashtag}
+              onTeamAAbbreviationChange={setTeamAAbbreviation}
+              onTeamBAbbreviationChange={setTeamBAbbreviation}
             />
           </>
         )}

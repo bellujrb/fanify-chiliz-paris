@@ -15,12 +15,18 @@ interface OracleWriteFunctionsProps {
   hypeB: string;
   goalsA: string;
   goalsB: string;
+  hashtag: string;
+  teamAAbbreviation: string;
+  teamBAbbreviation: string;
   onHypeIdChange: (value: string) => void;
   onScheduledTimeChange: (value: string) => void;
   onHypeAChange: (value: string) => void;
   onHypeBChange: (value: string) => void;
   onGoalsAChange: (value: string) => void;
   onGoalsBChange: (value: string) => void;
+  onHashtagChange: (value: string) => void;
+  onTeamAAbbreviationChange: (value: string) => void;
+  onTeamBAbbreviationChange: (value: string) => void;
   onScheduleMatch: () => void;
   onUpdateHype: () => void;
   onOpenToBets: () => void;
@@ -38,12 +44,18 @@ export default function OracleWriteFunctions({
   hypeB,
   goalsA,
   goalsB,
+  hashtag,
+  teamAAbbreviation,
+  teamBAbbreviation,
   onHypeIdChange,
   onScheduledTimeChange,
   onHypeAChange,
   onHypeBChange,
   onGoalsAChange,
   onGoalsBChange,
+  onHashtagChange,
+  onTeamAAbbreviationChange,
+  onTeamBAbbreviationChange,
   onScheduleMatch,
   onUpdateHype,
   onOpenToBets,
@@ -115,10 +127,34 @@ export default function OracleWriteFunctions({
               </p>
             )}
           </div>
+          <div className="space-y-2">
+            <Label>Sigla Time A</Label>
+            <Input
+              placeholder="PSG"
+              value={teamAAbbreviation}
+              onChange={(e) => onTeamAAbbreviationChange(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Sigla Time B</Label>
+            <Input
+              placeholder="BAR"
+              value={teamBAbbreviation}
+              onChange={(e) => onTeamBAbbreviationChange(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2 md:col-span-2">
+            <Label>Hashtag Oficial</Label>
+            <Input
+              placeholder="#PSGBAR"
+              value={hashtag}
+              onChange={(e) => onHashtagChange(e.target.value)}
+            />
+          </div>
         </div>
         <Button 
           onClick={onScheduleMatch} 
-          disabled={loading || !account || !hypeId || !scheduledTime}
+          disabled={loading || !account || !hypeId || !scheduledTime || !teamAAbbreviation || !teamBAbbreviation || !hashtag}
           className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white"
         >
           {loading ? "Agendando..." : "0. Agendar Match"}
