@@ -7,7 +7,8 @@ enum Status {
     Scheduled, // 0. Jogo criado e agendado
     Open, // 1. Aberto para apostas
     Closed, // 2. Fechado para apostas (jogo em andamento)
-    Finished // 3. Jogo finalizado
+    Finished, // 3. Jogo finalizado
+    Canceled // 4. Jogo Cancelado
 
 }
 
@@ -101,6 +102,7 @@ contract Oracle is FunifyError {
         MatchHype storage matchHype = matchHypes[hypeId];
         if (matchHype.scheduledTime == 0) revert(MatchNotFound);
         if (matchHype.status != Status.Scheduled) revert(InvalidMatchStatus);
+        if (matchHype.status == Status.Canceled) revert(InvalidMatchStatus); // Não pode abrir se cancelado
         if (matchHype.HypeA == 0 || matchHype.HypeB == 0) revert(InvalidHypeValues);
         if (bytes(matchHype.teamAAbbreviation).length == 0 || bytes(matchHype.teamBAbbreviation).length == 0) revert(TeamAbbreviationsNotSet);
         // require(block.timestamp >= matchHype.scheduledTime - 120 minutes, "Too early to open bets");
@@ -116,6 +118,7 @@ contract Oracle is FunifyError {
     function closeBets(bytes4 hypeId) public onlyOwner {
         MatchHype storage matchHype = matchHypes[hypeId];
         if (matchHype.status != Status.Open) revert(InvalidMatchStatus);
+        if (matchHype.status == Status.Canceled) revert(InvalidMatchStatus); // Não pode fechar se cancelado
 
         matchHype.status = Status.Closed;
         matchHype.end = block.timestamp;
@@ -140,8 +143,19 @@ contract Oracle is FunifyError {
         MatchHype storage matchHype = matchHypes[hypeId];
         if (matchHype.scheduledTime == 0) revert(MatchNotFound);
         if (matchHype.status != Status.Closed) revert(InvalidMatchStatus);
+        if (matchHype.status == Status.Canceled) revert(InvalidMatchStatus); // Não pode finalizar se cancelado
 
         matchHype.status = Status.Finished;
+
+        emit MatchFinished(hypeId, matchHype.goalsA, matchHype.goalsB);
+    }
+
+    // 7. Cancelar o jogo (status.canceled)
+    function cancelMatch(bytes4 hypeId) public onlyOwner {
+        MatchHype storage matchHype = matchHypes[hypeId];
+        if (matchHype.scheduledTime == 0) revert(MatchNotFound);
+
+        matchHype.status = Status.Canceled;
 
         emit MatchFinished(hypeId, matchHype.goalsA, matchHype.goalsB);
     }
