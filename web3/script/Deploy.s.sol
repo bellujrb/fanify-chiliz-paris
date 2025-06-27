@@ -47,23 +47,5 @@ contract DeployScript is Script {
         oracle.openToBets(0x12341234);
 
         vm.stopBroadcast();
-
-        // Log deployment summary
-        console.log("\n[12] === DEPLOYMENT SUMMARY ===");
-        console.log("[13] HypeToken:", address(hypeToken));
-        console.log("[14] Oracle:", address(oracle));
-        console.log("[15] Funify:", address(funify));
-        console.log("[16] Deployer:", deployer);
-        console.log("[17] ========================\n");
-
-        // Verify initial state
-        console.log("[18] === INITIAL STATE VERIFICATION ===");
-        console.log("[19] HypeToken total supply:", hypeToken.totalSupply());
-        console.log("[20] HypeToken deployer balance:", hypeToken.balanceOf(deployer));
-        console.log("[21] Funify owner:", funify.owner());
-        console.log("[22] Funify token address:", address(funify.token()));
-        console.log("[23] Funify oracle address:", address(funify.oracle()));
-        console.log("[24] Test match exists:", oracle.matchExists(testHypeId));
-        console.log("[25] ==================================\n");
     }
 }

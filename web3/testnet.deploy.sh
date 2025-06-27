@@ -3,4 +3,4 @@ forge script script/Deploy.s.sol:DeployScript \
     --account sepolia \
     --broadcast \
     --gas-price 5000000000000 \
-    --priority-gas-price 1000000000000 
+    --priority-gas-price 1000000000000

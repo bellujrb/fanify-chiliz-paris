@@ -104,7 +104,9 @@ contract Oracle is FunifyError {
         if (matchHype.status != Status.Scheduled) revert(InvalidMatchStatus);
         if (matchHype.status == Status.Canceled) revert(InvalidMatchStatus); // Não pode abrir se cancelado
         if (matchHype.HypeA == 0 || matchHype.HypeB == 0) revert(InvalidHypeValues);
-        if (bytes(matchHype.teamAAbbreviation).length == 0 || bytes(matchHype.teamBAbbreviation).length == 0) revert(TeamAbbreviationsNotSet);
+        if (bytes(matchHype.teamAAbbreviation).length == 0 || bytes(matchHype.teamBAbbreviation).length == 0) {
+            revert(TeamAbbreviationsNotSet);
+        }
         // require(block.timestamp >= matchHype.scheduledTime - 120 minutes, "Too early to open bets");
 
         matchHype.status = Status.Open;
