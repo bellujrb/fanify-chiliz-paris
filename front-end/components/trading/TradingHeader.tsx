@@ -13,6 +13,7 @@ import {
 import Link from 'next/link';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useWalletBalance } from '@/hooks/useWalletBalance';
+import { useAccount } from 'wagmi';
 
 interface TradingHeaderProps {
   selectedGame: string;
@@ -23,6 +24,14 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
   }) => {
   // Usar dados reais do hook
   const { balance, hypeBalance, isLoading } = useWalletBalance();
+  const { address } = useAccount();
+
+  // Whitelist addresses (lowercase for comparison)
+  const adminWhitelist = (process.env.NEXT_PUBLIC_ADMIN_WHITELIST ?? '')
+    .split(',')
+    .map(addr => addr.trim().toLowerCase())
+    .filter(Boolean);
+  const isAdmin = address && adminWhitelist.includes(address.toLowerCase());
 
   // Formatar os valores para exibição
   const formatBalance = (value: string) => {
@@ -89,16 +98,17 @@ const TradingHeader: React.FC<TradingHeaderProps> = ({
             </div>
 
             <div className="h-6 w-px bg-gray-300"></div>
-            
-                  <Link href="/admin">
-                    <Button
-                      variant="outline"
-                      className="w-full border-brand-200 text-brand-600 hover:bg-brand-50 hover:border-brand-300 font-semibold"
-                    >
-                      <Shield className="w-4 h-4 mr-2" />
-                      Admin Panel
-                    </Button>
-                  </Link>
+            {isAdmin && (
+              <Link href="/admin">
+                <Button
+                  variant="outline"
+                  className="w-full border-brand-200 text-brand-600 hover:bg-brand-50 hover:border-brand-300 font-semibold"
+                >
+                  <Shield className="w-4 h-4 mr-2" />
+                  Admin Panel
+                </Button>
+              </Link>
+            )}
 
             {/* Apenas o botão oficial do RainbowKit */}
             <ConnectButton
