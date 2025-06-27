@@ -17,6 +17,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
   const [scheduledTime, setScheduledTime] = useState('');
   const [teamA, setTeamA] = useState('');
   const [teamB, setTeamB] = useState('');
+  const [hashtag, setHashtag] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -35,7 +36,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
     
     console.log('DEBUG: Iniciando handleCreate...');
     
-    if (!hypeId || !scheduledTime || !teamA || !teamB) {
+    if (!hypeId || !scheduledTime || !teamA || !teamB || !hashtag) {
       setError('Please fill in all fields.');
       return;
     }
@@ -80,7 +81,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
       console.log('DEBUG: BigInt timestamp:', BigInt(unixTime));
       
       console.log('DEBUG: Chamando scheduleMatch...');
-      console.log('DEBUG: Parâmetros:', [hypeId as `0x${string}`, BigInt(unixTime), teamA, teamB]);
+      console.log('DEBUG: Parâmetros:', [hypeId as `0x${string}`, BigInt(unixTime), teamA, teamB, hashtag]);
       
       // Chamada direta da função, igual ao web3/page.tsx
       const hash = await oracleContract.write.scheduleMatch([
@@ -88,6 +89,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
         BigInt(unixTime),
         teamA,
         teamB,
+        hashtag
       ], { account: account as `0x${string}` });
       
       console.log('DEBUG: Transação enviada com sucesso! Hash:', hash);
@@ -97,6 +99,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
       setScheduledTime('');
       setTeamA('');
       setTeamB('');
+      setHashtag('');
       setOpen(false);
       if (onGameCreated) onGameCreated();
     } catch (err: any) {
@@ -157,6 +160,10 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ onGameCreated }) => {
           <div>
             <label className="block text-sm font-medium mb-1">Team B (Abbreviation)</label>
             <Input value={teamB} onChange={e => setTeamB(e.target.value)} placeholder="RMA" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Hashtag</label>
+            <Input value={hashtag} onChange={e => setHashtag(e.target.value)} placeholder="#PSGRMA" required />
           </div>
           {error && <div className="text-brand-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">Game created successfully!</div>}
