@@ -241,7 +241,11 @@ const LiveHypeDisplay: React.FC<LiveHypeDisplayProps> = ({
           {/* Game Status */}
           <div className="mt-2 text-sm font-semibold text-gray-700 flex items-center gap-2">
             <span>Game Status:</span>
-            Not started yet
+            {matchInfoLoading ? '...' : matchInfo ? (
+              matchInfo.status === 0
+                ? 'Not started yet'
+                : `${matchInfo.goalsA}-${matchInfo.goalsB} • 67'` // TODO: Replace 67' with actual time if available
+            ) : '...'}
           </div>
         </div>
         <div className="flex items-center space-x-2">

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   TrendingUp, 
   TrendingDown,
@@ -11,6 +11,9 @@ import {
   DollarSign
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { createPublicClient, getContract, http } from 'viem';
+import { spicy } from 'viem/chains';
+import deployedContracts from '@/lib/deployedContracts';
 
 const MyTokensSection: React.FC = () => {
   // User's active bets/positions
@@ -28,7 +31,8 @@ const MyTokensSection: React.FC = () => {
       profitPercent: '+10.1%',
       status: 'winning',
       timeRemaining: '23 min',
-      gameStatus: 'Live'
+      gameStatus: 'Live',
+      hypeId: '0x12345678', // MOCK: replace with real hypeId
     },
     {
       id: 2,
@@ -43,7 +47,8 @@ const MyTokensSection: React.FC = () => {
       profitPercent: '-8.7%',
       status: 'losing',
       timeRemaining: '23 min',
-      gameStatus: 'Live'
+      gameStatus: 'Live',
+      hypeId: '0x23456789', // MOCK: replace with real hypeId
     },
     {
       id: 3,
@@ -58,9 +63,45 @@ const MyTokensSection: React.FC = () => {
       profitPercent: '+22.9%',
       status: 'winning',
       timeRemaining: '12 min',
-      gameStatus: 'Live'
+      gameStatus: 'Live',
+      hypeId: '0x34567890', // MOCK: replace with real hypeId
     }
   ];
+
+  const [betStatuses, setBetStatuses] = useState<Record<string, { status: number; goalsA: number; goalsB: number } | null>>({});
+  const [loadingStatuses, setLoadingStatuses] = useState<Record<string, boolean>>({});
+  const publicClient = createPublicClient({ chain: spicy, transport: http() });
+
+  useEffect(() => {
+    activeBets.forEach((bet) => {
+      if (!bet.hypeId) return;
+      setLoadingStatuses((prev) => ({ ...prev, [bet.hypeId]: true }));
+      const fetchStatus = async () => {
+        try {
+          const oracleContract = getContract({
+            address: deployedContracts.Oracle.address as `0x${string}`,
+            abi: deployedContracts.Oracle.abi,
+            client: publicClient,
+          });
+          const data = await oracleContract.read.getMatch([
+            bet.hypeId as `0x${string}`
+          ]);
+          setBetStatuses((prev) => ({
+            ...prev,
+            [bet.hypeId]: {
+              status: Number(data[7]),
+              goalsA: Number(data[2]),
+              goalsB: Number(data[3]),
+            },
+          }));
+        } catch (err) {
+          setBetStatuses((prev) => ({ ...prev, [bet.hypeId]: null }));
+        }
+        setLoadingStatuses((prev) => ({ ...prev, [bet.hypeId]: false }));
+      };
+      fetchStatus();
+    });
+  }, []);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -133,7 +174,15 @@ const MyTokensSection: React.FC = () => {
                         ? 'bg-green-100 text-green-600' 
                         : 'bg-brand-100 text-brand-600'
                     }`}>
-                      {bet.gameStatus}
+                      {/* Real game status from blockchain */}
+                      {loadingStatuses[bet.hypeId]
+                        ? '...'
+                        : betStatuses[bet.hypeId]
+                          ? (betStatuses[bet.hypeId]!.status === 0
+                              ? 'Not started yet'
+                              : `${betStatuses[bet.hypeId]!.goalsA}-${betStatuses[bet.hypeId]!.goalsB} • 67'` // TODO: Replace 67' with actual time if available
+                            )
+                          : '...'}
                     </div>
                   </div>
                   <div className="flex items-center space-x-4 text-sm text-gray-600">
