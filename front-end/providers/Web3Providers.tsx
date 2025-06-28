@@ -16,26 +16,6 @@ import { http } from 'viem';
 import { spicy } from 'viem/chains';
 import React from "react";
 
-// Anvil Local Chain para testes
-const anvilChain = {
-  id: 31337,
-  name: 'Anvil Local',
-  network: 'anvil',
-  nativeCurrency: {
-    name: 'Ethereum',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: { http: ['http://localhost:8545'] },
-    public: { http: ['http://localhost:8545'] },
-  },
-  blockExplorers: {
-    default: { name: 'Etherscan (Local)', url: 'http://localhost:8545' },
-  },
-  testnet: true,
-};
-
 const connectors = connectorsForWallets(
   [
     {
@@ -55,9 +35,8 @@ const connectors = connectorsForWallets(
 
 const config = createConfig({
   connectors,
-  chains: [anvilChain, spicy],
+  chains: [spicy],
   transports: {
-    [anvilChain.id]: http('http://localhost:8545'),
     [spicy.id]: http('https://spicy-rpc.chiliz.com'),
   },
 });
